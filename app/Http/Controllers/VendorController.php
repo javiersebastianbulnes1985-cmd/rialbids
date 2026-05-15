@@ -1,0 +1,108 @@
+<?php
+namespace App\Http\Controllers;
+
+use App\Models\Auction;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
+use App\Notifications\LoteEnviado;
+
+class VendorController extends \Illuminate\Routing\Controller
+{
+    public function index()
+    {
+        $auctions = Auction::where('user_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $stats = [
+            'pendiente' => $auctions->where('status', 'pending')->count(),
+            'activo'    => $auctions->where('status', 'active')->count(),
+            'finalizado'=> $auctions->where('status', 'finished')->count(),
+            'total'     => $auctions->count(),
+        ];
+
+        return view('vendor.index', compact('auctions', 'stats'));
+    }
+
+    public function create()
+    {
+        return view('vendor.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title'      => 'required|string|max:255',
+            'base_price' => 'required|numeric|min:0',
+            'end_time'   => 'required|date|after:now',
+            'description'=> 'required|string',
+        ]);
+
+        $auction = new Auction();
+        $auction->title         = $request->title;
+        $auction->slug          = Str::slug($request->title).'-'.time();
+        $auction->description   = $request->description;
+        $auction->base_price    = $request->base_price;
+        $auction->current_price = $request->base_price;
+        $auction->min_increment = $request->min_increment ?? 10;
+        $auction->reserve_price = $request->reserve_price ?: null;
+        $auction->end_time      = Carbon::parse($request->end_time)->format('Y-m-d H:i:s');
+        $auction->starts_at     = now()->format('Y-m-d H:i:s');
+        $auction->status        = 'pending';
+        $auction->user_id       = auth()->id();
+        $auction->category_id   = $request->category_id ?? 1;
+        $auction->lot_category  = $request->lot_category ?? 'general';
+        $auction->total_bids    = 0;
+
+        $pubPath = public_path('storage/auctions');
+        if (!is_dir($pubPath)) mkdir($pubPath, 0755, true);
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $file = $request->file('image');
+            $fn   = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $file->move($pubPath, $fn);
+            $auction->image_path = 'auctions/'.$fn;
+        }
+
+        foreach (['image_2' => 'image_path_2', 'image_3' => 'image_path_3'] as $input => $field) {
+            if ($request->hasFile($input) && $request->file($input)->isValid()) {
+                $file = $request->file($input);
+                $fn   = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+                $file->move($pubPath, $fn);
+                $auction->$field = 'auctions/'.$fn;
+            }
+        }
+
+        $auction->save();
+
+        return redirect()->route('vendor.index')
+            ->with('success', 'Lote enviado. El admin lo revisará antes de publicarlo.');
+    }
+
+    public function marcarEnviado(Request $request, $id)
+    {
+        $auction = Auction::findOrFail($id);
+
+        if ($auction->user_id !== auth()->id()) abort(403);
+
+        if ($auction->status !== 'paid') {
+            return back()->with('error', 'El lote no está en estado correcto.');
+        }
+
+        $request->validate(['tracking_number' => 'required|string|max:255']);
+
+        $auction->tracking_number = $request->tracking_number;
+        $auction->shipped_at = now();
+        $auction->status = 'shipped';
+        $auction->save();
+
+        $winner = User::find($auction->winner_id);
+        if ($winner) {
+            $winner->notify(new LoteEnviado($auction));
+        }
+
+        return back()->with('success', '¡Lote marcado como enviado! El comprador fue notificado.');
+    }
+}

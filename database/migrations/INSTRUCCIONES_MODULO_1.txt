@@ -1,0 +1,178 @@
+# RIALBIDS — Módulo 1: Base de Datos
+# Instrucciones completas para Hostinger
+
+==============================================
+PASO 1 — COPIAR LAS MIGRATIONS AL PROYECTO
+==============================================
+
+En la terminal de Hostinger, navegar a tu proyecto Laravel:
+
+    cd /home/tu_usuario/public_html
+
+(o la ruta donde instalaste Laravel, puede ser /home/u123456789/domains/tudominio.com/public_html)
+
+Las migrations van en la carpeta:
+
+    database/migrations/
+
+Copiá cada archivo de migration a esa carpeta.
+Los archivos son (en orden):
+
+    2024_01_01_000001_create_users_table.php
+    2024_01_01_000002_create_categories_table.php
+    2024_01_01_000003_create_auctions_table.php
+    2024_01_01_000004_create_bids_table.php
+    2024_01_01_000005_create_media_table.php
+    2024_01_01_000006_create_payments_watchers_tables.php
+
+IMPORTANTE: Borrar las migrations que Laravel crea por defecto
+(las que vienen en blanco con la instalación):
+
+    rm database/migrations/0001_01_01_000000_create_users_table.php
+    rm database/migrations/0001_01_01_000001_create_cache_table.php
+    rm database/migrations/0001_01_01_000002_create_jobs_table.php
+
+
+==============================================
+PASO 2 — VERIFICAR EL .env
+==============================================
+
+Asegurate que el .env tenga esto correcto:
+
+    APP_NAME=RialBids
+    APP_ENV=production
+    APP_KEY=           ← si está vacío ejecutar: php artisan key:generate
+    APP_URL=https://tudominio.com
+
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=nombre_de_tu_base_de_datos
+    DB_USERNAME=tu_usuario_mysql
+    DB_PASSWORD=tu_password_mysql
+
+    APP_TIMEZONE=Europe/Madrid
+
+
+==============================================
+PASO 3 — EJECUTAR LAS MIGRATIONS
+==============================================
+
+Ejecutar este comando en la terminal:
+
+    php artisan migrate --force
+
+Si todo está bien vas a ver algo así:
+
+    INFO  Running migrations.
+    2024_01_01_000001_create_users_table .......... 45ms DONE
+    2024_01_01_000002_create_categories_table ..... 32ms DONE
+    2024_01_01_000003_create_auctions_table ....... 58ms DONE
+    2024_01_01_000004_create_bids_table ........... 41ms DONE
+    2024_01_01_000005_create_media_table .......... 38ms DONE
+    2024_01_01_000006_create_payments_watchers .... 52ms DONE
+
+
+==============================================
+ERRORES COMUNES Y SOLUCIONES
+==============================================
+
+ERROR: "Specified key was too long"
+SOLUCIÓN: Abrir app/Providers/AppServiceProvider.php y agregar:
+
+    use Illuminate\Support\Facades\Schema;
+
+    public function boot(): void
+    {
+        Schema::defaultStringLength(191);
+    }
+
+Luego volver a ejecutar:
+    php artisan migrate:fresh --force
+
+
+ERROR: "Access denied for user"
+SOLUCIÓN: Los datos de DB_USERNAME / DB_PASSWORD en .env están mal.
+Verificar en Hostinger Panel → Bases de datos MySQL.
+
+
+ERROR: "Unknown database"
+SOLUCIÓN: La base de datos no existe todavía.
+Crearla en Hostinger Panel → Bases de datos MySQL → Crear nueva base de datos.
+Asegurarse que el usuario tenga permisos sobre esa base de datos.
+
+
+ERROR: "php artisan not found"
+SOLUCIÓN: No estás en la carpeta correcta del proyecto.
+Ejecutar: ls -la
+Deberías ver: artisan, composer.json, app/, database/, etc.
+Si no los ves, navegar a la carpeta correcta con cd.
+
+
+==============================================
+PASO 4 — VERIFICAR QUE TODO SE CREÓ BIEN
+==============================================
+
+Ejecutar este comando para ver todas las tablas creadas:
+
+    php artisan db:show
+
+O conectarse a MySQL directamente:
+
+    mysql -u tu_usuario -p tu_base_de_datos
+
+    SHOW TABLES;
+
+Deberías ver:
+
+    auction_notifications
+    auction_watchers
+    auctions
+    bids
+    categories
+    media
+    migrations
+    payments
+    password_reset_tokens
+    sessions
+    users
+
+
+==============================================
+PASO 5 — SEEDERS BÁSICOS (datos de prueba)
+==============================================
+
+Crear categorías iniciales ejecutando:
+
+    php artisan db:seed --class=CategorySeeder
+
+(El archivo CategorySeeder lo generamos en el siguiente módulo)
+
+
+==============================================
+RESUMEN DE LAS TABLAS CREADAS
+==============================================
+
+users               → compradores, sellers y admins con KYC y Stripe Connect
+categories          → categorías jerárquicas (Joyería → Anillos, Arte → Pinturas)
+auctions            → items en subasta con anti-sniping y precios de reserva
+bids                → historial de pujas con proxy bidding automático
+media               → fotos y documentos polimórficos (sirve para auctions, users, etc.)
+payments            → escrow completo con Stripe (hold → captura → liberación)
+auction_watchers    → usuarios que siguen una subasta
+auction_notifications → sistema de notificaciones (superado, ganaste, etc.)
+
+
+==============================================
+SIGUIENTE MÓDULO
+==============================================
+
+Módulo 2: Models + Relationships + Seeders
+- Crear los Models de Laravel con todas las relaciones
+- CategorySeeder con categorías reales de joyería y arte
+- UserSeeder con admin, seller y bidder de prueba
+- AuctionSeeder con items de ejemplo
+
+
+Cualquier error que aparezca en la terminal,
+copiarlo completo y consultarlo para resolverlo.
