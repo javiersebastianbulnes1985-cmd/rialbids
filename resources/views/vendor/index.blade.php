@@ -42,8 +42,8 @@
 
   @if(!auth()->user()->stripe_onboarding_complete)
     <div style="background:#fffbeb;border:1px solid #fbbf24;color:#92400e;padding:16px;border-radius:8px;margin-bottom:20px;font-size:13px;">
-      ⚠️ Tu cuenta de pagos no está configurada. Para recibir pagos de tus ventas,
-      <a href="{{ route('vendor.stripe.onboarding') }}" style="color:#92400e;font-weight:700;text-decoration:underline;">configurá tu cuenta Stripe aquí</a>.
+      ⚠️ Tu cuenta de pagos no está configurada.
+      <a href="{{ route('vendor.stripe.onboarding') }}" style="color:#92400e;font-weight:700;text-decoration:underline;">Configurá tu cuenta Stripe aquí</a>.
     </div>
   @endif
 
@@ -59,7 +59,7 @@
           <tr style="background:#f9fafb;border-bottom:1px solid #e5e7eb;">
             <th style="padding:12px 16px;text-align:left;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">Lote</th>
             <th style="padding:12px 16px;text-align:center;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">Estado</th>
-            <th style="padding:12px 16px;text-align:right;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">Precio actual</th>
+            <th style="padding:12px 16px;text-align:right;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">Precio</th>
             <th style="padding:12px 16px;text-align:center;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">Pujas</th>
             <th style="padding:12px 16px;text-align:right;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">Cierra</th>
             <th style="padding:12px 16px;text-align:center;font-size:12px;color:#6b7280;font-weight:600;text-transform:uppercase;">Envío</th>
@@ -82,7 +82,7 @@
                 default     => ['bg'=>'#f3f4f6','color'=>'#6b7280','label'=>ucfirst($lot->status)],
               };
             @endphp
-            <tr style="border-bottom:1px solid #f3f4f6;" onmouseover="this.style.background='#f9fafb'" onmouseout="this.style.background='#fff'">
+            <tr style="border-bottom:1px solid #f3f4f6;">
               <td style="padding:14px 16px;">
                 <a href="{{ route('auctions.show', $lot->id) }}" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
                   @if($img)
@@ -103,4 +103,41 @@
                   {{ $statusColor['label'] }}
                 </span>
               </td>
-              <td style="padding:14px 16px;text-align:right;font-size:14px;font-weight:700;color:{{ $lot->tota
+              <td style="padding:14px 16px;text-align:right;font-size:14px;font-weight:700;color:{{ $lot->total_bids>0?'#16a34a':'#111827' }};">
+                €{{ number_format($cp,0,',','.') }}
+              </td>
+              <td style="padding:14px 16px;text-align:center;font-size:13px;color:#6b7280;">
+                {{ $lot->total_bids ?? 0 }}
+              </td>
+              <td style="padding:14px 16px;text-align:right;font-size:12px;color:#6b7280;">
+                @if($lot->end_time)
+                  {{ \Carbon\Carbon::parse($lot->end_time)->format('d/m/Y H:i') }}
+                @else
+                  —
+                @endif
+              </td>
+              <td style="padding:14px 16px;text-align:center;">
+                @if($lot->status === 'paid')
+                  <form method="POST" action="{{ route('vendor.auctions.ship', $lot->id) }}">
+                    @csrf
+                    <input type="text" name="tracking_number" placeholder="Nº tracking" required
+                      style="border:1px solid #d1d5db;border-radius:6px;padding:4px 8px;font-size:12px;width:130px;display:block;margin-bottom:4px;">
+                    <button type="submit"
+                      style="background:#111827;color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;width:100%;">
+                      📦 Marcar enviado
+                    </button>
+                  </form>
+                @elseif($lot->status === 'shipped')
+                  <span style="font-size:12px;color:#059669;">📦 {{ $lot->tracking_number }}</span>
+                @else
+                  —
+                @endif
+              </td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
+  @endif
+</div>
+@endsection

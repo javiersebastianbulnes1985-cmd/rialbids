@@ -31,11 +31,13 @@ class RegisteredUserController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
-            'role'     => 'comprador',
+            'role'     => 'bidder',
             'is_active'=> true,
         ]);
 
         event(new Registered($user));
+
+        $user->notify(new \App\Notifications\BienvenidaRialBids());
 
         Auth::login($user);
 

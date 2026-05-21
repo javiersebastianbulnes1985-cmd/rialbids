@@ -10,9 +10,9 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Inter',sans-serif;background:#f9fafb;color:#111827}
+    body{font-family:'Inter',sans-serif;background:#fff;color:#111827}
     .nav{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
-    .nav-inner{max-width:1280px;margin:0 auto;padding:0 20px;height:60px;display:flex;align-items:center;gap:16px}
+    .nav-inner{max-width:1280px;margin:0 auto;padding:0 16px;height:60px;display:flex;align-items:center;gap:12px}
     .nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0}
     .nav-logo-box{width:34px;height:34px;background:#1a56db;border-radius:6px;display:flex;align-items:center;justify-content:center}
     .nav-logo-box span{color:#fff;font-weight:800;font-size:15px}
@@ -26,26 +26,34 @@
     .nav-search input{width:100%;padding:8px 14px 8px 34px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;outline:none;background:#f9fafb}
     .nav-search input:focus{border-color:#1a56db;background:#fff}
     .nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
-    .btn-ghost{padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;border:1.5px solid #e5e7eb;background:#fff}
+    .btn-ghost{padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;border:1.5px solid #e5e7eb;background:#fff;white-space:nowrap}
     .btn-ghost:hover{border-color:#1a56db;color:#1a56db}
-    .btn-blue{padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#1a56db;border:none;cursor:pointer}
+    .btn-blue{padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#1a56db;border:none;cursor:pointer;white-space:nowrap}
     .btn-blue:hover{background:#1e429f}
-    .footer{background:#111827;color:#fff;margin-top:64px}
+    .footer{background:#f9fafb;color:#111;margin-top:64px;border-top:1px solid #e5e7eb}
     .footer-top{max-width:1280px;margin:0 auto;padding:48px 24px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px}
     .footer-brand-logo{display:flex;align-items:center;gap:8px;margin-bottom:14px}
     .footer-brand-box{width:30px;height:30px;background:#1a56db;border-radius:5px;display:flex;align-items:center;justify-content:center}
     .footer-brand-box span{color:#fff;font-weight:800;font-size:13px}
-    .footer-brand-name{font-weight:700;font-size:15px;color:#fff}
+    .footer-brand-name{font-weight:700;font-size:15px;color:#111}
     .footer-brand-desc{font-size:13px;color:#6b7280;line-height:1.65}
     .footer-col-title{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#4b5563;margin-bottom:14px}
     .footer-link{display:block;font-size:13px;color:#6b7280;text-decoration:none;margin-bottom:9px}
-    .footer-link:hover{color:#e5e7eb}
-    .footer-bottom{border-top:1px solid #1f2937;padding:20px 24px;max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-    .footer-copy{font-size:12px;color:#4b5563}
+    .footer-link:hover{color:#111}
+    .footer-bottom{border-top:1px solid #e5e7eb;padding:20px 24px;max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+    .footer-copy{font-size:12px;color:#9ca3af}
     .footer-admin{font-size:12px;color:#374151;text-decoration:none}
     .footer-admin:hover{color:#1a56db}
     @media(max-width:900px){.nav-cats,.nav-divider{display:none}.nav-search{max-width:none}.footer-top{grid-template-columns:1fr 1fr;gap:28px}}
-    @media(max-width:600px){.footer-top{grid-template-columns:1fr}.footer-bottom{flex-direction:column;gap:8px;text-align:center}}
+    @media(min-width:769px){.home-sidebar{display:none !important;}.home-main{display:block !important;}}
+    @media(max-width:768px){.home-sidebar{display:none !important;}.home-main{grid-template-columns:1fr !important;}.home-cards{grid-template-columns:repeat(2,1fr) !important;}.cats-mobile{display:block !important;}}
+    @media(max-width:600px){
+      .nav-search{display:none}
+      .btn-ghost{padding:6px 10px;font-size:12px}
+      .btn-blue{padding:6px 10px;font-size:12px}
+      .footer-top{grid-template-columns:1fr}
+      .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+    }
   </style>
   @stack('styles')
 </head>
@@ -70,7 +78,16 @@
       <input type="text" placeholder="Buscar subastas..." onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location='/?q='+encodeURIComponent(this.value)}">
     </div>
     <div class="nav-actions">
-      @auth
+      @guest
+        <a href="/seller-request" class="btn-ghost">Vender</a>
+        <a href="{{ route('login') }}" class="btn-ghost">Acceso</a>
+        <a href="{{ route('register') }}" class="btn-blue">Registrarse</a>
+      @else
+        @if(auth()->user()->isAdmin())
+          <a href="{{ route('admin.index') }}" class="btn-ghost">⚙️ Admin</a>
+        @elseif(auth()->user()->isSeller())
+          <a href="{{ route('vendor.index') }}" class="btn-ghost">📦 Mis lotes</a>
+        @endif
         <div style="position:relative;" x-data="{ open: false }">
           <button @click="open = !open"
                   style="width:36px;height:36px;border-radius:50%;background:#1a56db;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
@@ -84,24 +101,14 @@
               <p style="font-size:13px;font-weight:600;color:#111;">{{ auth()->user()->name }}</p>
               <p style="font-size:11px;color:#9ca3af;">{{ auth()->user()->email }}</p>
             </div>
-            @if(auth()->user()->isAdmin())
-              <a href="{{ route('admin.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">⚙️ Panel admin</a>
-            @elseif(auth()->user()->isSeller())
-              <a href="{{ route('vendor.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">📦 Mis lotes</a>
-            @endif
             <a href="{{ route('profile.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">👤 Mi perfil</a>
             <form method="POST" action="{{ route('logout') }}">
               @csrf
-              <button type="submit" style="width:100%;padding:10px 16px;font-size:13px;color:#ef4444;text-align:left;background:none;border:none;cursor:pointer;">
-                → Salir
-              </button>
+              <button type="submit" style="width:100%;padding:10px 16px;font-size:13px;color:#ef4444;text-align:left;background:none;border:none;cursor:pointer;">→ Salir</button>
             </form>
           </div>
         </div>
-      @else
-        <a href="{{ route('login') }}" class="btn-ghost">Iniciar sesión</a>
-        <a href="{{ route('register') }}" class="btn-blue">Registrarse</a>
-      @endauth
+      @endguest
     </div>
   </div>
 </nav>
@@ -131,29 +138,42 @@
     <div>
       <div class="footer-col-title">Comprar</div>
       <a href="{{ route('pages.como-comprar') }}" class="footer-link">Cómo comprar</a>
-      <a href="#" class="footer-link">Protección al comprador</a>
-      <a href="#" class="footer-link">Preguntas frecuentes</a>
-      <a href="#" class="footer-link">Métodos de pago</a>
+      <a href="/proteccion-al-comprador" class="footer-link">Protección al comprador</a>
+      <a href="/faq" class="footer-link">Preguntas frecuentes</a>
+      <a href="/sobre-nosotros" class="footer-link">Sobre nosotros</a>
+      <a href="/como-comprar" class="footer-link">Métodos de pago</a>
     </div>
     <div>
       <div class="footer-col-title">Vender</div>
-      <a href="{{ route('vendor.create') }}" class="footer-link">Cómo vender</a>
-      <a href="#" class="footer-link">Comisiones</a>
-      <a href="#" class="footer-link">Verificación</a>
+      <a href="/como-vender" class="footer-link">Cómo vender</a>
+      <a href="/como-vender" class="footer-link">Comisiones</a>
+      <a href="/como-vender" class="footer-link">Verificación</a>
+      <a href="/garantia" class="footer-link">Garantía RialBids</a>
     </div>
     <div>
       <div class="footer-col-title">Legal</div>
       <a href="{{ route('pages.terminos') }}" class="footer-link">Términos y condiciones</a>
       <a href="{{ route('pages.privacidad') }}" class="footer-link">Política de privacidad</a>
-      <a href="#" class="footer-link">Cookies</a>
+      <a href="/privacidad" class="footer-link">Cookies</a>
     </div>
   </div>
   <div class="footer-bottom">
     <span class="footer-copy">© {{ date('Y') }} RialBids. Todos los derechos reservados.</span>
-    <a href="{{ route('admin.index') }}" class="footer-admin">Panel admin</a>
+    
   </div>
 </footer>
-
 @stack('scripts')
+<div id="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;background:#111827;color:#fff;padding:16px 24px;z-index:9999;display:none;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+<p style="font-size:13px;margin:0;color:rgba(255,255,255,0.85);">Usamos cookies para mejorar tu experiencia. Al continuar aceptas nuestra <a href="/privacidad" style="color:#60a5fa;">politica de privacidad</a>.</p>
+<div style="display:flex;gap:8px;">
+<button onclick="acceptCookies()" style="background:#1a56db;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Aceptar</button>
+<button onclick="rejectCookies()" style="background:rgba(255,255,255,0.1);color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:13px;cursor:pointer;">Solo necesarias</button>
+</div>
+</div>
+<script>
+function acceptCookies(){document.getElementById("cookie-banner").style.display="none";localStorage.setItem("ck","1");}
+function rejectCookies(){document.getElementById("cookie-banner").style.display="none";localStorage.setItem("ck","0");}
+window.addEventListener("load",function(){var c=localStorage.getItem("ck");if(c===null){document.getElementById("cookie-banner").style.display="flex";}});
+</script>
 </body>
 </html>

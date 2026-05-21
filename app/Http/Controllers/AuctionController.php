@@ -81,7 +81,7 @@ class AuctionController extends \Illuminate\Routing\Controller
     public function show($id)
     {
         $auction = Auction::findOrFail($id);
-        $bids    = $auction->bids()->take(10)->get();
+        $bids    = $auction->bids()->with('user')->orderBy('created_at','desc')->take(10)->get();
 
         $auction->increment('views_count');
 
@@ -96,6 +96,10 @@ class AuctionController extends \Illuminate\Routing\Controller
 
     public function bid(Request $request, $id)
     {
+        if (!auth()->check() || !auth()->user()->isBidder()) {
+            return back()->with('error', 'Solo los compradores pueden pujar. Tu cuenta no tiene permisos para realizar pujas.');
+        }
+
         $auction = Auction::findOrFail($id);
 
         $request->validate([

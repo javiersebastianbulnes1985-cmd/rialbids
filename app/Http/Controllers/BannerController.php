@@ -48,6 +48,34 @@ class BannerController extends \Illuminate\Routing\Controller
             ->with('success', 'Banner creado correctamente.');
     }
 
+    public function edit($id)
+    {
+        $banner = Banner::findOrFail($id);
+        return view('admin.banners.edit', compact('banner'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $banner = Banner::findOrFail($id);
+        $request->validate(['titulo' => 'required|string|max:255']);
+        $banner->titulo     = $request->titulo;
+        $banner->subtitulo  = $request->subtitulo;
+        $banner->link       = $request->link;
+        $banner->link_texto = $request->link_texto ?? 'Explorar artículos';
+        $banner->activo     = $request->has('activo');
+        $banner->orden      = $request->orden ?? 0;
+        if ($request->hasFile('imagen') && $request->file('imagen')->isValid()) {
+            $file    = $request->file('imagen');
+            $pubPath = public_path('storage/banners');
+            if (!is_dir($pubPath)) mkdir($pubPath, 0755, true);
+            $fn = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $file->move($pubPath, $fn);
+            $banner->imagen_path = 'banners/'.$fn;
+        }
+        $banner->save();
+        return redirect()->route('admin.banners.index')->with('success', 'Banner actualizado.');
+    }
+
     public function destroy($id)
     {
         Banner::findOrFail($id)->delete();

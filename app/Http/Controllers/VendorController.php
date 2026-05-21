@@ -36,8 +36,11 @@ class VendorController extends \Illuminate\Routing\Controller
         $request->validate([
             'title'      => 'required|string|max:255',
             'base_price' => 'required|numeric|min:0',
-            'end_time'   => 'required|date|after:now',
-            'description'=> 'required|string',
+            'duracion'   => 'required|integer|in:7,14,21,30',
+            'description'=> 'required|string|min:80',
+            'lot_category'=> 'required|string',
+            'condition'  => 'required|string',
+            'base_price' => 'required|numeric|min:20',
         ]);
 
         $auction = new Auction();
@@ -48,13 +51,14 @@ class VendorController extends \Illuminate\Routing\Controller
         $auction->current_price = $request->base_price;
         $auction->min_increment = $request->min_increment ?? 10;
         $auction->reserve_price = $request->reserve_price ?: null;
-        $auction->end_time      = Carbon::parse($request->end_time)->format('Y-m-d H:i:s');
+        $auction->end_time      = now()->addDays($request->duracion)->format('Y-m-d H:i:s');
         $auction->starts_at     = now()->format('Y-m-d H:i:s');
         $auction->status        = 'pending';
         $auction->user_id       = auth()->id();
         $auction->category_id   = $request->category_id ?? 1;
         $auction->lot_category  = $request->lot_category ?? 'general';
         $auction->total_bids    = 0;
+        $auction->condition     = $request->condition ?? null;
 
         $pubPath = public_path('storage/auctions');
         if (!is_dir($pubPath)) mkdir($pubPath, 0755, true);

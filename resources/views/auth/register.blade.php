@@ -28,6 +28,10 @@
       <input style="width:100%;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;outline:none;font-family:'Inter',sans-serif;" type="password" name="password_confirmation" required placeholder="Repetí tu contraseña">
     </div>
 
+    <div style="margin-bottom:16px;display:flex;align-items:flex-start;gap:10px;">
+      <input type="checkbox" name="terms" id="terms" required style="margin-top:3px;flex-shrink:0;">
+      <label for="terms" style="font-size:13px;color:#6b7280;line-height:1.5;">Soy mayor de 18 anos y acepto los <a href="/terminos" style="color:#1a56db;" target="_blank">terminos y condiciones</a> y la <a href="/privacidad" style="color:#1a56db;" target="_blank">politica de privacidad</a></label>
+    </div>
     <button type="submit" style="width:100%;padding:11px;background:#1a56db;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;">Crear cuenta</button>
 
     <p style="text-align:center;margin-top:16px;font-size:13px;color:#6b7280;">

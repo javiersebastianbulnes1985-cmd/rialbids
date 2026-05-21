@@ -1,147 +1,222 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin — RialBids</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+@extends('layouts.app')
+@section('content')
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',sans-serif;background:#0a0a0b;color:#fff;display:flex;min-height:100vh}
-.sidebar{width:210px;background:#111113;border-right:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh}
-.sb-logo{padding:20px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;gap:10px;text-decoration:none}
-.sb-box{width:32px;height:32px;background:#1a56db;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0}
-.sb-name{font-weight:700;font-size:15px;color:#fff}
-.sb-sec{padding:16px 10px 6px;font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.2)}
-.sb-item{display:flex;align-items:center;padding:9px 12px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:500;color:rgba(255,255,255,0.4);margin:1px 8px;transition:all .15s}
-.sb-item:hover{background:#161618;color:#fff}
-.sb-item.on{background:#161618;color:#1a56db}
-.sb-foot{margin-top:auto;padding:16px 20px;border-top:1px solid rgba(255,255,255,0.06)}
-.sb-foot a{font-size:12px;color:rgba(255,255,255,0.25);text-decoration:none}
-.sb-foot a:hover{color:#1a56db}
-.main{margin-left:210px;flex:1}
-.topbar{background:#111113;border-bottom:1px solid rgba(255,255,255,0.06);padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5}
-.topbar h1{font-size:16px;font-weight:600}
-.btn{background:#1a56db;color:#fff;padding:9px 18px;border-radius:6px;font-size:12px;font-weight:700;text-decoration:none;border:none;cursor:pointer;font-family:'Inter',sans-serif}
-.btn:hover{background:#1e429f}
-.content{padding:28px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
-.stat{background:#111113;border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:18px 20px}
-.sl{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:8px}
-.sv{font-size:28px;font-weight:700;line-height:1}
-.ss{font-size:11px;color:rgba(255,255,255,0.3);margin-top:5px}
-.box{background:#111113;border:1px solid rgba(255,255,255,0.06);border-radius:8px;overflow:hidden;margin-bottom:20px}
-.bh{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
-.bt{font-size:13px;font-weight:600}
-.bc{font-size:11px;color:rgba(255,255,255,0.25);background:#161618;padding:3px 10px;border-radius:20px}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.2);padding:11px 20px;border-bottom:1px solid rgba(255,255,255,0.06)}
-td{padding:13px 20px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px}
-tr:last-child td{border-bottom:none}
-tbody tr:hover{background:#161618}
-.badge{display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;padding:3px 10px;border-radius:20px}
-.badge-active{background:rgba(52,211,153,.12);color:#34d399}
-.badge-pending{background:rgba(251,191,36,.12);color:#fbbf24}
-.badge-finished,.badge-draft{background:#161618;color:rgba(255,255,255,0.25)}
-.a{font-size:12px;text-decoration:none;padding:4px 10px;border-radius:4px;font-weight:500;background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif}
-.av{color:rgba(255,255,255,0.3)}.av:hover{color:#1a56db}
-.aa{color:rgba(52,211,153,.6)}.aa:hover{color:#34d399}
-.ad{color:rgba(248,113,113,.4)}.ad:hover{color:#f87171}
-.thumb{width:42px;height:42px;border-radius:4px;object-fit:cover}
-.nothumb{width:42px;height:42px;border-radius:4px;background:#161618;display:flex;align-items:center;justify-content:center;font-size:18px}
-.flash{padding:12px 18px;border-radius:6px;font-size:13px;font-weight:500;margin-bottom:20px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);color:#34d399}
-.empty{text-align:center;padding:40px;color:rgba(255,255,255,0.2);font-size:13px}
+*{box-sizing:border-box}
+.admin-wrap{display:flex;min-height:100vh;background:#f3f4f6;font-family:'Inter',sans-serif}
+.sidebar{width:220px;background:#fff;border-right:1px solid #e5e7eb;padding:24px 0;flex-shrink:0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.sb-logo{padding:0 20px 20px;border-bottom:1px solid #e5e7eb;margin-bottom:16px}
+.sb-logo span{font-weight:700;font-size:16px;color:#1a56db}
+.sb-section{padding:0 12px;margin-bottom:8px}
+.sb-label{font-size:10px;font-weight:600;color:#9ca3af;letter-spacing:.08em;text-transform:uppercase;padding:0 8px;margin-bottom:6px}
+.sb-link{display:flex;align-items:center;gap:8px;padding:8px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:500;color:#374151;transition:background .15s}
+.sb-link:hover,.sb-link.active{background:#eff6ff;color:#1a56db}
+.main{flex:1;padding:28px;overflow-x:auto}
+.page-title{font-size:22px;font-weight:700;color:#111827;margin-bottom:24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:20px}
+.stat-label{font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.stat-val{font-size:28px;font-weight:700;color:#111827}
+.stat-sub{font-size:12px;color:#9ca3af;margin-top:4px}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;margin-bottom:24px}
+.card-header{padding:16px 20px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:15px;font-weight:600;color:#111827}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-active{background:#d1fae5;color:#065f46}
+.badge-pending{background:#fef3c7;color:#92400e}
+.badge-finished{background:#e5e7eb;color:#374151}
+.badge-shipped{background:#dbeafe;color:#1e40af}
+.badge-paid{background:#ede9fe;color:#5b21b6}
+.badge-cancelled{background:#fee2e2;color:#991b1b}
+.table{width:100%;border-collapse:collapse}
+.table th{padding:10px 12px;text-align:left;font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #e5e7eb}
+.table td{padding:12px;border-bottom:1px solid #f3f4f6;vertical-align:middle;font-size:13px;color:#374151}
+.table tr:last-child td{border-bottom:none}
+.table tr:hover td{background:#f9fafb}
+.btn{display:inline-flex;align-items:center;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:opacity .15s}
+.btn:hover{opacity:.85}
+.btn-primary{background:#1a56db;color:#fff}
+.btn-success{background:#059669;color:#fff}
+.btn-danger{background:#dc2626;color:#fff}
+.btn-ghost{background:#f3f4f6;color:#374151}
+.lot-img{width:44px;height:44px;border-radius:6px;object-fit:cover;background:#f3f4f6}
+.pending-alert{background:#fef3c7;border:1px solid #fbbf24;border-radius:10px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.pending-count{background:#f59e0b;color:#fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
 </style>
-</head>
-<body>
-<aside class="sidebar">
-  <a href="{{ route('admin.index') }}" class="sb-logo">
-    <div class="sb-box">R</div><span class="sb-name">RialBids</span>
-  </a>
-  <div class="sb-sec">General</div>
-  <a href="{{ route('admin.index') }}" class="sb-item on">Dashboard</a>
-  <a href="{{ route('admin.auctions.create') }}" class="sb-item">+ Nuevo Lote</a>
-  <div class="sb-sec">Gestión</div>
-  <a href="#lotes" class="sb-item">Lotes</a>
-  <a href="#pujas" class="sb-item">Pujas</a>
-  <a href="#clientes" class="sb-item">Clientes</a>
-  <div class="sb-foot"><a href="{{ route('home') }}">← Sitio público</a></div>
-</aside>
-<div class="main">
-  <div class="topbar">
-    <h1>Panel de Control</h1>
-    <a href="{{ route('admin.auctions.create') }}" class="btn">+ Nuevo Lote</a>
+
+<div class="admin-wrap">
+  <div class="sidebar">
+    <div class="sb-logo"><span>⚙️ RialBids Admin</span></div>
+    <div class="sb-section">
+      <div class="sb-label">General</div>
+      <a href="{{ route('admin.index') }}" class="sb-link active">📊 Dashboard</a>
+      <a href="{{ route('admin.auctions.create') }}" class="sb-link">➕ Nuevo Lote</a>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Gestión</div>
+      <a href="{{ route('admin.index') }}" class="sb-link">📦 Lotes</a>
+      <a href="{{ route('admin.index') }}" class="sb-link">🔨 Pujas</a>
+      <a href="{{ route('admin.index') }}" class="sb-link">👥 Clientes</a>
+      <a href="{{ route('admin.finanzas') }}" class="sb-link">💰 Finanzas</a>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Configuración</div>
+      <a href="{{ route('admin.banners.index') }}" class="sb-link">🖼️ Banners</a>
+    </div>
+    <div class="sb-section">
+      <div class="sb-label">Legal</div>
+      <a href="{{ route('pages.terminos') }}" class="sb-link">📄 Términos</a>
+      <a href="{{ route('pages.privacidad') }}" class="sb-link">🔒 Privacidad</a>
+      <a href="{{ route('pages.proteccion-comprador') }}" class="sb-link">🛡️ Protección</a>
+    </div>
   </div>
-  <div class="content">
-    @if(session('success'))<div class="flash">✓ {{ session('success') }}</div>@endif
+
+  <div class="main">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+      <h1 class="page-title" style="margin:0">Panel de Control</h1>
+      <a href="{{ route('admin.auctions.create') }}" class="btn btn-primary">➕ Nuevo Lote</a>
+    </div>
+
     <div class="stats">
-      <div class="stat"><div class="sl">Total Lotes</div><div class="sv" style="color:#1a56db">{{ $auctions->count() }}</div><div class="ss">En la plataforma</div></div>
-      <div class="stat"><div class="sl">Activos</div><div class="sv" style="color:#34d399">{{ $auctions->where('status','active')->count() }}</div><div class="ss">En curso ahora</div></div>
-      <div class="stat"><div class="sl">Total Pujas</div><div class="sv" style="color:#60a5fa">{{ $totalBids??0 }}</div><div class="ss">Todas las ofertas</div></div>
-      <div class="stat"><div class="sl">Clientes</div><div class="sv" style="color:#fff">{{ $totalUsers??0 }}</div><div class="ss">Usuarios registrados</div></div>
+      <div class="stat-card">
+        <div class="stat-label">Total Lotes</div>
+        <div class="stat-val">{{ $auctions->count() }}</div>
+        <div class="stat-sub">En la plataforma</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Activos</div>
+        <div class="stat-val" style="color:#059669">{{ $auctions->where('status','active')->count() }}</div>
+        <div class="stat-sub">En curso ahora</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Pujas</div>
+        <div class="stat-val">{{ $recentBids->count() }}</div>
+        <div class="stat-sub">Todas las ofertas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Clientes</div>
+        <div class="stat-val">{{ $users->count() }}</div>
+        <div class="stat-sub">Usuarios registrados</div>
+      </div>
     </div>
-    <div class="box" id="lotes">
-      <div class="bh"><span class="bt">Lotes</span><span class="bc">{{ $auctions->count() }} total</span></div>
-      <table>
-        <thead><tr><th></th><th>Lote</th><th>Precio</th><th>Pujas</th><th>Estado</th><th>Cierre</th><th></th></tr></thead>
-        <tbody>
-        @forelse($auctions as $auc)
-        <tr>
-          <td>@if(!empty($auc->image_path))<img src="{{ asset('storage/'.$auc->image_path) }}" class="thumb">@else<div class="nothumb">📦</div>@endif</td>
-          <td><div style="font-weight:500;color:#fff">{{ Str::limit($auc->title,40) }}</div><div style="font-size:11px;color:rgba(255,255,255,0.2)">#{{ str_pad($auc->id,4,'0',STR_PAD_LEFT) }}</div></td>
-          <td style="font-size:17px;font-weight:700;color:#1a56db">€{{ number_format($auc->current_price??$auc->base_price??0,0,',','.') }}</td>
-          <td style="color:rgba(255,255,255,0.4)">{{ $auc->total_bids??0 }}</td>
-          <td><span class="badge badge-{{ $auc->status??'pending' }}">{{ $auc->status??'pending' }}</span></td>
-          <td style="font-size:12px;color:rgba(255,255,255,0.3)">{{ \Carbon\Carbon::parse($auc->end_time??$auc->ends_at??now())->format('d/m/Y H:i') }}</td>
-          <td><div style="display:flex;gap:4px">
-            <a href="{{ route('auctions.show',$auc->id) }}" class="a av">Ver</a><a href="{{ route('admin.auctions.edit',$auc->id) }}" class="a av" style="background:#1a56db;color:#fff;">Editar</a>
-            @if(($auc->status??'')==='pending')<form method="POST" action="{{ route('admin.approve',$auc->id) }}" style="display:inline">@csrf<button type="submit" class="a aa">Aprobar</button></form>@endif
-            <form method="POST" action="{{ route('admin.destroy',$auc->id) }}" style="display:inline" onsubmit="return confirm('Eliminar?')">@csrf @method('DELETE')<button type="submit" class="a ad">Eliminar</button></form>
-          </div></td>
-        </tr>
-        @empty
-        <tr><td colspan="7"><div class="empty">Sin lotes. <a href="{{ route('admin.auctions.create') }}" style="color:#1a56db">Crear →</a></div></td></tr>
-        @endforelse
-        </tbody>
-      </table>
+
+    @php $pendientes = $auctions->where('status','pending'); @endphp
+    @if($pendientes->count() > 0)
+    <div class="pending-alert">
+      <div class="pending-count">{{ $pendientes->count() }}</div>
+      <div>
+        <strong style="color:#92400e">Lotes pendientes de aprobación</strong>
+        <div style="font-size:13px;color:#78350f">Revisá y aprobá o rechazá los lotes enviados por vendors.</div>
+      </div>
     </div>
-    <div class="box" id="pujas">
-      <div class="bh"><span class="bt">Pujas Recientes</span><span class="bc">Últimas 20</span></div>
-      @if(isset($recentBids)&&$recentBids->count()>0)
-      <table>
-        <thead><tr><th>Postor</th><th>Lote</th><th>Importe</th><th>Fecha</th></tr></thead>
+    @endif
+
+    @if($pendientes->count() > 0)
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">⏳ Pendientes de Aprobación</span>
+      </div>
+      <table class="table">
+        <thead><tr>
+          <th>Lote</th><th>Vendor</th><th>Precio base</th><th>Categoría</th><th>Acciones</th>
+        </tr></thead>
         <tbody>
-        @foreach($recentBids as $bid)
+        @foreach($pendientes as $auc)
         <tr>
-          <td><div style="font-weight:500">{{ $bid->user->name??'Anónimo' }}</div><div style="font-size:11px;color:rgba(255,255,255,0.2)">{{ $bid->user->email??'' }}</div></td>
-          <td style="color:rgba(255,255,255,0.4)">{{ Str::limit($bid->auction->title??'—',35) }}</td>
-          <td style="font-size:15px;font-weight:700;color:#1a56db">€{{ number_format($bid->amount,0,',','.') }}</td>
-          <td style="font-size:12px;color:rgba(255,255,255,0.3)">{{ $bid->created_at->format('d/m H:i') }}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:10px">
+              @php $pimg = !empty($auc->image_path) ? (str_starts_with($auc->image_path,'http') ? $auc->image_path : asset('storage/'.$auc->image_path)) : null; @endphp
+              @if($pimg)<img src="{{ $pimg }}" class="lot-img">@else<div class="lot-img" style="display:flex;align-items:center;justify-content:center;color:#d1d5db">📷</div>@endif
+              <div>
+                <div style="font-weight:600;color:#111827">{{ $auc->title }}</div>
+                <div style="font-size:11px;color:#9ca3af">#{{ str_pad($auc->id,4,'0',STR_PAD_LEFT) }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ $auc->user->name ?? '—' }}</td>
+          <td style="font-weight:600">€{{ number_format($auc->base_price,0,',','.') }}</td>
+          <td>{{ $auc->lot_category ?? '—' }}</td>
+          <td>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <a href="{{ route('auctions.show',$auc->id) }}" class="btn btn-ghost">Ver</a>
+              <form method="POST" action="{{ route('admin.approve',$auc->id) }}" style="display:inline">@csrf<button class="btn btn-success">✅ Aprobar</button></form>
+              <button onclick="document.getElementById('reject-{{ $auc->id }}').style.display='block'" class="btn btn-danger">❌ Rechazar</button>
+            </div>
+            <div id="reject-{{ $auc->id }}" style="display:none;margin-top:8px">
+              <form method="POST" action="{{ route('admin.reject',$auc->id) }}">@csrf
+                <input type="text" name="reason" placeholder="Motivo del rechazo..." style="width:100%;padding:6px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;margin-bottom:6px">
+                <button class="btn btn-danger">Confirmar rechazo</button>
+              </form>
+            </div>
+          </td>
         </tr>
         @endforeach
         </tbody>
       </table>
-      @else<div class="empty">Sin pujas aún.</div>@endif
     </div>
-    <div class="box" id="clientes">
-      <div class="bh"><span class="bt">Clientes</span><span class="bc">{{ $totalUsers??0 }} usuarios</span></div>
-      @if(isset($users)&&$users->count()>0)
-      <table>
-        <thead><tr><th>Nombre</th><th>Email</th><th>Pujas</th><th>Registro</th></tr></thead>
+    @endif
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">📦 Todos los Lotes</span>
+        <span style="font-size:13px;color:#6b7280">{{ $auctions->count() }} total</span>
+      </div>
+      <table class="table">
+        <thead><tr>
+          <th>Lote</th><th>Precio</th><th>Pujas</th><th>Estado</th><th>Cierre</th><th>Comprador</th><th>Tracking</th><th>Acciones</th>
+        </tr></thead>
         <tbody>
-        @foreach($users as $usr)
+        @foreach($auctions as $auc)
+        @php
+          $img = !empty($auc->image_path) ? (str_starts_with($auc->image_path,'http') ? $auc->image_path : asset('storage/'.$auc->image_path)) : null;
+          $estados = ['active'=>'Activo','pending'=>'Pendiente','finished'=>'Finalizado','shipped'=>'Enviado','paid'=>'Pagado','cancelled'=>'Cancelado'];
+          $badgeClass = ['active'=>'badge-active','pending'=>'badge-pending','finished'=>'badge-finished','shipped'=>'badge-shipped','paid'=>'badge-paid','cancelled'=>'badge-cancelled'];
+        @endphp
         <tr>
-          <td style="font-weight:500">{{ $usr->name }}</td>
-          <td style="color:rgba(255,255,255,0.4)">{{ $usr->email }}</td>
-          <td style="color:rgba(255,255,255,0.4)">{{ $usr->bids_count??0 }}</td>
-          <td style="font-size:12px;color:rgba(255,255,255,0.3)">{{ $usr->created_at->format('d/m/Y') }}</td>
+          <td>
+            <div style="display:flex;align-items:center;gap:10px">
+              @if($img)<img src="{{ $img }}" class="lot-img">@else<div class="lot-img" style="display:flex;align-items:center;justify-content:center;color:#d1d5db">📷</div>@endif
+              <div>
+                <div style="font-weight:600;color:#111827;max-width:180px">{{ Str::limit($auc->title,35) }}</div>
+                <div style="font-size:11px;color:#9ca3af">#{{ str_pad($auc->id,4,'0',STR_PAD_LEFT) }}</div>
+              </div>
+            </div>
+          </td>
+          <td style="font-weight:600;color:#1a56db">€{{ number_format($auc->current_price??$auc->base_price,0,',','.') }}</td>
+          <td>{{ $auc->total_bids ?? 0 }}</td>
+          <td><span class="badge {{ $badgeClass[$auc->status] ?? 'badge-pending' }}">{{ $estados[$auc->status] ?? $auc->status }}</span></td>
+          <td style="font-size:12px">{{ $auc->end_time ? \Carbon\Carbon::parse($auc->end_time)->format('d/m/Y H:i') : '—' }}</td>
+          <td style="font-size:12px">{{ $auc->winner->name ?? '—' }}</td>
+          <td style="font-size:12px;color:#6b7280">{{ $auc->tracking_number ?? '—' }}</td>
+          <td>
+            <div style="display:flex;gap:4px">
+              <a href="{{ route('auctions.show',$auc->id) }}" class="btn btn-ghost">Ver</a>
+              <a href="{{ route('admin.auctions.edit',$auc->id) }}" class="btn btn-primary">Editar</a>
+            </div>
+          </td>
         </tr>
         @endforeach
         </tbody>
       </table>
-      @else<div class="empty">Sin usuarios aún.</div>@endif
     </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">👥 Clientes</span></div>
+      <table class="table">
+        <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Pujas</th><th>Registro</th></tr></thead>
+        <tbody>
+        @foreach($users as $u)
+        <tr>
+          <td style="font-weight:600">{{ $u->name }}</td>
+          <td style="color:#6b7280">{{ $u->email }}</td>
+          <td><span class="badge {{ $u->role==='admin'?'badge-paid':($u->role==='seller'?'badge-active':'badge-finished') }}">{{ ucfirst($u->role) }}</span></td>
+          <td>{{ $u->bids_count ?? 0 }}</td>
+          <td style="font-size:12px;color:#9ca3af">{{ $u->created_at->format('d/m/Y') }}</td>
+        </tr>
+        @endforeach
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </div>
-</body>
-</html>
+@endsection

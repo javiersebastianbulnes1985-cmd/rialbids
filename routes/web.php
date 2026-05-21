@@ -16,16 +16,20 @@ Route::post('/auctions/{id}/bid', [AuctionController::class, 'bid'])->middleware
 Route::get('/finalizadas', [AuctionController::class, 'finalizadas'])->name('auctions.finalizadas');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'is.admin'])->group(function () {
+    Route::get('/finanzas', [AdminController::class, 'finanzas'])->name('finanzas');
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/auctions/create', [AdminController::class, 'create'])->name('auctions.create');
     Route::post('/auctions/store', [AdminController::class, 'store'])->name('auctions.store');
     Route::get('/auctions/{id}/edit', [AdminController::class, 'edit'])->name('auctions.edit');
     Route::post('/auctions/{id}/update', [AdminController::class, 'update'])->name('auctions.update');
     Route::post('/lots/{id}/approve', [AdminController::class, 'approve'])->name('approve');
+    Route::post('/lots/{id}/reject', [AdminController::class, 'reject'])->name('reject');
     Route::delete('/auctions/{id}', [AdminController::class, 'destroy'])->name('destroy');
     Route::get('/banners', [BannerController::class, 'index'])->name('banners.index');
     Route::get('/banners/create', [BannerController::class, 'create'])->name('banners.create');
     Route::post('/banners', [BannerController::class, 'store'])->name('banners.store');
+    Route::get('/banners/{id}/edit', [BannerController::class, 'edit'])->name('banners.edit');
+    Route::post('/banners/{id}/update', [BannerController::class, 'update'])->name('banners.update');
     Route::delete('/banners/{id}', [BannerController::class, 'destroy'])->name('banners.destroy');
     Route::post('/banners/{id}/toggle', [BannerController::class, 'toggle'])->name('banners.toggle');
 });
@@ -52,8 +56,12 @@ Route::middleware('auth')->group(function () {
 Route::post('/webhook/stripe', [PaymentController::class, 'webhook'])->name('payment.webhook');
 
 Route::view('/como-comprar', 'pages.como-comprar')->name('pages.como-comprar');
+Route::view('/proteccion-al-comprador', 'pages.proteccion-comprador')->name('pages.proteccion-comprador');
 Route::view('/como-vender', 'pages.como-vender')->name('pages.como-vender');
 Route::view('/terminos', 'pages.terminos')->name('pages.terminos');
+Route::view('/faq', 'pages.faq')->name('pages.faq');
+Route::view('/sobre-nosotros', 'pages.about')->name('pages.about');
+Route::view('/garantia', 'pages.garantia')->name('pages.garantia');
 Route::view('/privacidad', 'pages.privacidad')->name('pages.privacidad');
 
 Route::get('/dashboard', function () {
@@ -62,3 +70,5 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/seller-request', [App\Http\Controllers\SellerRequestController::class, 'create'])->name('seller.request.create');
+Route::post('/seller-request', [App\Http\Controllers\SellerRequestController::class, 'store'])->name('seller.request.store');

@@ -13,7 +13,7 @@ class HomeController extends Controller
         // Subastas destacadas
         $featured = Auction::active()
             ->featured()
-            ->with(['primaryImage', 'category', 'currentLeader'])
+            ->withCount('bids as total_bids')->with(['primaryImage', 'category', 'currentLeader'])
             ->orderBy('ends_at')
             ->limit(6)
             ->get();
@@ -21,13 +21,13 @@ class HomeController extends Controller
         // Terminando pronto (menos de 1 hora)
         $endingSoon = Auction::active()
             ->endingSoon()
-            ->with(['primaryImage', 'category'])
+            ->withCount('bids as total_bids')->with(['primaryImage', 'category'])
             ->limit(8)
             ->get();
 
         // Nuevas incorporaciones
         $newest = Auction::active()
-            ->with(['primaryImage', 'category'])
+            ->withCount('bids as total_bids')->with(['primaryImage', 'category'])
             ->orderByDesc('created_at')
             ->limit(8)
             ->get();

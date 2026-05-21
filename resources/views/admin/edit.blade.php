@@ -75,6 +75,9 @@
           <option value="active" {{ $auction->status==='active'?'selected':'' }}>Activo</option>
           <option value="pending" {{ $auction->status==='pending'?'selected':'' }}>Pendiente</option>
           <option value="finished" {{ $auction->status==='finished'?'selected':'' }}>Finalizado</option>
+          <option value="shipped" {{ $auction->status==='shipped'?'selected':'' }}>Enviado</option>
+          <option value="paid" {{ $auction->status==='paid'?'selected':'' }}>Pagado</option>
+          <option value="cancelled" {{ $auction->status==='cancelled'?'selected':'' }}>Cancelado</option>
         </select>
       </div>
     </div>
@@ -116,6 +119,12 @@
     <div style="display:flex;gap:12px;">
       <button type="submit"
               style="flex:1;padding:12px;background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;">
+
+        <div style="margin-bottom:20px">
+          <label style="font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Número de tracking</label>
+          <input type="text" name="tracking_number" value="{{ $auction->tracking_number }}" placeholder="Ej: ES123456789CN" style="width:100%;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;">
+          <div style="font-size:11px;color:#9ca3af;margin-top:4px">Número de seguimiento del envío (DHL, Correos, MRW, etc.)</div>
+        </div>
         Guardar cambios
       </button>
       <a href="{{ route('admin.index') }}"
