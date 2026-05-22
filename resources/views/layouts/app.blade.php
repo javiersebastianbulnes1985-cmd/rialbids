@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2058311394753753');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=2058311394753753&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#fff;color:#111827}
@@ -42,8 +59,6 @@
     .footer-link:hover{color:#111}
     .footer-bottom{border-top:1px solid #e5e7eb;padding:20px 24px;max-width:1280px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
     .footer-copy{font-size:12px;color:#9ca3af}
-    .footer-admin{font-size:12px;color:#374151;text-decoration:none}
-    .footer-admin:hover{color:#1a56db}
     @media(max-width:900px){.nav-cats,.nav-divider{display:none}.nav-search{max-width:none}.footer-top{grid-template-columns:1fr 1fr;gap:28px}}
     @media(min-width:769px){.home-sidebar{display:none !important;}.home-main{display:block !important;}}
     @media(max-width:768px){.home-sidebar{display:none !important;}.home-main{grid-template-columns:1fr !important;}.home-cards{grid-template-columns:repeat(2,1fr) !important;}.cats-mobile{display:block !important;}}
@@ -159,12 +174,11 @@
   </div>
   <div class="footer-bottom">
     <span class="footer-copy">© {{ date('Y') }} RialBids. Todos los derechos reservados.</span>
-    
   </div>
 </footer>
 @stack('scripts')
 <div id="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;background:#111827;color:#fff;padding:16px 24px;z-index:9999;display:none;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-<p style="font-size:13px;margin:0;color:rgba(255,255,255,0.85);">Usamos cookies para mejorar tu experiencia. Al continuar aceptas nuestra <a href="/privacidad" style="color:#60a5fa;">politica de privacidad</a>.</p>
+<p style="font-size:13px;margin:0;color:rgba(255,255,255,0.85);">Usamos cookies para mejorar tu experiencia. Al continuar aceptas nuestra <a href="/privacidad" style="color:#60a5fa;">política de privacidad</a>.</p>
 <div style="display:flex;gap:8px;">
 <button onclick="acceptCookies()" style="background:#1a56db;color:#fff;border:none;padding:8px 20px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;">Aceptar</button>
 <button onclick="rejectCookies()" style="background:rgba(255,255,255,0.1);color:#fff;border:none;padding:8px 16px;border-radius:6px;font-size:13px;cursor:pointer;">Solo necesarias</button>
