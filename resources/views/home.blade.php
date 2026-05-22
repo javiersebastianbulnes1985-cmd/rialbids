@@ -23,7 +23,7 @@
   @endif
   <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0.65) 0%,rgba(0,0,0,0.25) 100%);z-index:1;"></div>
   <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 24px;height:100%;display:flex;flex-direction:column;justify-content:center;">
-    <span style="font-size:11px;font-weight:600;letter-spacing:.15em;color:rgba(255,255,255,0.85);text-transform:uppercase;margin-bottom:12px;">Subasta Destacada</span>
+    <span style="font-size:11px;font-weight:600;letter-spacing:.15em;color:rgba(255,255,255,0.85);text-transform:uppercase;margin-bottom:12px;">{{ __('Subasta Destacada') }}</span>
     <h1 style="font-size:42px;font-weight:700;color:#fff;margin:0 0 12px;line-height:1.15;max-width:600px;">{{ $banner->titulo }}</h1>
     @if($banner->subtitulo)
       <p style="font-size:16px;color:rgba(255,255,255,0.85);margin:0 0 28px;">{{ $banner->subtitulo }}</p>
@@ -51,10 +51,10 @@
     <div style="margin-bottom:32px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
         <h2 style="font-size:20px;font-weight:700;color:#111;">
-          {{ $catFilter ? ucfirst($catFilter) : 'Resultados' }}
-          <span style="font-size:14px;font-weight:400;color:#9ca3af;">({{ $filtered->count() }} lotes)</span>
+          {{ $catFilter ? ucfirst($catFilter) : __('Resultados') }}
+          <span style="font-size:14px;font-weight:400;color:#9ca3af;">({{ $filtered->count() }} {{ __('lotes') }})</span>
         </h2>
-        <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">← Volver al inicio</a>
+        <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">{{ __('← Volver al inicio') }}</a>
       </div>
 
       @if($filtered->count() > 0)
@@ -82,18 +82,18 @@
             <div style="padding:12px;">
               <h3 style="font-size:13px;font-weight:600;color:#111827;line-height:1.4;margin-bottom:8px;">{{ $auction->title }}</h3>
               <div style="font-size:11px;color:{{ $urgent?'#ef4444':'#9ca3af' }};font-weight:600;margin-bottom:4px;">
-                @if($sl > 0) {{ $d }}d {{ $hh }}h @else Finalizada @endif
+                @if($sl > 0) {{ $d }}d {{ $hh }}h @else {{ __('Finalizada') }} @endif
               </div>
               <div style="font-size:16px;font-weight:700;color:#16a34a;">€{{ number_format($auction->current_price ?? $auction->base_price ?? 0, 0, ',', '.') }}</div>
-              <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?'puja':'pujas' }}</div>
+              <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?__('puja'):__('pujas') }}</div>
             </div>
           </a>
         @endforeach
       </div>
       @else
       <div style="text-align:center;padding:80px 20px;background:#fff;border-radius:12px;">
-        <h2 style="font-size:18px;color:#9ca3af;margin-bottom:8px;">No hay lotes en esta categoría</h2>
-        <p style="font-size:14px;color:#9ca3af;">Pronto agregaremos más lotes. <a href="/" style="color:#1a56db;">Ver todos</a></p>
+        <h2 style="font-size:18px;color:#9ca3af;margin-bottom:8px;">{{ __('No hay lotes en esta categoría') }}</h2>
+        <p style="font-size:14px;color:#9ca3af;">{{ __('Pronto agregaremos más lotes.') }} <a href="/" style="color:#1a56db;">{{ __('Ver todos') }}</a></p>
       </div>
       @endif
     </div>
@@ -102,32 +102,32 @@
 
     {{-- EXPLORAR POR CATEGORÍA --}}
     <div style="margin-bottom:40px;">
-      <h2 style="font-size:18px;font-weight:700;color:#111;margin-bottom:20px;">Explorar por categoría</h2>
+      <h2 style="font-size:18px;font-weight:700;color:#111;margin-bottom:20px;">{{ __('Explorar por categoría') }}</h2>
       <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:16px;" class="home-cards">
         <a href="/?categoria=joyas" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;text-decoration:none;color:#111827;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)'" onmouseout="this.style.boxShadow='none'">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="1.5"><path d="M6 3h12l3 5-9 13L3 8z"/><path d="M3 8h18"/></svg>
-          <span style="font-size:13px;font-weight:600;margin-top:10px;">Joyería</span>
-          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">Anillos, collares, pulseras</span>
+          <span style="font-size:13px;font-weight:600;margin-top:10px;">{{ __('Joyería') }}</span>
+          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">{{ __('Anillos, collares, pulseras') }}</span>
         </a>
         <a href="/?categoria=arte" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;text-decoration:none;color:#111827;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)'" onmouseout="this.style.boxShadow='none'">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
-          <span style="font-size:13px;font-weight:600;margin-top:10px;">Arte</span>
-          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">Pinturas, esculturas</span>
+          <span style="font-size:13px;font-weight:600;margin-top:10px;">{{ __('Arte') }}</span>
+          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">{{ __('Pinturas, esculturas') }}</span>
         </a>
         <a href="/?categoria=relojes" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;text-decoration:none;color:#111827;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)'" onmouseout="this.style.boxShadow='none'">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5"><circle cx="12" cy="12" r="7"/><polyline points="12,9 12,12 13.5,13.5"/></svg>
-          <span style="font-size:13px;font-weight:600;margin-top:10px;">Relojes</span>
-          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">Vintage y de lujo</span>
+          <span style="font-size:13px;font-weight:600;margin-top:10px;">{{ __('Relojes') }}</span>
+          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">{{ __('Vintage y de lujo') }}</span>
         </a>
         <a href="/?categoria=muebles" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;text-decoration:none;color:#111827;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)'" onmouseout="this.style.boxShadow='none'">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="1.5"><path d="M20 9V6a2 2 0 00-2-2H6a2 2 0 00-2 2v3"/><path d="M2 11a2 2 0 012-2h16a2 2 0 012 2v3H2v-3z"/><path d="M4 14v5M20 14v5"/></svg>
-          <span style="font-size:13px;font-weight:600;margin-top:10px;">Antigüedades</span>
-          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">Muebles y decoración</span>
+          <span style="font-size:13px;font-weight:600;margin-top:10px;">{{ __('Antigüedades') }}</span>
+          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">{{ __('Muebles y decoración') }}</span>
         </a>
         <a href="/?categoria=coleccionismo" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 12px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;text-decoration:none;color:#111827;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)'" onmouseout="this.style.boxShadow='none'">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M12 8v4l3 3"/></svg>
-          <span style="font-size:13px;font-weight:600;margin-top:10px;">Coleccionismo</span>
-          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">Monedas, sellos, figuras</span>
+          <span style="font-size:13px;font-weight:600;margin-top:10px;">{{ __('Coleccionismo') }}</span>
+          <span style="font-size:11px;color:#9ca3af;margin-top:2px;">{{ __('Monedas, sellos, figuras') }}</span>
         </a>
       </div>
     </div>
@@ -137,8 +137,8 @@
       {{-- MAS PUJAS --}}
       <div style="margin-bottom:40px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <h2 style="font-size:18px;font-weight:700;color:#111;">Más pujas</h2>
-          <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">Mostrar todo →</a>
+          <h2 style="font-size:18px;font-weight:700;color:#111;">{{ __('Más pujas') }}</h2>
+          <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">{{ __('Mostrar todo →') }}</a>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="home-cards">
           @foreach($filtered->sortByDesc('total_bids')->take(4) as $auction)
@@ -156,7 +156,7 @@
               <div style="padding:12px;">
                 <h3 style="font-size:13px;font-weight:600;color:#111827;line-height:1.4;margin-bottom:8px;">{{ $auction->title }}</h3>
                 <div style="font-size:16px;font-weight:700;color:#16a34a;">€{{ number_format($auction->current_price ?? $auction->base_price ?? 0, 0, ',', '.') }}</div>
-                <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?'puja':'pujas' }}</div>
+                <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?__('puja'):__('pujas') }}</div>
               </div>
             </a>
           @endforeach
@@ -166,8 +166,8 @@
       {{-- AÑADIDO RECIENTEMENTE --}}
       <div style="margin-bottom:40px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <h2 style="font-size:18px;font-weight:700;color:#111;">Añadido recientemente</h2>
-          <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">Mostrar todo →</a>
+          <h2 style="font-size:18px;font-weight:700;color:#111;">{{ __('Añadido recientemente') }}</h2>
+          <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">{{ __('Mostrar todo →') }}</a>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="home-cards">
           @foreach($filtered->sortByDesc('created_at')->take(8) as $auction)
@@ -185,7 +185,7 @@
               <div style="padding:12px;">
                 <h3 style="font-size:13px;font-weight:600;color:#111827;line-height:1.4;margin-bottom:8px;">{{ $auction->title }}</h3>
                 <div style="font-size:16px;font-weight:700;color:#16a34a;">€{{ number_format($auction->current_price ?? $auction->base_price ?? 0, 0, ',', '.') }}</div>
-                <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?'puja':'pujas' }}</div>
+                <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?__('puja'):__('pujas') }}</div>
               </div>
             </a>
           @endforeach
@@ -195,20 +195,20 @@
       {{-- CTA VENDER --}}
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:40px 32px;margin-bottom:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;">
         <div>
-          <h2 style="font-size:22px;font-weight:700;color:#111827;margin:0 0 8px;">Tenes objetos para vender?</h2>
-          <p style="font-size:14px;color:#6b7280;margin:0;">Conecta con compradores de todo el mundo y vende tus objetos únicos.</p>
+          <h2 style="font-size:22px;font-weight:700;color:#111827;margin:0 0 8px;">{{ __('Tenes objetos para vender?') }}</h2>
+          <p style="font-size:14px;color:#6b7280;margin:0;">{{ __('Conecta con compradores de todo el mundo y vende tus objetos únicos.') }}</p>
         </div>
         <div style="display:flex;gap:12px;">
-          <a href="/seller-request" style="background:#1a56db;color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">Empezar a vender</a>
-          <a href="/como-vender" style="background:#fff;color:#111827;border:1px solid #bfdbfe;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">Como funciona</a>
+          <a href="/seller-request" style="background:#1a56db;color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">{{ __('Empezar a vender') }}</a>
+          <a href="/como-vender" style="background:#fff;color:#111827;border:1px solid #bfdbfe;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">{{ __('Como funciona') }}</a>
         </div>
       </div>
 
       {{-- FINALIZA PRONTO --}}
       <div style="margin-bottom:40px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-          <h2 style="font-size:18px;font-weight:700;color:#111;">Finaliza pronto</h2>
-          <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">Mostrar todo →</a>
+          <h2 style="font-size:18px;font-weight:700;color:#111;">{{ __('Finaliza pronto') }}</h2>
+          <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">{{ __('Mostrar todo →') }}</a>
         </div>
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="home-cards">
           @foreach($filtered->sortBy(function($a){ return $a->end_time ?? $a->ends_at; })->take(4) as $auction)
@@ -231,10 +231,10 @@
               <div style="padding:12px;">
                 <h3 style="font-size:13px;font-weight:600;color:#111827;line-height:1.4;margin-bottom:8px;">{{ $auction->title }}</h3>
                 <div style="font-size:11px;color:{{ $urgent?'#ef4444':'#9ca3af' }};font-weight:600;margin-bottom:4px;">
-                  @if($sl > 0) {{ $d }}d {{ $hh }}h @else Finalizada @endif
+                  @if($sl > 0) {{ $d }}d {{ $hh }}h @else {{ __('Finalizada') }} @endif
                 </div>
                 <div style="font-size:16px;font-weight:700;color:#16a34a;">€{{ number_format($auction->current_price ?? $auction->base_price ?? 0, 0, ',', '.') }}</div>
-                <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?'puja':'pujas' }}</div>
+                <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?__('puja'):__('pujas') }}</div>
               </div>
             </a>
           @endforeach
@@ -243,8 +243,8 @@
 
     @else
       <div style="text-align:center;padding:80px 20px;background:#fff;border-radius:12px;">
-        <h2 style="font-size:18px;color:#9ca3af;margin-bottom:8px;">No hay subastas activas en este momento</h2>
-        <p style="font-size:14px;color:#9ca3af;">Volvé pronto, agregamos nuevos lotes cada semana.</p>
+        <h2 style="font-size:18px;color:#9ca3af;margin-bottom:8px;">{{ __('No hay subastas activas en este momento') }}</h2>
+        <p style="font-size:14px;color:#9ca3af;">{{ __('Volvé pronto, agregamos nuevos lotes cada semana.') }}</p>
       </div>
     @endif
 

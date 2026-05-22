@@ -9,25 +9,30 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        // Si el usuario eligió idioma manualmente, lo guardamos en sesión
+        $supported = ['es', 'en', 'pt', 'it', 'de'];
+
         if ($request->has('lang')) {
-            $lang = in_array($request->lang, ['es', 'en']) ? $request->lang : 'es';
+            $lang = in_array($request->lang, $supported) ? $request->lang : 'es';
             session(['locale' => $lang]);
         }
 
-        // Si hay idioma en sesión, lo usamos
         if (session()->has('locale')) {
             app()->setLocale(session('locale'));
             return $next($request);
         }
 
-        // Detección automática por Accept-Language
         $acceptLanguage = $request->header('Accept-Language', 'es');
-        
-        if (str_contains($acceptLanguage, 'es')) {
-            app()->setLocale('es');
-        } else {
+
+        if (str_contains($acceptLanguage, 'pt')) {
+            app()->setLocale('pt');
+        } elseif (str_contains($acceptLanguage, 'it')) {
+            app()->setLocale('it');
+        } elseif (str_contains($acceptLanguage, 'de')) {
+            app()->setLocale('de');
+        } elseif (str_contains($acceptLanguage, 'en')) {
             app()->setLocale('en');
+        } else {
+            app()->setLocale('es');
         }
 
         return $next($request);

@@ -72,3 +72,18 @@ require __DIR__.'/auth.php';
 
 Route::get('/seller-request', [App\Http\Controllers\SellerRequestController::class, 'create'])->name('seller.request.create');
 Route::post('/seller-request', [App\Http\Controllers\SellerRequestController::class, 'store'])->name('seller.request.store');
+
+// Aliases para el nav
+Route::get('/como-comprar-redirect', function() { return redirect('/como-comprar'); })->name('como-comprar');
+Route::get('/como-vender-redirect', function() { return redirect('/como-vender'); })->name('como-vender');
+Route::get('/faq-redirect', function() { return redirect('/faq'); })->name('faq');
+Route::get('/terminos-redirect', function() { return redirect('/terminos'); })->name('terms');
+Route::get('/privacidad-redirect', function() { return redirect('/privacidad'); })->name('privacy');
+Route::view('/cookies', 'pages.privacidad')->name('cookies');
+Route::get('/lang/{locale}', function ($locale) {
+    $supported = ['es', 'en', 'pt', 'it', 'de'];
+    if (in_array($locale, $supported)) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+})->name('lang.switch');
