@@ -10,7 +10,7 @@
 <div style="display:flex;flex-direction:column;gap:20px;">
 <div style="display:flex;gap:16px;align-items:flex-start;">
 <div style="color:#16a34a;font-size:22px;flex-shrink:0;">&#10003;</div>
-<div><p style="font-size:15px;font-weight:600;color:#111;margin:0 0 4px;">Pago 100% seguro con escrow</p><p style="font-size:14px;color:#6b7280;margin:0;">Tu dinero queda retenido hasta que confirmas la recepcion del objeto. El vendedor no cobra hasta que estas satisfecho.</p></div>
+<div><p style="font-size:15px;font-weight:600;color:#111;margin:0 0 4px;">Pago 100% seguro</p><p style="font-size:14px;color:#6b7280;margin:0;">Tu pago queda protegido hasta que recibas el objeto. Un proceso seguro y transparente para compradores y vendedores.</p></div>
 </div>
 <div style="display:flex;gap:16px;align-items:flex-start;">
 <div style="color:#16a34a;font-size:22px;flex-shrink:0;">&#10003;</div>
@@ -30,7 +30,7 @@
 </div>
 <div style="display:flex;gap:16px;align-items:flex-start;">
 <div style="color:#16a34a;font-size:22px;flex-shrink:0;">&#10003;</div>
-<div><p style="font-size:15px;font-weight:600;color:#111;margin:0 0 4px;">Subastas justas con anti-sniping</p><p style="font-size:14px;color:#6b7280;margin:0;">Si alguien puja en los ultimos minutos, el tiempo se extiende automaticamente para dar oportunidad a todos los compradores.</p></div>
+<div><p style="font-size:15px;font-weight:600;color:#111;margin:0 0 4px;">Subastas transparentes</p><p style="font-size:14px;color:#6b7280;margin:0;">Todas nuestras subastas siguen reglas claras y transparentes para garantizar una experiencia justa para todos los participantes.</p></div>
 </div>
 </div>
 </div>

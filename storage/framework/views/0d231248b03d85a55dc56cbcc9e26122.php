@@ -71,6 +71,13 @@
     }
   </style>
   <?php echo $__env->yieldPushContent('styles'); ?>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H6ZL62CRBV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H6ZL62CRBV');
+</script>
 </head>
 <body>
 <nav class="nav">
@@ -163,7 +170,6 @@
     <div>
       <div class="footer-col-title">Vender</div>
       <a href="/como-vender" class="footer-link">Cómo vender</a>
-      <a href="/como-vender" class="footer-link">Comisiones</a>
       <a href="/como-vender" class="footer-link">Verificación</a>
       <a href="/garantia" class="footer-link">Garantía RialBids</a>
     </div>

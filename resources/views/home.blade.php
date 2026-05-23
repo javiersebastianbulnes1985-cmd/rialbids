@@ -74,7 +74,7 @@
              style="display:block;background:#fff;border:1px solid {{ $urgent?'#fca5a5':'#e5e7eb' }};border-radius:10px;overflow:hidden;text-decoration:none;"
              onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'"
              onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
-            <div style="position:relative;aspect-ratio:3/2;background:#f8f8f8;overflow:hidden;">
+            <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
               @if($img)
                 <img src="{{ $img }}" alt="{{ $auction->title }}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
               @endif
@@ -148,7 +148,7 @@
               elseif(!empty($auction->image_path_2)) $img = asset('storage/'.$auction->image_path_2);
             @endphp
             <a href="{{ route('auctions.show', $auction->id) }}" style="display:block;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;text-decoration:none;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
-              <div style="position:relative;aspect-ratio:3/2;background:#f8f8f8;overflow:hidden;">
+              <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
                 @if($img)
                   <img src="{{ $img }}" alt="{{ $auction->title }}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                 @endif
@@ -177,7 +177,7 @@
               elseif(!empty($auction->image_path_2)) $img = asset('storage/'.$auction->image_path_2);
             @endphp
             <a href="{{ route('auctions.show', $auction->id) }}" style="display:block;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;text-decoration:none;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
-              <div style="position:relative;aspect-ratio:3/2;background:#f8f8f8;overflow:hidden;">
+              <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
                 @if($img)
                   <img src="{{ $img }}" alt="{{ $auction->title }}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                 @endif
@@ -223,7 +223,7 @@
               $urgent = $sl < 86400 && $sl > 0;
             @endphp
             <a href="{{ route('auctions.show', $auction->id) }}" style="display:block;background:#fff;border:1px solid {{ $urgent?'#fca5a5':'#e5e7eb' }};border-radius:10px;overflow:hidden;text-decoration:none;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
-              <div style="position:relative;aspect-ratio:3/2;background:#f8f8f8;overflow:hidden;">
+              <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
                 @if($img)
                   <img src="{{ $img }}" alt="{{ $auction->title }}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                 @endif

@@ -49,8 +49,8 @@
 </div>
 
 <div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:20px;">
-<h3 style="font-size:15px;font-weight:600;color:#111;margin:0 0 8px;">¿Qué es el anti-sniping?</h3>
-<p style="font-size:14px;color:#6b7280;margin:0;">Si alguien realiza una puja en los últimos minutos del cierre, el tiempo se extiende automáticamente para dar oportunidad a otros compradores. Esto garantiza subastas justas.</p>
+<h3 style="font-size:15px;font-weight:600;color:#111;margin:0 0 8px;">¿Cómo se garantiza la transparencia de las subastas?</h3>
+<p style="font-size:14px;color:#6b7280;margin:0;">Todas nuestras subastas siguen un proceso transparente y controlado. Nuestro sistema garantiza que todos los compradores tengan las mismas oportunidades durante todo el proceso.</p>
 </div>
 
 <div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:20px;">
@@ -70,7 +70,7 @@
 
 <div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:20px;">
 <h3 style="font-size:15px;font-weight:600;color:#111;margin:0 0 8px;">¿Cuánto cobra RialBids al vendedor?</h3>
-<p style="font-size:14px;color:#6b7280;margin:0;">Una comisión del 9% + €3 sobre el precio final de venta. Sin costo de publicación — solo pagás si vendés.</p>
+<p style="font-size:14px;color:#6b7280;margin:0;">Comisiones de las más bajas del mercado europeo. Sin costo de publicación — solo pagás si vendés. Registrate como vendedor para ver todos los detalles.</p>
 </div>
 
 <div style="background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:20px;">

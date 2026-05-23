@@ -27,8 +27,8 @@
 </div>
 
 <div>
-<h2 style="font-size:16px;font-weight:600;color:#111;margin-bottom:10px;">5. Pagos y sistema de escrow</h2>
-<p style="font-size:14px;color:#6b7280;line-height:1.7;">Los pagos se procesan de forma segura a través de Stripe. Una vez realizado el pago, los fondos quedan retenidos en escrow hasta que el comprador confirme la recepción del objeto. El pago se libera automáticamente al vendedor tras la confirmación de entrega o pasados 7 días desde el marcado de envío si el comprador no reporta ningún problema.</p>
+<h2 style="font-size:16px;font-weight:600;color:#111;margin-bottom:10px;">5. Pagos y sistema de retención segura</h2>
+<p style="font-size:14px;color:#6b7280;line-height:1.7;">Los pagos se procesan de forma segura a través de Stripe. Una vez realizado el pago, los fondos quedan retenidos de forma segura hasta que el comprador confirme la recepción del objeto. El pago se libera automáticamente al vendedor tras la confirmación de entrega o pasados 7 días desde el marcado de envío si el comprador no reporta ningún problema.</p>
 </div>
 
 <div>
@@ -42,7 +42,7 @@
 </div>
 
 <div>
-<h2 style="font-size:16px;font-weight:600;color:#111;margin-bottom:10px;">8. Comisiones y honorarios</h2>
+<h2 style="font-size:16px;font-weight:600;color:#111;margin-bottom:10px;">8. Tarifas del servicio</h2>
 <p style="font-size:14px;color:#6b7280;line-height:1.7;">RialBids cobra una comisión del 9% más €3 sobre el precio final de cada venta exitosa. Esta comisión se descuenta automáticamente del monto transferido al vendedor. Los gastos de envío corren por cuenta del comprador salvo indicación contraria en el lote.</p>
 </div>
 

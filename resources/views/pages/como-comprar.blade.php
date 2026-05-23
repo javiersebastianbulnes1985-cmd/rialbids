@@ -35,8 +35,8 @@
     <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;display:flex;gap:20px;align-items:flex-start;">
       <div style="width:40px;height:40px;background:#eff6ff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">4</div>
       <div>
-        <h3 style="font-size:16px;font-weight:600;color:#111;margin-bottom:6px;">Anti-sniping activo</h3>
-        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Si alguien puja en los últimos 2 minutos, el tiempo se extiende automáticamente 2 minutos más. Así todos tienen la misma oportunidad.</p>
+        <h3 style="font-size:16px;font-weight:600;color:#111;margin-bottom:6px;">Subastas seguras</h3>
+        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Nuestro sistema garantiza que todos los compradores tengan las mismas oportunidades hasta el último momento de la subasta.</p>
       </div>
     </div>
 
@@ -44,7 +44,7 @@
       <div style="width:40px;height:40px;background:#eff6ff;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">5</div>
       <div>
         <h3 style="font-size:16px;font-weight:600;color:#111;margin-bottom:6px;">Si ganás</h3>
-        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Al finalizar la subasta, el postor más alto gana el lote. Te contactaremos para coordinar el pago y envío. La comisión de la plataforma es 9% + €3.</p>
+        <p style="font-size:14px;color:#6b7280;line-height:1.6;">Al finalizar la subasta, el postor más alto gana el lote. Te contactaremos para coordinar el pago y envío.</p>
       </div>
     </div>
 

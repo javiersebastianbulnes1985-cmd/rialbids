@@ -53,7 +53,9 @@ class AdminController extends \Illuminate\Routing\Controller
             ORDER BY a.finished_at DESC
             LIMIT 20
         ");
-        return view('admin.finanzas', compact('resumen','escrow','completados','sinPagar'));
+        $gastos = \App\Models\Gasto::orderBy('mes','desc')->get();
+        $totalGastos = $gastos->sum('monto');
+        return view('admin.finanzas', compact('resumen','escrow','completados','sinPagar','gastos','totalGastos'));
     }
 
     public function index()

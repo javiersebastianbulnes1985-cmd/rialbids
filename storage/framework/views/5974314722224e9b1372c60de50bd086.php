@@ -74,7 +74,7 @@
              style="display:block;background:#fff;border:1px solid <?php echo e($urgent?'#fca5a5':'#e5e7eb'); ?>;border-radius:10px;overflow:hidden;text-decoration:none;"
              onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'"
              onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
-            <div style="position:relative;aspect-ratio:3/2;background:#f8f8f8;overflow:hidden;">
+            <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
               <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($img): ?>
                 <img src="<?php echo e($img); ?>" alt="<?php echo e($auction->title); ?>" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
               <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -148,7 +148,7 @@
               elseif(!empty($auction->image_path_2)) $img = asset('storage/'.$auction->image_path_2);
             ?>
             <a href="<?php echo e(route('auctions.show', $auction->id)); ?>" style="display:block;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;text-decoration:none;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
-              <div style="position:relative;aspect-ratio:3/2;background:#f8f8f8;overflow:hidden;">
+              <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($img): ?>
                   <img src="<?php echo e($img); ?>" alt="<?php echo e($auction->title); ?>" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -177,7 +177,7 @@
               elseif(!empty($auction->image_path_2)) $img = asset('storage/'.$auction->image_path_2);
             ?>
             <a href="<?php echo e(route('auctions.show', $auction->id)); ?>" style="display:block;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;text-decoration:none;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
-              <div style="position:relative;aspect-ratio:3/2;background:#f8f8f8;overflow:hidden;">
+              <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($img): ?>
                   <img src="<?php echo e($img); ?>" alt="<?php echo e($auction->title); ?>" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
@@ -223,7 +223,7 @@
               $urgent = $sl < 86400 && $sl > 0;
             ?>
             <a href="<?php echo e(route('auctions.show', $auction->id)); ?>" style="display:block;background:#fff;border:1px solid <?php echo e($urgent?'#fca5a5':'#e5e7eb'); ?>;border-radius:10px;overflow:hidden;text-decoration:none;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
-              <div style="position:relative;aspect-ratio:3/2;background:#f8f8f8;overflow:hidden;">
+              <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
                 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($img): ?>
                   <img src="<?php echo e($img); ?>" alt="<?php echo e($auction->title); ?>" style="width:100%;height:100%;object-fit:cover;" loading="lazy">
                 <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
