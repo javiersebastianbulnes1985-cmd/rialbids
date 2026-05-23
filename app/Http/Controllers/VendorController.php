@@ -109,6 +109,50 @@ class VendorController extends \Illuminate\Routing\Controller
             ->with('success', 'Lote enviado. El admin lo revisará antes de publicarlo.');
     }
 
+    public function edit($id)
+    {
+        $auction = \App\Models\Auction::findOrFail($id);
+        if ($auction->user_id !== auth()->id()) abort(403);
+        if ($auction->status !== 'pending') return redirect()->route('vendor.index')->with('error', 'Solo podés editar lotes pendientes.');
+        return view('vendor.edit', compact('auction'));
+    }
+
+    public function update(\Illuminate\Http\Request $request, $id)
+    {
+        $auction = \App\Models\Auction::findOrFail($id);
+        if ($auction->user_id !== auth()->id()) abort(403);
+        if ($auction->status !== 'pending') return redirect()->route('vendor.index')->with('error', 'Solo podés editar lotes pendientes.');
+
+        $request->validate([
+            'title'       => 'required|string|max:255',
+            'description' => 'required|string|min:80',
+            'base_price'  => 'required|numeric|min:20',
+            'condition'   => 'required|string',
+        ]);
+
+        $auction->title       = $request->title;
+        $auction->description = $request->description;
+        $auction->base_price  = $request->base_price;
+        $auction->current_price = $request->base_price;
+        $auction->condition   = $request->condition;
+        $auction->reserve_price = $request->reserve_price ?: null;
+
+        $pubPath = public_path('storage/auctions');
+        if (!is_dir($pubPath)) mkdir($pubPath, 0755, true);
+
+        foreach (['image'=>'image_path','image_2'=>'image_path_2','image_3'=>'image_path_3','image_4'=>'image_path_4','image_5'=>'image_path_5','image_6'=>'image_path_6'] as $input => $field) {
+            if ($request->hasFile($input) && $request->file($input)->isValid()) {
+                $file = $request->file($input);
+                $fn = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+                $file->move($pubPath, $fn);
+                $auction->$field = 'auctions/'.$fn;
+            }
+        }
+
+        $auction->save();
+        return redirect()->route('vendor.index')->with('success', 'Lote actualizado. Seguirá en revisión.');
+    }
+
     public function marcarEnviado(Request $request, $id)
     {
         $auction = Auction::findOrFail($id);

@@ -43,6 +43,8 @@ Route::prefix('vendor')->name('vendor.')->middleware(['auth', 'is.vendedor'])->g
     Route::get('/stripe/onboarding', [StripeConnectController::class, 'onboarding'])->name('stripe.onboarding');
     Route::get('/stripe/callback', [StripeConnectController::class, 'callback'])->name('stripe.callback');
     Route::post('/auctions/{id}/ship', [VendorController::class, 'marcarEnviado'])->name('auctions.ship');
+    Route::get('/edit/{id}', [VendorController::class, 'edit'])->name('edit');
+    Route::post('/edit/{id}', [VendorController::class, 'update'])->name('update');
 });
 
 Route::middleware('auth')->group(function () {
