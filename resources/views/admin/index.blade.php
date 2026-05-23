@@ -56,7 +56,8 @@
     <div class="sb-section">
       <div class="sb-label">Gestión</div>
       <a href="{{ route('admin.index') }}#lotes" class="sb-link">📦 Lotes</a>
-      <a href="{{ route('admin.index') }}#clientes" class="sb-link">👥 Clientes</a>
+      <a href="{{ route('admin.index') }}#vendors" class="sb-link">🛒 Vendors</a>
+      <a href="{{ route('admin.index') }}#compradores" class="sb-link">👤 Compradores</a>
       <a href="{{ route('admin.finanzas') }}" class="sb-link">💰 Finanzas</a>
     </div>
     <div class="sb-section">
@@ -87,7 +88,7 @@
       <div class="stat-card">
         <div class="stat-label">Activos</div>
         <div class="stat-val" style="color:#059669">{{ $auctions->where('status','active')->count() }}</div>
-        <div class="stat-sub">En curso ahora</div>
+        <div class="stat-sub">En curso ahora — <strong>{{ $auctions->where('status','active')->count() }} en vivo</strong></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Total Pujas</div>
@@ -208,18 +209,56 @@
       </table>
     </div>
 
-    {{-- Clientes --}}
-    <div class="card" id="clientes">
-      <div class="card-header"><span class="card-title">👥 Clientes</span><span style="font-size:12px;color:#6b7280">{{ $users->count() }} registrados</span></div>
+    {{-- Vendors --}}
+    @php $vendors = $users->where('role','seller'); $compradores = $users->where('role','bidder'); @endphp
+    <div class="card" id="vendors">
+      <div class="card-header">
+        <span class="card-title">🛒 Vendors</span>
+        <span style="font-size:12px;color:#6b7280">{{ $vendors->count() }} registrados</span>
+      </div>
       <table class="table">
-        <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Pujas</th><th>Registro</th></tr></thead>
+        <thead><tr><th>Nombre</th><th>Email</th><th>Lotes</th><th>Activos</th><th>Stripe</th><th>Registro</th></tr></thead>
         <tbody>
-        @foreach($users as $u)
+        @foreach($vendors as $u)
+        @php
+          $lotesVendor = $auctions->where('user_id', $u->id);
+          $stripeOk = $u->stripe_onboarding_complete ?? false;
+        @endphp
         <tr>
           <td style="font-weight:600">{{ $u->name }}</td>
           <td style="color:#6b7280;font-size:12px">{{ $u->email }}</td>
-          <td><span class="badge {{ $u->role==='admin'?'badge-paid':($u->role==='seller'?'badge-active':'badge-finished') }}">{{ ucfirst($u->role) }}</span></td>
+          <td style="text-align:center">{{ $lotesVendor->count() }}</td>
+          <td style="text-align:center">{{ $lotesVendor->where('status','active')->count() }}</td>
+          <td style="text-align:center">
+            @if($stripeOk)
+              <span class="badge badge-active">✓ Configurado</span>
+            @else
+              <span class="badge badge-pending">Pendiente</span>
+            @endif
+          </td>
+          <td style="font-size:12px;color:#9ca3af">{{ $u->created_at->format('d/m/Y') }}</td>
+        </tr>
+        @endforeach
+        </tbody>
+      </table>
+    </div>
+
+    {{-- Compradores --}}
+    <div class="card" id="compradores">
+      <div class="card-header">
+        <span class="card-title">👤 Compradores</span>
+        <span style="font-size:12px;color:#6b7280">{{ $compradores->count() }} registrados</span>
+      </div>
+      <table class="table">
+        <thead><tr><th>Nombre</th><th>Email</th><th>Pujas</th><th>Lotes ganados</th><th>Registro</th></tr></thead>
+        <tbody>
+        @foreach($compradores as $u)
+        @php $ganados = $auctions->where('winner_id', $u->id)->count(); @endphp
+        <tr>
+          <td style="font-weight:600">{{ $u->name }}</td>
+          <td style="color:#6b7280;font-size:12px">{{ $u->email }}</td>
           <td style="text-align:center">{{ $u->bids_count ?? 0 }}</td>
+          <td style="text-align:center">{{ $ganados }}</td>
           <td style="font-size:12px;color:#9ca3af">{{ $u->created_at->format('d/m/Y') }}</td>
         </tr>
         @endforeach

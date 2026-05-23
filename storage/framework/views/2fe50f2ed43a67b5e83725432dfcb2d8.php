@@ -55,7 +55,8 @@
     <div class="sb-section">
       <div class="sb-label">Gestión</div>
       <a href="<?php echo e(route('admin.index')); ?>#lotes" class="sb-link">📦 Lotes</a>
-      <a href="<?php echo e(route('admin.index')); ?>#clientes" class="sb-link">👥 Clientes</a>
+      <a href="<?php echo e(route('admin.index')); ?>#vendors" class="sb-link">🛒 Vendors</a>
+      <a href="<?php echo e(route('admin.index')); ?>#compradores" class="sb-link">👤 Compradores</a>
       <a href="<?php echo e(route('admin.finanzas')); ?>" class="sb-link">💰 Finanzas</a>
     </div>
     <div class="sb-section">
@@ -86,7 +87,7 @@
       <div class="stat-card">
         <div class="stat-label">Activos</div>
         <div class="stat-val" style="color:#059669"><?php echo e($auctions->where('status','active')->count()); ?></div>
-        <div class="stat-sub">En curso ahora</div>
+        <div class="stat-sub">En curso ahora — <strong><?php echo e($auctions->where('status','active')->count()); ?> en vivo</strong></div>
       </div>
       <div class="stat-card">
         <div class="stat-label">Total Pujas</div>
@@ -208,17 +209,55 @@
     </div>
 
     
-    <div class="card" id="clientes">
-      <div class="card-header"><span class="card-title">👥 Clientes</span><span style="font-size:12px;color:#6b7280"><?php echo e($users->count()); ?> registrados</span></div>
+    <?php $vendors = $users->where('role','seller'); $compradores = $users->where('role','bidder'); ?>
+    <div class="card" id="vendors">
+      <div class="card-header">
+        <span class="card-title">🛒 Vendors</span>
+        <span style="font-size:12px;color:#6b7280"><?php echo e($vendors->count()); ?> registrados</span>
+      </div>
       <table class="table">
-        <thead><tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Pujas</th><th>Registro</th></tr></thead>
+        <thead><tr><th>Nombre</th><th>Email</th><th>Lotes</th><th>Activos</th><th>Stripe</th><th>Registro</th></tr></thead>
         <tbody>
-        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $u): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $vendors; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $u): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php
+          $lotesVendor = $auctions->where('user_id', $u->id);
+          $stripeOk = $u->stripe_onboarding_complete ?? false;
+        ?>
         <tr>
           <td style="font-weight:600"><?php echo e($u->name); ?></td>
           <td style="color:#6b7280;font-size:12px"><?php echo e($u->email); ?></td>
-          <td><span class="badge <?php echo e($u->role==='admin'?'badge-paid':($u->role==='seller'?'badge-active':'badge-finished')); ?>"><?php echo e(ucfirst($u->role)); ?></span></td>
+          <td style="text-align:center"><?php echo e($lotesVendor->count()); ?></td>
+          <td style="text-align:center"><?php echo e($lotesVendor->where('status','active')->count()); ?></td>
+          <td style="text-align:center">
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($stripeOk): ?>
+              <span class="badge badge-active">✓ Configurado</span>
+            <?php else: ?>
+              <span class="badge badge-pending">Pendiente</span>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+          </td>
+          <td style="font-size:12px;color:#9ca3af"><?php echo e($u->created_at->format('d/m/Y')); ?></td>
+        </tr>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        </tbody>
+      </table>
+    </div>
+
+    
+    <div class="card" id="compradores">
+      <div class="card-header">
+        <span class="card-title">👤 Compradores</span>
+        <span style="font-size:12px;color:#6b7280"><?php echo e($compradores->count()); ?> registrados</span>
+      </div>
+      <table class="table">
+        <thead><tr><th>Nombre</th><th>Email</th><th>Pujas</th><th>Lotes ganados</th><th>Registro</th></tr></thead>
+        <tbody>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $compradores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $u): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <?php $ganados = $auctions->where('winner_id', $u->id)->count(); ?>
+        <tr>
+          <td style="font-weight:600"><?php echo e($u->name); ?></td>
+          <td style="color:#6b7280;font-size:12px"><?php echo e($u->email); ?></td>
           <td style="text-align:center"><?php echo e($u->bids_count ?? 0); ?></td>
+          <td style="text-align:center"><?php echo e($ganados); ?></td>
           <td style="font-size:12px;color:#9ca3af"><?php echo e($u->created_at->format('d/m/Y')); ?></td>
         </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
