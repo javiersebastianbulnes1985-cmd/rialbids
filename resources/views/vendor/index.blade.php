@@ -149,11 +149,11 @@
               @else
                 <div class="lot-img" style="display:flex;align-items:center;justify-content:center;font-size:20px">📷</div>
               @endif
-              <div>
+              <a href="{{ route('auctions.show',$lot->id) }}" style="text-decoration:none;display:block"><div>
                 <p style="font-size:13px;font-weight:600;color:#111827;margin:0">{{ Str::limit($lot->title,45) }}</p>
                 <p style="font-size:11px;color:#9ca3af;margin:2px 0 0">Lote #{{ str_pad($lot->id,4,'0',STR_PAD_LEFT) }}</p>
               </div>
-            </div>
+            </div></a>
           </td>
           <td>
             <span style="background:{{ $sc['bg'] }};color:{{ $sc['color'] }};font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;">

@@ -4,6 +4,7 @@
 *{box-sizing:border-box}
 .admin-wrap{display:flex;min-height:100vh;background:#f3f4f6}
 .sidebar{width:220px;background:#fff;border-right:1px solid #e5e7eb;padding:24px 0;flex-shrink:0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+    @media(max-width:768px){.admin-wrap{flex-direction:column!important}.sidebar{width:100%!important;height:auto!important;position:relative!important;top:0!important;display:flex!important;flex-wrap:wrap!important;overflow:visible!important;border-right:none!important;border-bottom:1px solid #e5e7eb!important;padding:8px!important}.sb-section{padding:0 6px!important}.sb-link{padding:5px 8px!important;font-size:11px!important}.main{padding:12px!important}.stats{grid-template-columns:repeat(2,1fr)!important}}
 .sb-logo{padding:0 20px 20px;border-bottom:1px solid #e5e7eb;margin-bottom:16px}
 .sb-logo span{font-weight:700;font-size:15px;color:#1a56db}
 .sb-section{padding:0 12px;margin-bottom:8px}
