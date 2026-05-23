@@ -57,6 +57,12 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/webhook/stripe', [PaymentController::class, 'webhook'])->name('payment.webhook');
 
+// Mobile upload (sin auth, solo token)
+Route::get('/mobile-upload/{token}', [\App\Http\Controllers\MobileUploadController::class, 'page'])->name('mobile.upload.page');
+Route::post('/mobile-upload/{token}/upload', [\App\Http\Controllers\MobileUploadController::class, 'upload'])->name('mobile.upload.photo');
+Route::get('/mobile-upload/{token}/status', [\App\Http\Controllers\MobileUploadController::class, 'status'])->name('mobile.upload.status');
+Route::post('/mobile-upload/{token}/delete', [\App\Http\Controllers\MobileUploadController::class, 'delete'])->name('mobile.upload.delete');
+
 Route::view('/como-comprar', 'pages.como-comprar')->name('pages.como-comprar');
 Route::view('/proteccion-al-comprador', 'pages.proteccion-comprador')->name('pages.proteccion-comprador');
 Route::view('/como-vender', 'pages.como-vender')->name('pages.como-vender');

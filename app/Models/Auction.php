@@ -12,7 +12,7 @@ class Auction extends Model
         'reserve_price', 'buy_now_price', 'min_increment',
         'starts_at', 'end_time', 'status', 'user_id', 'category_id',
         'lot_category', 'video_url', 'technical_specs',
-        'image_path', 'image_path_2', 'image_path_3',
+        'image_path', 'image_path_2', 'image_path_3', 'image_path_4', 'image_path_5', 'image_path_6', 'image_path_4', 'image_path_5', 'image_path_6',
         'total_bids', 'winner_id', 'final_price',
     ];
 
