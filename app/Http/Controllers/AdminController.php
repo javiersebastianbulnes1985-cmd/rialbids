@@ -150,8 +150,16 @@ class AdminController extends \Illuminate\Routing\Controller
 
     public function approve($id)
     {
-        Auction::where('id',$id)->update(['status'=>'active']);
-        return back()->with('success','Lote aprobado.');
+        $auction = Auction::findOrFail($id);
+        $auction->status = 'active';
+        $auction->save();
+
+        // Notificar al vendor
+        if ($auction->user) {
+            $auction->user->notify(new \App\Notifications\LoteAprobado($auction));
+        }
+
+        return back()->with('success','Lote aprobado y vendor notificado.');
     }
 
     public function reject(Request $request, $id)
@@ -160,12 +168,41 @@ class AdminController extends \Illuminate\Routing\Controller
         $auction->status = 'cancelled';
         $auction->rejection_reason = $request->reason ?? 'Rechazado por el administrador';
         $auction->save();
-        return redirect()->route('admin.index')->with('success','Lote rechazado correctamente.');
+
+        // Notificar al vendor
+        if ($auction->user) {
+            $auction->user->notify(new \App\Notifications\LoteRechazado($auction));
+        }
+
+        return redirect()->route('admin.index')->with('success','Lote rechazado y vendor notificado.');
     }
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        Auction::findOrFail($id)->delete();
-        return back()->with('success','Lote eliminado.');
+        $auction = Auction::findOrFail($id);
+        $motivo = $request->input('motivo', 'Cancelado por administración');
+
+        $auction->status = 'cancelled';
+        $auction->rejection_reason = $motivo;
+        $auction->save();
+
+        // Notificar a todos los pujadores
+        $pujadores = \App\Models\Bid::where('auction_id', $id)
+            ->with('user')
+            ->get()
+            ->pluck('user')
+            ->unique('id')
+            ->filter();
+
+        foreach ($pujadores as $pujador) {
+            $pujador->notify(new \App\Notifications\LoteCancelado($auction, $motivo));
+        }
+
+        // Notificar al vendor
+        if ($auction->user) {
+            $auction->user->notify(new \App\Notifications\LoteCancelado($auction, $motivo));
+        }
+
+        return back()->with('success', 'Lote cancelado. ' . $pujadores->count() . ' pujadores notificados.');
     }
 }
