@@ -29,7 +29,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#fff;color:#111827}
     .nav{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
-    .nav-inner{max-width:1280px;margin:0 auto;padding:0 16px;height:60px;display:flex;align-items:center;gap:12px}
+    .nav-inner{max-width:1280px;margin:0 auto;padding:0 16px;height:60px;display:flex;align-items:center;gap:12px;flex-wrap:nowrap}
     .nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0}
     .nav-logo-box{width:34px;height:34px;background:#1a56db;border-radius:6px;display:flex;align-items:center;justify-content:center}
     .nav-logo-box span{color:#fff;font-weight:800;font-size:15px}
@@ -68,6 +68,12 @@
       .btn-blue{padding:6px 10px;font-size:12px}
       .footer-top{grid-template-columns:1fr}
       .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+      .nav-actions-desktop{display:none !important}
+      .nav-mobile-actions{display:flex !important}
+    }
+    @media(min-width:601px){
+      .nav-mobile-actions{display:none !important}
+      .nav-actions-desktop{display:flex !important}
     }
   </style>
   @stack('styles')
@@ -99,7 +105,7 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" placeholder="Buscar subastas..." onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location='/?q='+encodeURIComponent(this.value)}">
     </div>
-    <div class="nav-actions">
+    <div class="nav-actions nav-actions-desktop">
       @guest
         <a href="/seller-request" class="btn-ghost">Vender</a>
         <a href="{{ route('login') }}" class="btn-ghost">Acceso</a>
@@ -132,10 +138,27 @@
         </div>
       @endguest
     </div>
+  {{-- Mobile nav bar --}}
+  <div class="nav-mobile-actions" style="align-items:center;gap:8px;flex-shrink:0">
+    @guest
+      <a href="{{ route('login') }}" style="padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;color:#374151;text-decoration:none;border:1.5px solid #e5e7eb;">Acceso</a>
+      <a href="{{ route('register') }}" style="padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;background:#1a56db;">Registrarse</a>
+    @else
+      @if(auth()->user()->isAdmin())
+        <a href="{{ route('admin.index') }}" style="font-size:20px;text-decoration:none">⚙️</a>
+      @elseif(auth()->user()->isSeller())
+        <a href="{{ route('vendor.index') }}" style="font-size:20px;text-decoration:none">📦</a>
+      @endif
+      <a href="{{ route('profile.index') }}" style="width:32px;height:32px;border-radius:50%;background:#1a56db;display:flex;align-items:center;justify-content:center;text-decoration:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
+    @endif
   </div>
+</div>
 </nav>
 
 @if(session('success'))
+  </div>
 <div style="position:fixed;top:70px;right:20px;z-index:200;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.1);background:#f0fdf4;border:1px solid #86efac;color:#166634;">
   ✓ {{ session('success') }}
 </div>

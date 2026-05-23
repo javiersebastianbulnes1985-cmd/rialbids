@@ -21,19 +21,8 @@ class SetLocale
             return $next($request);
         }
 
-        $acceptLanguage = $request->header('Accept-Language', 'es');
-
-        if (str_contains($acceptLanguage, 'pt')) {
-            app()->setLocale('pt');
-        } elseif (str_contains($acceptLanguage, 'it')) {
-            app()->setLocale('it');
-        } elseif (str_contains($acceptLanguage, 'de')) {
-            app()->setLocale('de');
-        } elseif (str_contains($acceptLanguage, 'en')) {
-            app()->setLocale('en');
-        } else {
-            app()->setLocale('es');
-        }
+        // Por defecto siempre español — solo cambia si el usuario elige manualmente
+        app()->setLocale('es');
 
         return $next($request);
     }
