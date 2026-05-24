@@ -146,6 +146,11 @@
               $img = null;
               if(!empty($auction->image_path)) $img = str_starts_with($auction->image_path, 'http') ? $auction->image_path : asset('storage/'.$auction->image_path);
               elseif(!empty($auction->image_path_2)) $img = asset('storage/'.$auction->image_path_2);
+              $ef = $auction->end_time ?? $auction->ends_at ?? null;
+              $sl = $ef ? max(0, \Carbon\Carbon::parse($ef)->timestamp - now()->timestamp) : 0;
+              $d  = floor($sl/86400);
+              $hh = floor(($sl%86400)/3600);
+              $urgent = $sl < 86400 && $sl > 0;
             @endphp
             <a href="{{ route('auctions.show', $auction->id) }}" style="display:block;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;text-decoration:none;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
               <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
@@ -155,6 +160,9 @@
               </div>
               <div style="padding:12px;">
                 <h3 style="font-size:13px;font-weight:600;color:#111827;line-height:1.4;margin-bottom:8px;">{{ $auction->title }}</h3>
+                <div style="font-size:11px;color:{{ $urgent?'#ef4444':'#9ca3af' }};font-weight:600;margin-bottom:4px;">
+                  @if($sl > 0) {{ $d }}d {{ $hh }}h @else {{ __('Finalizada') }} @endif
+                </div>
                 <div style="font-size:16px;font-weight:700;color:#16a34a;">€{{ number_format($auction->current_price ?? $auction->base_price ?? 0, 0, ',', '.') }}</div>
                 <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?__('puja'):__('pujas') }}</div>
               </div>
@@ -175,6 +183,11 @@
               $img = null;
               if(!empty($auction->image_path)) $img = str_starts_with($auction->image_path, 'http') ? $auction->image_path : asset('storage/'.$auction->image_path);
               elseif(!empty($auction->image_path_2)) $img = asset('storage/'.$auction->image_path_2);
+              $ef = $auction->end_time ?? $auction->ends_at ?? null;
+              $sl = $ef ? max(0, \Carbon\Carbon::parse($ef)->timestamp - now()->timestamp) : 0;
+              $d  = floor($sl/86400);
+              $hh = floor(($sl%86400)/3600);
+              $urgent = $sl < 86400 && $sl > 0;
             @endphp
             <a href="{{ route('auctions.show', $auction->id) }}" style="display:block;background:#fff;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;text-decoration:none;" onmouseover="this.style.boxShadow='0 4px 20px rgba(0,0,0,0.10)';this.style.transform='translateY(-2px)'" onmouseout="this.style.boxShadow='none';this.style.transform='translateY(0)'">
               <div style="position:relative;aspect-ratio:3/2;height:200px;background:#f8f8f8;overflow:hidden;">
@@ -184,6 +197,9 @@
               </div>
               <div style="padding:12px;">
                 <h3 style="font-size:13px;font-weight:600;color:#111827;line-height:1.4;margin-bottom:8px;">{{ $auction->title }}</h3>
+                <div style="font-size:11px;color:{{ $urgent?'#ef4444':'#9ca3af' }};font-weight:600;margin-bottom:4px;">
+                  @if($sl > 0) {{ $d }}d {{ $hh }}h @else {{ __('Finalizada') }} @endif
+                </div>
                 <div style="font-size:16px;font-weight:700;color:#16a34a;">€{{ number_format($auction->current_price ?? $auction->base_price ?? 0, 0, ',', '.') }}</div>
                 <div style="font-size:11px;color:#9ca3af;margin-top:4px;">{{ $auction->total_bids ?? 0 }} {{ ($auction->total_bids??0)==1?__('puja'):__('pujas') }}</div>
               </div>
@@ -230,6 +246,9 @@
               </div>
               <div style="padding:12px;">
                 <h3 style="font-size:13px;font-weight:600;color:#111827;line-height:1.4;margin-bottom:8px;">{{ $auction->title }}</h3>
+                <div style="font-size:11px;color:{{ $urgent?'#ef4444':'#9ca3af' }};font-weight:600;margin-bottom:4px;">
+                  @if($sl > 0) {{ $d }}d {{ $hh }}h @else {{ __('Finalizada') }} @endif
+                </div>
                 <div style="font-size:11px;color:{{ $urgent?'#ef4444':'#9ca3af' }};font-weight:600;margin-bottom:4px;">
                   @if($sl > 0) {{ $d }}d {{ $hh }}h @else {{ __('Finalizada') }} @endif
                 </div>
