@@ -84,13 +84,14 @@
   gtag('js', new Date());
   gtag('config', 'G-H6ZL62CRBV');
 </script>
+<script src="https://elfsightcdn.com/platform.js" async></script>
 </head>
 <body>
 <nav class="nav">
   <div class="nav-inner">
     <a href="<?php echo e(route('home')); ?>" class="nav-logo">
       <div class="nav-logo-box"><span>R</span></div>
-      <span class="nav-logo-name">RialBids</span>
+      <span class="nav-logo-name" translate="no"><span class="notranslate">RialBids</span></span>
     </a>
     <div class="nav-divider"></div>
     <div class="nav-cats">
@@ -178,7 +179,7 @@
     <div>
       <div class="footer-brand-logo">
         <div class="footer-brand-box"><span>R</span></div>
-        <span class="footer-brand-name">RialBids</span>
+        <span class="footer-brand-name"><span class="notranslate">RialBids</span></span>
       </div>
       <p class="footer-brand-desc">Marketplace de subastas online. Objetos únicos disponibles cada semana, verificados por expertos.</p>
     </div>
@@ -219,6 +220,30 @@
 function acceptCookies(){document.getElementById("cookie-banner").style.display="none";localStorage.setItem("ck","1");}
 function rejectCookies(){document.getElementById("cookie-banner").style.display="none";localStorage.setItem("ck","0");}
 window.addEventListener("load",function(){var c=localStorage.getItem("ck");if(c===null){document.getElementById("cookie-banner").style.display="flex";}});
+</script>
+<div class="elfsight-app-bb500c4c-c385-4e58-8022-9cc30b5bf4a3" data-elfsight-app-lazy></div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var lang='<?php echo e($detected_lang ?? "es"); ?>';
+  if(lang!=='es'){
+    var tries=0;
+    var interval=setInterval(function(){
+      tries++;
+      var btn=document.querySelector('.eapps-website-translator-button');
+      if(btn){
+        btn.click();
+        setTimeout(function(){
+          var opts=document.querySelectorAll('.eapps-website-translator-dropdown-item');
+          opts.forEach(function(o){
+            if(o.getAttribute('data-language')===lang) o.click();
+          });
+        },500);
+        clearInterval(interval);
+      }
+      if(tries>20) clearInterval(interval);
+    },300);
+  }
+});
 </script>
 </body>
 </html>
