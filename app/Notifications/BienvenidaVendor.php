@@ -2,20 +2,17 @@
 namespace App\Notifications;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\Auction;
 
-class BienvenidaRialBids extends Notification
+class BienvenidaVendor extends Notification
 {
     public function via($notifiable): array { return ['mail']; }
 
     public function toMail($notifiable): MailMessage
     {
-        $subastas = Auction::where('status','active')->orderBy('end_time','asc')->take(2)->get();
         return (new MailMessage)
-            ->subject('Bienvenido a RialBids — Empeza a pujar hoy')
-            ->view('emails.bienvenida_comprador', [
+            ->subject('Bienvenido a RialBids — Tu primer lote es GRATIS')
+            ->view('emails.bienvenida_vendor', [
                 'user' => $notifiable,
-                'subastas' => $subastas,
             ]);
     }
 }
