@@ -41,6 +41,9 @@ class RegisteredUserController extends Controller
         $user->notify(new \App\Notifications\BienvenidaRialBids());
 
         Auth::login($user);
+        \App\Services\TelegramService::send("🆕 Nuevo usuario: <b>" . $user->name . "</b>
+📧 " . $user->email . "
+👤 Rol: " . $user->role);
 
         return redirect(route('home'));
     }

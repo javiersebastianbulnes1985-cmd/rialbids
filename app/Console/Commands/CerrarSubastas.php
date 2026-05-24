@@ -37,6 +37,10 @@ class CerrarSubastas extends Command
             }
 
             $this->info("Cerrada: {$auction->title}");
+            if ($ganador) \App\Services\TelegramService::send("🏆 Lote vendido!
+📦 " . $auction->title . "
+💶 €" . number_format($auction->final_price, 0, ",", ".") . "
+👤 Ganador: " . optional($ganador->user)->name);
         }
 
         $this->info("Total cerradas: {$vencidas->count()}");
