@@ -22,8 +22,11 @@ class GanadorSubasta extends Notification
             ->greeting('¡Hola ' . $notifiable->name . '!')
             ->line('Has ganado la subasta: **' . $this->auction->title . '**')
             ->line('Precio final: €' . number_format($this->auction->final_price, 0, ',', '.'))
-            ->action('Ver subasta', url('/auctions/' . $this->auction->id))
-            ->line('Nos pondremos en contacto contigo para coordinar el pago y la entrega.')
+            ->action('💳 Pagar ahora', url('/payment/' . $this->auction->id . '/checkout'))
+            ->line('Tenés **3 días** para completar el pago.')
+            ->line('Precio: €' . number_format($this->auction->final_price, 2, ',', '.') . ' + Comisión (9%+€3): €' . number_format($this->auction->final_price * 0.09 + 3, 2, ',', '.'))
+            ->line('**Total a pagar: €' . number_format($this->auction->final_price + ($this->auction->final_price * 0.09 + 3), 2, ',', '.') . '**')
+            ->line('Si no pagás en 3 días, la subasta puede ofrecerse al siguiente pujador.')
             ->salutation('El equipo de RialBids');
     }
 }

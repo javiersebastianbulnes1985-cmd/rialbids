@@ -27,7 +27,7 @@ class PaymentController extends \Illuminate\Routing\Controller
         }
 
         $finalPrice  = $auction->current_price;
-        $commission  = round($finalPrice * 0.09 + 3, 2);
+        $commission  = $auction->free_commission ? 0 : round($finalPrice * 0.09 + 3, 2);
         $totalAmount = round($finalPrice + $commission, 2);
 
         $session = Session::create([

@@ -62,6 +62,8 @@ class VendorController extends \Illuminate\Routing\Controller
         $auction->starts_at     = now()->format('Y-m-d H:i:s');
         $auction->status        = 'pending';
         $auction->user_id       = auth()->id();
+        $lotesAnteriores = \App\Models\Auction::where('user_id', auth()->id())->whereNotIn('status', ['draft','cancelled'])->count();
+        $auction->free_commission = $lotesAnteriores < 1;
         $auction->category_id   = $request->category_id ?? 1;
         $auction->lot_category  = $request->lot_category ?? 'general';
         $auction->total_bids    = 0;

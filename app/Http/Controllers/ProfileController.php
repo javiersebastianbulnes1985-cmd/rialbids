@@ -13,6 +13,12 @@ class ProfileController extends \Illuminate\Routing\Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('profile.index', compact('user', 'bids'));
+        $compras = \App\Models\Auction::with('user')
+            ->where('winner_id', $user->id)
+            ->whereIn('status', ['finished','paid','shipped','delivered','completed'])
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return view('profile.index', compact('user', 'bids', 'compras'));
     }
 }
