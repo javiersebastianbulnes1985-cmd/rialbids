@@ -12,8 +12,8 @@ class BienvenidaRialBids extends Notification
     {
         $subastas = Auction::where('status','active')->orderBy('end_time','asc')->take(2)->get();
         return (new MailMessage)
-            ->subject('Bienvenido a RialBids — Empeza a pujar hoy')
-            ->view('emails.bienvenida_comprador', [
+            ->subject($notifiable->locale === 'en' ? 'Welcome to RialBids — Start bidding today' : 'Bienvenido a RialBids — Empeza a pujar hoy')
+            ->view($notifiable->locale === 'en' ? 'emails.bienvenida_comprador_en' : 'emails.bienvenida_comprador', [
                 'user' => $notifiable,
                 'subastas' => $subastas,
             ]);

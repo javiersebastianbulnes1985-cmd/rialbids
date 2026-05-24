@@ -32,6 +32,7 @@ class RegisteredUserController extends Controller
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'role'     => 'bidder',
+            'locale'   => app()->getLocale(),
             'is_active'=> true,
         ]);
 
