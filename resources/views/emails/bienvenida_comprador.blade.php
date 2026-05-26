@@ -7,11 +7,14 @@
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;max-width:600px">
 
   {{-- HEADER --}}
-  <tr><td style="background:#1a56db;padding:24px 32px">
+  <tr><td style="background:#1a56db;padding:20px 32px">
     <table cellpadding="0" cellspacing="0">
       <tr>
-        <td style="background:rgba(255,255,255,0.2);border-radius:6px;padding:8px 16px">
-          <span style="color:#fff;font-size:20px;font-weight:800">R&nbsp; RialBids</span>
+        <td style="background:#fff;border-radius:6px;width:32px;height:32px;text-align:center;vertical-align:middle">
+          <span style="color:#1a56db;font-size:18px;font-weight:900;line-height:32px;display:block">R</span>
+        </td>
+        <td style="padding-left:10px;vertical-align:middle">
+          <span style="color:#fff;font-size:20px;font-weight:700;letter-spacing:-0.3px">RialBids</span>
         </td>
       </tr>
     </table>
