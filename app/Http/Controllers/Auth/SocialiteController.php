@@ -35,7 +35,7 @@ class SocialiteController extends Controller
 
     public function redirectToFacebook()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')->scopes(['public_profile'])->redirect();
     }
 
     public function handleFacebookCallback()
@@ -43,7 +43,7 @@ class SocialiteController extends Controller
         $fbUser = Socialite::driver('facebook')->user();
 
         $user = User::updateOrCreate(
-            ['email' => $fbUser->getEmail()],
+            ['facebook_id' => $fbUser->getId()],
             [
                 'name' => $fbUser->getName(),
                 'facebook_id' => $fbUser->getId(),
