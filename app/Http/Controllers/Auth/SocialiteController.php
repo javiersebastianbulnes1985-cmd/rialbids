@@ -40,12 +40,15 @@ class SocialiteController extends Controller
 
     public function handleFacebookCallback()
     {
-        $fbUser = Socialite::driver('facebook')->user();
+        $fbUser = Socialite::driver('facebook')->stateless()->user();
+
+        $email = $fbUser->getEmail() ?: $fbUser->getId() . '@facebook.rialbids.com';
 
         $user = User::updateOrCreate(
             ['facebook_id' => $fbUser->getId()],
             [
                 'name' => $fbUser->getName(),
+                'email' => $email,
                 'facebook_id' => $fbUser->getId(),
                 'avatar' => $fbUser->getAvatar(),
                 'password' => bcrypt(str()->random(24)),
