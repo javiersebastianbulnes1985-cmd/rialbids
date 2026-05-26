@@ -101,3 +101,7 @@ Route::get('/lang/{locale}', function ($locale) {
 // Google OAuth
 Route::get('/auth/google', [App\Http\Controllers\Auth\SocialiteController::class, 'redirectToGoogle'])->name('auth.google');
 Route::get('/auth/google/callback', [App\Http\Controllers\Auth\SocialiteController::class, 'handleGoogleCallback']);
+
+// Facebook OAuth
+Route::get('/auth/facebook', [App\Http\Controllers\Auth\SocialiteController::class, 'redirectToFacebook'])->name('auth.facebook');
+Route::get('/auth/facebook/callback', [App\Http\Controllers\Auth\SocialiteController::class, 'handleFacebookCallback']);

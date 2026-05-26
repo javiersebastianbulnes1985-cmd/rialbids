@@ -30,7 +30,30 @@ class SocialiteController extends Controller
         );
 
         Auth::login($user, true);
+        return redirect()->intended('/dashboard');
+    }
 
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback()
+    {
+        $fbUser = Socialite::driver('facebook')->user();
+
+        $user = User::updateOrCreate(
+            ['email' => $fbUser->getEmail()],
+            [
+                'name' => $fbUser->getName(),
+                'facebook_id' => $fbUser->getId(),
+                'avatar' => $fbUser->getAvatar(),
+                'password' => bcrypt(str()->random(24)),
+                'email_verified_at' => now(),
+            ]
+        );
+
+        Auth::login($user, true);
         return redirect()->intended('/dashboard');
     }
 }
