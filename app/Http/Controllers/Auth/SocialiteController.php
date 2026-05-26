@@ -35,7 +35,7 @@ class SocialiteController extends Controller
 
     public function redirectToFacebook()
     {
-        return Socialite::driver('facebook')->scopes(['public_profile'])->redirect();
+        return Socialite::driver('facebook')->setScopes(['public_profile'])->redirect();
     }
 
     public function handleFacebookCallback()
