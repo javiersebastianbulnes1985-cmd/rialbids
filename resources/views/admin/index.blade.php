@@ -60,6 +60,7 @@
       <a href="{{ route('admin.index') }}#vendors" class="sb-link">🛒 Vendors</a>
       <a href="{{ route('admin.index') }}#compradores" class="sb-link">👤 Compradores</a>
       <a href="{{ route('admin.finanzas') }}" class="sb-link">💰 Finanzas</a>
+      <a href="{{ route('admin.pagos') }}" class="sb-link">🔴 Pagos y Disputas</a>
     </div>
     <div class="sb-section">
       <div class="sb-label">Configuración</div>

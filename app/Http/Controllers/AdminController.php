@@ -58,6 +58,34 @@ class AdminController extends \Illuminate\Routing\Controller
         return view('admin.finanzas', compact('resumen','escrow','completados','sinPagar','gastos','totalGastos'));
     }
 
+
+    public function pagos()
+    {
+        $disputas = DB::select("
+            SELECT a.id, a.title, a.final_price, a.dispute_id, a.dispute_status,
+                   a.disputed_at, a.stripe_transfer_id, a.payment_released_at,
+                   w.name as comprador, w.email as comprador_email,
+                   s.name as vendedor, s.email as vendedor_email
+            FROM auctions a
+            LEFT JOIN users w ON w.id = a.winner_id
+            LEFT JOIN users s ON s.id = a.user_id
+            WHERE a.dispute_id IS NOT NULL
+            ORDER BY a.disputed_at DESC
+        ");
+        $pendientes = DB::select("
+            SELECT a.id, a.title, a.final_price, a.status,
+                   a.tracking_number, a.tracking_carrier, a.shipped_at,
+                   a.delivered_at, a.payment_release_scheduled_at, a.payment_released_at,
+                   w.name as comprador, s.name as vendedor
+            FROM auctions a
+            LEFT JOIN users w ON w.id = a.winner_id
+            LEFT JOIN users s ON s.id = a.user_id
+            WHERE a.status IN ('paid','shipped','delivered')
+            AND a.dispute_id IS NULL
+            ORDER BY a.updated_at DESC
+        ");
+        return view('admin.pagos', compact('disputas','pendientes'));
+    }
     public function index()
     {
         $auctions   = Auction::orderBy('created_at','desc')->get();
