@@ -19,7 +19,7 @@
 <td style="padding:10px"><?php echo e(strtoupper($d->dispute_status ?? 'ABIERTA')); ?></td>
 <td style="padding:10px;font-size:12px"><?php echo e($d->disputed_at ? CarbonCarbon::parse($d->disputed_at)->format('d/m/Y H:i') : '-'); ?></td>
 <td style="padding:10px"><a href="https://dashboard.stripe.com/disputes/<?php echo e($d->dispute_id); ?>" target="_blank" style="color:#dc2626">Ver en Stripe</a></td>
-</tr>
+<td style="padding:10px"><a href="https://dashboard.stripe.com/payments" target="_blank" style="font-size:11px;background:#1d4ed8;color:#fff;padding:4px 8px;border-radius:6px;text-decoration:none">Ver Stripe</a></td></tr>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </tbody></table></div>
 <?php else: ?>
@@ -30,7 +30,7 @@
 <h2 style="font-size:15px;font-weight:700;color:#1f2937;margin:0 0 16px">PAGOS EN TRANSITO (<?php echo e(count($pendientes)); ?>)</h2>
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(count($pendientes) > 0): ?>
 <table style="width:100%;border-collapse:collapse;font-size:13px">
-<thead><tr style="background:#f9fafb"><th style="padding:10px;text-align:left">Subasta</th><th style="padding:10px;text-align:left">Comprador</th><th style="padding:10px;text-align:left">Vendedor</th><th style="padding:10px;text-align:right">Monto</th><th style="padding:10px;text-align:left">Estado</th><th style="padding:10px;text-align:left">Tracking</th><th style="padding:10px;text-align:left">Libera</th></tr></thead><tbody>
+<thead><tr style="background:#f9fafb"><th style="padding:10px;text-align:left">Subasta</th><th style="padding:10px;text-align:left">Comprador</th><th style="padding:10px;text-align:left">Vendedor</th><th style="padding:10px;text-align:right">Monto</th><th style="padding:10px;text-align:left">Estado</th><th style="padding:10px;text-align:left">Tracking</th><th style="padding:10px;text-align:left">Libera</th><th style="padding:10px;text-align:left">Acciones</th></tr></thead><tbody>
 <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $pendientes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $p): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 <tr style="border-bottom:1px solid #f3f4f6">
 <td style="padding:10px"><a href="<?php echo e(route('auctions.show', $p->id)); ?>" style="color:#1d4ed8;font-weight:600">#<?php echo e($p->id); ?> <?php echo e($p->title); ?></a></td>
@@ -40,7 +40,7 @@
 <td style="padding:10px"><?php echo e(strtoupper($p->status)); ?></td>
 <td style="padding:10px;font-size:12px"><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($p->tracking_number): ?><?php echo e($p->tracking_carrier); ?> - <?php echo e($p->tracking_number); ?><?php else: ?><span style="color:#ef4444">Sin tracking</span><?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?></td>
 <td style="padding:10px;font-size:12px"><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($p->payment_released_at): ?><span style="color:#16a34a">Liberado</span><?php elseif($p->payment_release_scheduled_at): ?><?php echo e(CarbonCarbon::parse($p->payment_release_scheduled_at)->diffForHumans()); ?><?php else: ?>-<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?></td>
-</tr>
+<td style="padding:10px"><a href="https://dashboard.stripe.com/payments" target="_blank" style="font-size:11px;background:#1d4ed8;color:#fff;padding:4px 8px;border-radius:6px;text-decoration:none">Ver Stripe</a></td></tr>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </tbody></table>
 <?php else: ?>
