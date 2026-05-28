@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
         ]);
-        $middleware->validateCsrfTokens(except: ['webhook/lead']);
+        $middleware->validateCsrfTokens(except: ['webhook/lead', 'webhook/stripe']);
         $middleware->alias([
             'is.admin'    => \App\Http\Middleware\IsAdmin::class,
             'is.vendedor' => \App\Http\Middleware\IsVendedor::class,
