@@ -65,6 +65,7 @@ class PaymentController extends \Illuminate\Routing\Controller
         $payload       = $request->getContent();
         $sigHeader     = $request->header('Stripe-Signature');
         $webhookSecret = config('services.stripe.webhook_secret');
+        \Log::info('Webhook recibido', ['sig' => $sigHeader, 'headers' => $request->headers->all(), 'payload_inicio' => substr($payload, 0, 200)]);
 
         try {
             $event = \Stripe\Webhook::constructEvent($payload, $sigHeader, $webhookSecret);
