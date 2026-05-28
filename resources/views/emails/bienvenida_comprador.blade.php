@@ -7,17 +7,7 @@
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;max-width:600px">
 
   {{-- HEADER --}}
-  <tr><td style="background:#1a56db;padding:20px 32px">
-    <table cellpadding="0" cellspacing="0">
-      <tr>
-        <td style="background:#fff;border-radius:6px;width:32px;height:32px;text-align:center;vertical-align:middle">
-          <span style="color:#1a56db;font-size:18px;font-weight:900;line-height:32px;display:block">R</span>
-        </td>
-        <td style="padding-left:10px;vertical-align:middle">
-          <span style="color:#fff;font-size:20px;font-weight:700;letter-spacing:-0.3px">RialBids</span>
-        </td>
-      </tr>
-    </table>
+  <tr><td style="padding:32px 32px 16px;text-align:center;border-bottom:1px solid #e5e7eb"><a href="{{ url('/') }}" style="text-decoration:none"><span style="color:#111827;font-size:28px;font-weight:800;font-family:Georgia,serif;letter-spacing:-1px">RialBids</span></a>
   </td></tr>
 
   {{-- BODY --}}

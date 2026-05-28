@@ -7,14 +7,7 @@
 <table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;max-width:600px">
 
   
-  <tr><td style="background:#1a56db;padding:24px 32px">
-    <table cellpadding="0" cellspacing="0">
-      <tr>
-        <td style="background:rgba(255,255,255,0.2);border-radius:6px;padding:8px 16px">
-          <span style="color:#fff;font-size:20px;font-weight:800">R&nbsp; RialBids</span>
-        </td>
-      </tr>
-    </table>
+  <tr><td style="padding:32px 32px 16px;text-align:center;border-bottom:1px solid #e5e7eb"><a href="<?php echo e(url('/')); ?>" style="text-decoration:none"><span style="color:#111827;font-size:28px;font-weight:800;font-family:Georgia,serif;letter-spacing:-1px">RialBids</span></a>
   </td></tr>
 
   

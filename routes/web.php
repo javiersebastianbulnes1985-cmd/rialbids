@@ -43,6 +43,7 @@ Route::prefix('vendor')->name('vendor.')->middleware(['auth', 'is.vendedor'])->g
     Route::get('/stripe/onboarding', [StripeConnectController::class, 'onboarding'])->name('stripe.onboarding');
     Route::get('/stripe/callback', [StripeConnectController::class, 'callback'])->name('stripe.callback');
     Route::post('/auctions/{id}/ship', [VendorController::class, 'marcarEnviado'])->name('auctions.ship');
+    Route::post('/auctions/{id}/tracking', [PaymentController::class, 'confirmarEnvio'])->name('auctions.tracking');
     Route::get('/edit/{id}', [VendorController::class, 'edit'])->name('edit');
     Route::post('/edit/{id}', [VendorController::class, 'update'])->name('update');
 });
@@ -54,7 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/payment/{id}/checkout', [PaymentController::class, 'checkout'])->name('payment.checkout');
     Route::get('/payment/{id}/success', [PaymentController::class, 'success'])->name('payment.success');
-    Route::post('/auctions/{id}/confirm', [AuctionController::class, 'confirmarEntrega'])->name('auctions.confirm');
+    Route::post('/auctions/{id}/confirm', [PaymentController::class, 'confirmarEntrega'])->name('auctions.confirm');
 });
 
 Route::post('/webhook/stripe', [PaymentController::class, 'webhook'])->name('payment.webhook');
@@ -105,3 +106,5 @@ Route::get('/auth/google/callback', [App\Http\Controllers\Auth\SocialiteControll
 // Facebook OAuth
 Route::get('/auth/facebook', [App\Http\Controllers\Auth\SocialiteController::class, 'redirectToFacebook'])->name('auth.facebook');
 Route::get('/auth/facebook/callback', [App\Http\Controllers\Auth\SocialiteController::class, 'handleFacebookCallback']);
+
+Route::post('/webhook/lead', [App\Http\Controllers\WebhookLeadController::class, 'store'])->name('webhook.lead');
