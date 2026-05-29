@@ -1,63 +1,62 @@
 @extends('layouts.app')
-@section('title','Quienes somos - RialBids')
+@section('title','Quiénes somos — RialBids')
 @section('content')
-<div style="max-width:800px;margin:48px auto;padding:0 24px;">
+<style>
+.page-wrap{max-width:800px;margin:48px auto;padding:0 24px}
+.page-tag{display:inline-block;background:#f3f4f6;color:#374151;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:14px}
+.page-h1{font-size:28px;font-weight:700;color:#111;margin:0 0 8px}
+.page-desc{font-size:14px;color:#9ca3af;display:block;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid #e5e7eb}
+.mision{border:1px solid #e5e7eb;border-radius:12px;padding:28px;margin-bottom:24px}
+.mision h2{font-size:16px;font-weight:600;color:#111;margin:0 0 14px}
+.mision p{font-size:14px;color:#6b7280;line-height:1.8;margin:0 0 12px}
+.mision p:last-child{margin:0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.stat{border:1px solid #e5e7eb;border-radius:12px;padding:20px;text-align:center}
+.stat-num{font-size:28px;font-weight:700;color:#111;margin-bottom:4px}
+.stat-label{font-size:13px;font-weight:600;color:#374151;margin-bottom:2px}
+.stat-sub{font-size:12px;color:#9ca3af}
+.steps{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.step{display:flex;gap:16px;align-items:flex-start;padding:18px 20px;border:1px solid #e5e7eb;border-radius:10px}
+.step-num{width:32px;height:32px;background:#f3f4f6;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:#374151}
+.step-h{font-size:14px;font-weight:600;color:#111;margin:0 0 4px}
+.step-p{font-size:13px;color:#6b7280;margin:0;line-height:1.6}
+.cta-wrap{background:#111827;border-radius:12px;padding:28px;text-align:center}
+.cta-h{font-size:17px;font-weight:700;color:#fff;margin:0 0 8px}
+.cta-p{font-size:14px;color:rgba(255,255,255,0.7);margin:0 0 16px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-btn-blue{background:#1a56db;color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none}
+.cta-btn-ghost{background:rgba(255,255,255,0.1);color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none}
+</style>
+<div class="page-wrap">
+  <div class="page-tag">Nosotros</div>
+  <h1 class="page-h1">Quiénes somos</h1>
+  <span class="page-desc">Ayudamos a los objetos únicos a encontrar nuevos dueños que los valoren.</span>
 
-<div style="text-align:center;margin-bottom:48px;">
-<h1 style="font-size:36px;font-weight:700;color:#111;margin-bottom:16px;">Quienes somos</h1>
-<p style="font-size:18px;color:#6b7280;line-height:1.7;max-width:600px;margin:0 auto;">Ayudamos a los objetos unicos a encontrar nuevos duenos que los valoren.</p>
-</div>
+  <div class="mision">
+    <h2>Nuestra misión</h2>
+    <p>RialBids es un marketplace de subastas online que conecta compradores y vendedores de objetos únicos en Europa. Creemos que cada objeto tiene una historia y merece encontrar a alguien que lo valore.</p>
+    <p>Nuestras subastas llegan a compradores de toda Europa, lo que significa que tus objetos pueden alcanzar su verdadero valor de mercado con pujas competitivas cada semana.</p>
+  </div>
 
-<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:32px;margin-bottom:24px;">
-<h2 style="font-size:20px;font-weight:700;color:#111;margin-bottom:16px;">Nuestra mision</h2>
-<p style="font-size:15px;color:#6b7280;line-height:1.8;margin-bottom:16px;">RialBids es un marketplace de subastas online que conecta compradores y vendedores de objetos unicos en Europa. Creemos que cada objeto tiene una historia y merece encontrar a alguien que lo valore.</p>
-<p style="font-size:15px;color:#6b7280;line-height:1.8;">Nuestras subastas llegan a compradores de toda Europa, lo que significa que tus objetos pueden alcanzar su verdadero valor de mercado con pujas competitivas cada semana.</p>
-</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">9%</div><div class="stat-label">Comisión + €3</div><div class="stat-sub">La más competitiva de Europa</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Pago seguro</div><div class="stat-sub">Custodia hasta confirmar entrega</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Días de subasta</div><div class="stat-sub">Con anti-sniping activo</div></div>
+  </div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-bottom:24px;">
-<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:12px;padding:24px;text-align:center;">
-<div style="font-size:32px;font-weight:700;color:#166534;margin-bottom:8px;">9%</div>
-<div style="font-size:14px;color:#166534;font-weight:600;">Comision + 3 euros</div>
-<div style="font-size:13px;color:#16a34a;margin-top:4px;">La mas competitiva de Europa</div>
-</div>
-<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:12px;padding:24px;text-align:center;">
-<div style="font-size:32px;font-weight:700;color:#1e40af;margin-bottom:8px;">100%</div>
-<div style="font-size:14px;color:#1e40af;font-weight:600;">Pago seguro</div>
-<div style="font-size:13px;color:#2563eb;margin-top:4px;">Escrow hasta confirmar entrega</div>
-</div>
-<div style="background:#fefce8;border:1px solid #fde047;border-radius:12px;padding:24px;text-align:center;">
-<div style="font-size:32px;font-weight:700;color:#854d0e;margin-bottom:8px;">7</div>
-<div style="font-size:14px;color:#854d0e;font-weight:600;">Dias de subasta</div>
-<div style="font-size:13px;color:#a16207;margin-top:4px;">Con anti-sniping activo</div>
-</div>
-</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div><p class="step-h">El vendedor sube su lote</p><p class="step-p">Con fotos, descripción y precio inicial. Nuestro equipo lo revisa antes de publicarlo.</p></div></div>
+    <div class="step"><div class="step-num">2</div><div><p class="step-h">Los compradores pujan</p><p class="step-p">Durante 7 días, compradores de toda Europa compiten por el lote. El anti-sniping garantiza subastas justas.</p></div></div>
+    <div class="step"><div class="step-num">3</div><div><p class="step-h">Pago seguro en custodia</p><p class="step-p">El ganador paga y el dinero queda retenido hasta confirmar la entrega. El vendedor envía y todos quedan protegidos.</p></div></div>
+  </div>
 
-<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:32px;margin-bottom:24px;">
-<h2 style="font-size:20px;font-weight:700;color:#111;margin-bottom:20px;">Como funciona</h2>
-<div style="display:flex;flex-direction:column;gap:20px;">
-<div style="display:flex;gap:16px;align-items:flex-start;">
-<div style="background:#111827;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;">1</div>
-<div><p style="font-size:15px;font-weight:600;color:#111;margin:0 0 4px;">El vendor sube su lote</p><p style="font-size:14px;color:#6b7280;margin:0;">Con fotos, descripcion y precio inicial. Nuestro equipo lo revisa antes de publicarlo.</p></div>
-</div>
-<div style="display:flex;gap:16px;align-items:flex-start;">
-<div style="background:#111827;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;">2</div>
-<div><p style="font-size:15px;font-weight:600;color:#111;margin:0 0 4px;">Los compradores pujan</p><p style="font-size:14px;color:#6b7280;margin:0;">Durante 7 dias, compradores de toda Europa compiten por el lote. El anti-sniping garantiza subastas justas.</p></div>
-</div>
-<div style="display:flex;gap:16px;align-items:flex-start;">
-<div style="background:#111827;color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0;">3</div>
-<div><p style="font-size:15px;font-weight:600;color:#111;margin:0 0 4px;">Pago seguro en escrow</p><p style="font-size:14px;color:#6b7280;margin:0;">El ganador paga y el dinero queda retenido hasta confirmar la entrega. El vendor envia y todos quedan protegidos.</p></div>
-</div>
-</div>
-</div>
-
-<div style="background:#111827;border-radius:12px;padding:32px;text-align:center;">
-<h2 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:12px;">Empeza hoy</h2>
-<p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:20px;">Tanto si queres comprar objetos unicos como vender los tuyos, RialBids es tu plataforma.</p>
-<div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-<a href="/" style="background:#1a56db;color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">Ver subastas</a>
-<a href="/seller-request" style="background:rgba(255,255,255,0.1);color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">Vender en RialBids</a>
-</div>
-</div>
-
+  <div class="cta-wrap">
+    <h2 class="cta-h">Empezá hoy</h2>
+    <p class="cta-p">Tanto si querés comprar objetos únicos como vender los tuyos, RialBids es tu plataforma.</p>
+    <div class="cta-btns">
+      <a href="/" class="cta-btn-blue">Ver subastas</a>
+      <a href="/seller-request" class="cta-btn-ghost">Vender en RialBids</a>
+    </div>
+  </div>
 </div>
 @endsection
