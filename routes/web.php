@@ -111,3 +111,5 @@ Route::get('/auth/facebook', [App\Http\Controllers\Auth\SocialiteController::cla
 Route::get('/auth/facebook/callback', [App\Http\Controllers\Auth\SocialiteController::class, 'handleFacebookCallback']);
 
 Route::post('/webhook/lead', [App\Http\Controllers\WebhookLeadController::class, 'store'])->name('webhook.lead');
+
+Route::get('/vendor-preview', [App\Http\Controllers\VendorController::class, 'indexNew'])->middleware(['auth','is.vendedor'])->name('vendor.preview');

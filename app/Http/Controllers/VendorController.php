@@ -10,6 +10,13 @@ use App\Notifications\LoteEnviado;
 
 class VendorController extends \Illuminate\Routing\Controller
 {
+    public function indexNew()
+    {
+        $auctions = Auction::where("user_id", auth()->id())->orderBy("created_at","desc")->get();
+        $stats = ["pendiente"=>$auctions->where("status","pending")->count(),"activo"=>$auctions->where("status","active")->count(),"finalizado"=>$auctions->where("status","finished")->count(),"total"=>$auctions->count()];
+        return view("vendor.index_new", compact("auctions","stats"));
+    }
+
     public function index()
     {
         $auctions = Auction::where('user_id', auth()->id())
