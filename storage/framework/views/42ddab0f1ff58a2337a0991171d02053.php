@@ -1,5 +1,4 @@
-@extends('layouts.app')
-@section('content')
+<?php $__env->startSection('content'); ?>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap');
 :root{--gold:#c9a84c;--gold-dark:#8a6820;--gold-light:#f0e8d4;--cream:#f8f4ed;--cream-dark:#e0d8c8;--ink:#1a1207;--ink-light:#8a7a5a}
@@ -44,117 +43,118 @@
 <div class="pb-body">
 <div class="pb-wrap">
 
-  {{-- Header --}}
+  
   <div class="pb-header">
     <div class="pb-avatar">
-      @if($user->avatar)
-        <img src="{{ $user->avatar }}" alt="{{ $user->name }}">
-      @else
-        {{ strtoupper(substr($user->name,0,1)) }}
-      @endif
+      <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($user->avatar): ?>
+        <img src="<?php echo e($user->avatar); ?>" alt="<?php echo e($user->name); ?>">
+      <?php else: ?>
+        <?php echo e(strtoupper(substr($user->name,0,1))); ?>
+
+      <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </div>
     <div style="flex:1;min-width:180px">
-      <h1 class="pb-name">{{ $user->name }}</h1>
-      <p class="pb-since">{{ $user->email }} &nbsp;·&nbsp; Miembro desde {{ $user->created_at->format('F Y') }}</p>
+      <h1 class="pb-name"><?php echo e($user->name); ?></h1>
+      <p class="pb-since"><?php echo e($user->email); ?> &nbsp;·&nbsp; Miembro desde <?php echo e($user->created_at->format('F Y')); ?></p>
     </div>
-    <a href="{{ route('home') }}" style="background:var(--ink);color:var(--gold);padding:10px 20px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;letter-spacing:.04em;white-space:nowrap">Explorar subastas</a>
+    <a href="<?php echo e(route('home')); ?>" style="background:var(--ink);color:var(--gold);padding:10px 20px;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;letter-spacing:.04em;white-space:nowrap">Explorar subastas</a>
   </div>
 
-  {{-- Stats --}}
+  
   <div class="pb-stats">
     <div class="pb-stat">
-      <p class="pb-stat-n">{{ $bids->count() }}</p>
+      <p class="pb-stat-n"><?php echo e($bids->count()); ?></p>
       <p class="pb-stat-l">Pujas realizadas</p>
     </div>
     <div class="pb-stat pb-stat-accent">
-      <p class="pb-stat-n">{{ $compras->count() }}</p>
+      <p class="pb-stat-n"><?php echo e($compras->count()); ?></p>
       <p class="pb-stat-l">Lotes ganados</p>
     </div>
     <div class="pb-stat">
-      <p class="pb-stat-n" style="color:var(--gold-dark)">€{{ number_format($compras->sum('final_price') ?: $compras->sum('current_price'),0,',','.') }}</p>
+      <p class="pb-stat-n" style="color:var(--gold-dark)">€<?php echo e(number_format($compras->sum('final_price') ?: $compras->sum('current_price'),0,',','.')); ?></p>
       <p class="pb-stat-l">Total invertido</p>
     </div>
   </div>
 
-  {{-- Tabs --}}
+  
   <div class="tab-nav">
     <button class="tab-btn active" onclick="switchTab('compras',this)">Mis Compras</button>
     <button class="tab-btn" onclick="switchTab('historial',this)">Historial de pujas</button>
     <button class="tab-btn" onclick="switchTab('perfil',this)">Mi Perfil</button>
   </div>
 
-  {{-- Tab Compras --}}
+  
   <div id="tab-compras" class="tab-panel active">
-    @if($compras->isEmpty())
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($compras->isEmpty()): ?>
       <div style="background:#fff;border:1px solid var(--cream-dark);border-radius:12px;padding:60px;text-align:center">
         <p style="font-family:'Playfair Display',Georgia,serif;font-size:18px;color:var(--ink);margin:0 0 8px">Todavía no ganaste ninguna subasta</p>
         <p style="font-size:13px;color:var(--ink-light);margin:0 0 24px">Participá en subastas para ver tus compras acá</p>
-        <a href="{{ route('home') }}" class="btn-pay">Explorar subastas →</a>
+        <a href="<?php echo e(route('home')); ?>" class="btn-pay">Explorar subastas →</a>
       </div>
-    @else
-      @foreach($compras as $compra)
-      @php
+    <?php else: ?>
+      <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $compras; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $compra): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <?php
         $deadline = $compra->updated_at->addDays(3);
         $h = max(0, now()->diffInHours($deadline, false));
         $d = max(0, now()->diffInDays($deadline, false));
         $pendiente = !in_array($compra->status, ['paid','shipped','delivered','completed']);
         $img = !empty($compra->image_path) ? (str_starts_with($compra->image_path,'http') ? $compra->image_path : asset('storage/'.$compra->image_path)) : null;
-      @endphp
-      <div class="compra-card {{ $pendiente ? 'pendiente' : '' }}">
+      ?>
+      <div class="compra-card <?php echo e($pendiente ? 'pendiente' : ''); ?>">
         <div style="display:flex">
-          @if($img)
-            <img src="{{ $img }}" class="lot-img">
-          @else
+          <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($img): ?>
+            <img src="<?php echo e($img); ?>" class="lot-img">
+          <?php else: ?>
             <div class="lot-img-ph">◻</div>
-          @endif
+          <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
           <div style="padding:18px 20px;flex:1">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
               <div>
-                <a href="{{ route('auctions.show', $compra->id) }}" style="text-decoration:none">
-                  <p style="font-size:14px;font-weight:500;color:var(--ink);margin:0;font-family:'Playfair Display',Georgia,serif">{{ $compra->title }}</p>
+                <a href="<?php echo e(route('auctions.show', $compra->id)); ?>" style="text-decoration:none">
+                  <p style="font-size:14px;font-weight:500;color:var(--ink);margin:0;font-family:'Playfair Display',Georgia,serif"><?php echo e($compra->title); ?></p>
                 </a>
-                <p style="font-size:11px;color:var(--ink-light);margin:4px 0 12px;letter-spacing:.04em">Lote #{{ str_pad($compra->id,4,'0',STR_PAD_LEFT) }}</p>
+                <p style="font-size:11px;color:var(--ink-light);margin:4px 0 12px;letter-spacing:.04em">Lote #<?php echo e(str_pad($compra->id,4,'0',STR_PAD_LEFT)); ?></p>
               </div>
-              <p style="font-size:18px;font-weight:500;color:var(--ink);margin:0;white-space:nowrap;font-family:'Playfair Display',Georgia,serif">€{{ number_format($compra->final_price ?? $compra->current_price,0,',','.') }}</p>
+              <p style="font-size:18px;font-weight:500;color:var(--ink);margin:0;white-space:nowrap;font-family:'Playfair Display',Georgia,serif">€<?php echo e(number_format($compra->final_price ?? $compra->current_price,0,',','.')); ?></p>
             </div>
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-              @if($compra->status === 'paid')
+              <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($compra->status === 'paid'): ?>
                 <span style="background:#edf7f0;color:#2d6a4a;border:1px solid #c0dece;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.04em">Pagado</span>
-              @elseif($compra->status === 'shipped')
+              <?php elseif($compra->status === 'shipped'): ?>
                 <span style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">En camino</span>
-                <form method="POST" action="{{ route('auctions.confirm', $compra->id) }}" style="display:inline">
-                  @csrf
+                <form method="POST" action="<?php echo e(route('auctions.confirm', $compra->id)); ?>" style="display:inline">
+                  <?php echo csrf_field(); ?>
                   <button type="submit" class="btn-confirm">Confirmar recepción</button>
                 </form>
-              @elseif(in_array($compra->status,['delivered','completed']))
+              <?php elseif(in_array($compra->status,['delivered','completed'])): ?>
                 <span style="background:#edf7f0;color:#15803d;border:1px solid #c0dece;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">Completado</span>
-              @else
+              <?php else: ?>
                 <span style="background:#fef9ec;color:#8a6820;border:1px solid #e0c87a;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">Pago pendiente</span>
-                @if($h > 0)
-                  <span style="font-size:11px;color:#b45309;font-weight:600">{{ $d > 0 ? $d.'d' : $h.'h' }} restantes</span>
-                @endif
-                <a href="{{ route('payment.checkout', $compra->id) }}" class="btn-pay">Pagar ahora →</a>
-              @endif
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($h > 0): ?>
+                  <span style="font-size:11px;color:#b45309;font-weight:600"><?php echo e($d > 0 ? $d.'d' : $h.'h'); ?> restantes</span>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+                <a href="<?php echo e(route('payment.checkout', $compra->id)); ?>" class="btn-pay">Pagar ahora →</a>
+              <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
             </div>
           </div>
         </div>
       </div>
-      @endforeach
-    @endif
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
   </div>
 
-  {{-- Tab Historial --}}
+  
   <div id="tab-historial" class="tab-panel">
     <div class="card">
       <div class="card-header">
         <span class="card-title">Historial de pujas</span>
-        <span style="font-size:11px;color:var(--ink-light)">{{ $bids->count() }} pujas</span>
+        <span style="font-size:11px;color:var(--ink-light)"><?php echo e($bids->count()); ?> pujas</span>
       </div>
-      @if($bids->isEmpty())
+      <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($bids->isEmpty()): ?>
         <div style="padding:48px;text-align:center;color:var(--ink-light)">
           <p style="font-family:'Playfair Display',Georgia,serif;font-size:16px;color:var(--ink)">Todavía no hiciste ninguna puja</p>
         </div>
-      @else
+      <?php else: ?>
         <table class="table">
           <thead>
             <tr>
@@ -166,55 +166,55 @@
             </tr>
           </thead>
           <tbody>
-            @foreach($bids as $bid)
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $bids; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bid): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr>
               <td>
-                <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0">{{ Str::limit($bid->auction->title ?? '—', 30) }}</p>
-                <p style="font-size:10px;color:var(--ink-light);margin:2px 0 0;letter-spacing:.04em">#{{ str_pad($bid->auction_id,4,'0',STR_PAD_LEFT) }}</p>
+                <p style="font-size:13px;font-weight:500;color:var(--ink);margin:0"><?php echo e(Str::limit($bid->auction->title ?? '—', 30)); ?></p>
+                <p style="font-size:10px;color:var(--ink-light);margin:2px 0 0;letter-spacing:.04em">#<?php echo e(str_pad($bid->auction_id,4,'0',STR_PAD_LEFT)); ?></p>
               </td>
-              <td style="font-size:14px;font-weight:500;color:var(--gold-dark);font-family:'Playfair Display',Georgia,serif">€{{ number_format($bid->amount,0,',','.') }}</td>
+              <td style="font-size:14px;font-weight:500;color:var(--gold-dark);font-family:'Playfair Display',Georgia,serif">€<?php echo e(number_format($bid->amount,0,',','.')); ?></td>
               <td>
-                @if($bid->auction && $bid->auction->current_price == $bid->amount && $bid->auction->status === 'active')
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($bid->auction && $bid->auction->current_price == $bid->amount && $bid->auction->status === 'active'): ?>
                   <span style="background:#edf7f0;color:#2d6a4a;border:1px solid #c0dece;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600">Ganando</span>
-                @elseif($bid->auction && in_array($bid->auction->status,['finished','paid','shipped','delivered','completed']) && $bid->auction->winner_id === auth()->id())
+                <?php elseif($bid->auction && in_array($bid->auction->status,['finished','paid','shipped','delivered','completed']) && $bid->auction->winner_id === auth()->id()): ?>
                   <span style="background:#fef9ec;color:#8a6820;border:1px solid #e0c87a;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600">Ganado</span>
-                @else
+                <?php else: ?>
                   <span style="background:#fef2f2;color:#991b1b;border:1px solid #fca5a5;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:600">Superado</span>
-                @endif
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
               </td>
-              <td style="font-size:11px;color:var(--ink-light)">{{ $bid->created_at->format('d/m/Y H:i') }}</td>
+              <td style="font-size:11px;color:var(--ink-light)"><?php echo e($bid->created_at->format('d/m/Y H:i')); ?></td>
               <td>
-                @if($bid->auction)
-                  <a href="{{ route('auctions.show', $bid->auction_id) }}" style="font-size:12px;color:var(--gold-dark);text-decoration:none;font-weight:600">Ver →</a>
-                @endif
+                <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($bid->auction): ?>
+                  <a href="<?php echo e(route('auctions.show', $bid->auction_id)); ?>" style="font-size:12px;color:var(--gold-dark);text-decoration:none;font-weight:600">Ver →</a>
+                <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
               </td>
             </tr>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
           </tbody>
         </table>
-      @endif
+      <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </div>
   </div>
 
-  {{-- Tab Perfil --}}
+  
   <div id="tab-perfil" class="tab-panel">
     <div style="background:#fff;border:1px solid var(--cream-dark);border-radius:12px;padding:28px">
       <p style="font-family:'Playfair Display',Georgia,serif;font-size:16px;color:var(--ink);margin:0 0 20px">Mi Perfil</p>
       <div class="perfil-field">
         <p class="perfil-label">Nombre</p>
-        <p class="perfil-val">{{ $user->name }}</p>
+        <p class="perfil-val"><?php echo e($user->name); ?></p>
       </div>
       <div class="perfil-field">
         <p class="perfil-label">Email</p>
-        <p class="perfil-val">{{ $user->email }}</p>
+        <p class="perfil-val"><?php echo e($user->email); ?></p>
       </div>
       <div class="perfil-field">
         <p class="perfil-label">Miembro desde</p>
-        <p class="perfil-val">{{ $user->created_at->format('d/m/Y') }}</p>
+        <p class="perfil-val"><?php echo e($user->created_at->format('d/m/Y')); ?></p>
       </div>
       <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--cream-dark)">
-        <form method="POST" action="{{ route('logout') }}">
-          @csrf
+        <form method="POST" action="<?php echo e(route('logout')); ?>">
+          <?php echo csrf_field(); ?>
           <button type="submit" style="background:#fef2f2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:9px 20px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.04em">Cerrar sesión</button>
         </form>
       </div>
@@ -232,4 +232,6 @@ function switchTab(tab,btn){
   btn.classList.add('active');
 }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/u396549633/domains/rialbids.com/public_html/resources/views/profile/index.blade.php ENDPATH**/ ?>
