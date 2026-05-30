@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/perfil/tracking/{id}', [ProfileController::class, 'saveTracking'])->name('profile.tracking');
     Route::get('/payment/{id}/checkout', [PaymentController::class, 'checkout'])->name('payment.checkout');
     Route::get('/payment/{id}/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::post('/auctions/{id}/confirm', [PaymentController::class, 'confirmarEntrega'])->name('auctions.confirm');
@@ -71,6 +72,7 @@ Route::view('/como-comprar', 'pages.como-comprar')->name('pages.como-comprar');
 Route::view('/proteccion-al-comprador', 'pages.proteccion-comprador')->name('pages.proteccion-comprador');
 Route::view('/como-vender', 'pages.como-vender')->name('pages.como-vender');
 Route::view('/terminos', 'pages.terminos')->name('pages.terminos');
+Route::view('/pagos-disputas', 'pages.pagos-disputas')->name('pages.pagos-disputas');
 Route::view('/faq', 'pages.faq')->name('pages.faq');
 Route::view('/sobre-nosotros', 'pages.about')->name('pages.about');
 Route::view('/garantia', 'pages.garantia')->name('pages.garantia');

@@ -189,17 +189,16 @@
       <a href="/proteccion-al-comprador" class="footer-link">Protección al comprador</a>
       <a href="/faq" class="footer-link">Preguntas frecuentes</a>
       <a href="/sobre-nosotros" class="footer-link">Sobre nosotros</a>
-      <a href="/como-comprar" class="footer-link">Métodos de pago</a>
     </div>
     <div>
       <div class="footer-col-title">Vender</div>
       <a href="/como-vender" class="footer-link">Cómo vender</a>
-      <a href="/como-vender" class="footer-link">Verificación</a>
       <a href="/garantia" class="footer-link">Garantía RialBids</a>
     </div>
     <div>
       <div class="footer-col-title">Legal</div>
       <a href="<?php echo e(route('pages.terminos')); ?>" class="footer-link">Términos y condiciones</a>
+      <a href="/pagos-disputas" class="footer-link">Pagos y disputas</a>
       <a href="<?php echo e(route('pages.privacidad')); ?>" class="footer-link">Política de privacidad</a>
       <a href="/privacidad" class="footer-link">Cookies</a>
     </div>

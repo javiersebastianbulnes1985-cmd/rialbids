@@ -29,9 +29,7 @@ class WebhookLeadController extends Controller
             ]
         );
 
-        if ($user->wasRecentlyCreated) {
-            $user->notify(new BienvenidaRialBids());
-        }
+        $user->notify(new BienvenidaRialBids());
 
         return response()->json(['success' => true, 'user_id' => $user->id]);
     }

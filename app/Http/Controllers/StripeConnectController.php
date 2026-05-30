@@ -69,7 +69,7 @@ class StripeConnectController extends Controller
             return false;
         }
 
-        $totalCentavos = $auction->winning_bid * 100;
+        $totalCentavos = ($auction->final_price ?? $auction->current_price) * 100;
         $comision = round($totalCentavos * 0.09) + 300;
         $paraVendedor = $totalCentavos - $comision;
 

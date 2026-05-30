@@ -38,6 +38,7 @@
 <div style="background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.06)">
   <div style="max-width:900px;margin:0 auto;display:flex">
     <button class="tab-btn active" onclick="switchTab('compras',this)">🛍️ Mis Compras</button>
+    <button class="tab-btn" onclick="switchTab('ventas',this)">📦 Mis Ventas</button>
     <button class="tab-btn" onclick="switchTab('historial',this)">📋 Historial</button>
     <button class="tab-btn" onclick="switchTab('perfil',this)">👤 Mi Perfil</button>
   </div>
@@ -103,6 +104,7 @@
       @endforeach
     @endif
   </div>
+  @include('profile.tab-ventas')
   <div id="tab-historial" class="tab-panel">
     <div style="background:#fff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden">
       <div style="padding:16px 20px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center">
