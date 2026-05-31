@@ -71,7 +71,7 @@ class AdminController extends \Illuminate\Routing\Controller
         \Stripe\Stripe::setApiKey(config("services.stripe.secret"));
         $auction = Auction::findOrFail($id);
         try {
-            $charges = \Stripe\Charge::search(["query"=>"metadata['auction_id']='".$id."'"]);
+            $charges = \Stripe\Charge::search(["query"=>"metadata['auction_id']: '".$id."'"]);
             if ($charges->data) \Stripe\Refund::create(["charge"=>$charges->data[0]->id]);
             $auction->update(['status'=>'refunded']);
             return back()->with('success','✅ Reembolso procesado.');
