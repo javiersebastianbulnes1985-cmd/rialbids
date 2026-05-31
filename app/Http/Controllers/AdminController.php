@@ -73,7 +73,7 @@ class AdminController extends \Illuminate\Routing\Controller
         try {
             $charges = \Stripe\Charge::search(["query"=>"metadata['auction_id']: '".$id."'"]);
             if ($charges->data) \Stripe\Refund::create(["charge"=>$charges->data[0]->id]);
-            $auction->update(['status'=>'refunded']);
+            $auction->update(['status'=>'cancelled']);
             return back()->with('success','✅ Reembolso procesado.');
         } catch(\Exception $e) {
             return back()->with('error','❌ Error: '.$e->getMessage());
