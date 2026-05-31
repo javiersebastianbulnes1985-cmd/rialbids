@@ -31,6 +31,11 @@ class Auction extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function winner()
+    {
+        return $this->belongsTo(User::class, 'winner_id');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

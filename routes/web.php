@@ -18,9 +18,9 @@ Route::get('/finalizadas', [AuctionController::class, 'finalizadas'])->name('auc
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('/finanzas', [AdminController::class, 'finanzas'])->name('finanzas');
     Route::get('/pagos', [AdminController::class, 'pagos'])->name('pagos');
-    Route::post('/pagos/{id}/liberar', [AdminController::class, 'liberarPagoManual'])->name('admin.pagos.liberar');
-    Route::post('/pagos/{id}/reembolsar', [AdminController::class, 'reembolsar'])->name('admin.pagos.reembolsar');
-    Route::post('/usuarios/{id}/desbloquear', [AdminController::class, 'desbloquearUsuario'])->name('admin.usuarios.desbloquear');
+    Route::post('/pagos/{id}/liberar', [AdminController::class, 'liberarPagoManual'])->name('pagos.liberar');
+    Route::post('/pagos/{id}/reembolsar', [AdminController::class, 'reembolsar'])->name('pagos.reembolsar');
+    Route::post('/usuarios/{id}/desbloquear', [AdminController::class, 'desbloquearUsuario'])->name('usuarios.desbloquear');
     Route::post('/gastos', [\App\Http\Controllers\Admin\GastoController::class, 'store'])->name('gastos.store');
     Route::delete('/gastos/{id}', [\App\Http\Controllers\Admin\GastoController::class, 'destroy'])->name('gastos.destroy');
     Route::get('/', [AdminController::class, 'index'])->name('index');

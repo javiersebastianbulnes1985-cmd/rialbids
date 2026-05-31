@@ -62,20 +62,20 @@ class AdminController extends \Illuminate\Routing\Controller
     public function liberarPagoManual($id)
     {
         $auction = Auction::findOrFail($id);
-        $ok = AppHttpControllersStripeConnectController::liberarPago($auction);
+        $ok = \App\Http\Controllers\StripeConnectController::liberarPago($auction);
         return back()->with($ok ? 'success' : 'error', $ok ? '✅ Pago liberado al vendedor.' : '❌ Error al liberar. Verificá Stripe.');
     }
 
     public function reembolsar($id)
     {
-        StripeStripe::setApiKey(config('services.stripe.secret'));
+        \Stripe\Stripe::setApiKey(config("services.stripe.secret"));
         $auction = Auction::findOrFail($id);
         try {
-            $charges = StripeCharge::all(['limit'=>1,'metadata'=>['auction_id'=>$id]]);
-            if ($charges->data) StripeRefund::create(['charge'=>$charges->data[0]->id]);
+            $charges = \Stripe\Charge::all(["limit"=>1,"metadata"=>["auction_id"=>$id]]);
+            if ($charges->data) \Stripe\Refund::create(["charge"=>$charges->data[0]->id]);
             $auction->update(['status'=>'refunded']);
             return back()->with('success','✅ Reembolso procesado.');
-        } catch(xception $e) {
+        } catch(\Exception $e) {
             return back()->with('error','❌ Error: '.$e->getMessage());
         }
     }
