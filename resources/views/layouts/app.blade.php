@@ -130,7 +130,12 @@
               <p style="font-size:13px;font-weight:600;color:#111;">{{ auth()->user()->name }}</p>
               <p style="font-size:11px;color:#9ca3af;">{{ auth()->user()->email }}</p>
             </div>
+            @if(auth()->user()->isSeller())
+            <a href="{{ route('vendor.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">📦 Panel vendedor</a>
+            <a href="{{ route('profile.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">🛒 Mis compras</a>
+            @else
             <a href="{{ route('profile.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">👤 Mi perfil</a>
+            @endif
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" style="width:100%;padding:10px 16px;font-size:13px;color:#ef4444;text-align:left;background:none;border:none;cursor:pointer;">→ Salir</button>
