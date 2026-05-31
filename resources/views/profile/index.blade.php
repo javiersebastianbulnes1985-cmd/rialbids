@@ -130,7 +130,8 @@
                 <span style="background:#edf7f0;color:#15803d;border:1px solid #c0dece;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">Completado</span>
               @else
                 <span style="background:#fef9ec;color:#8a6820;border:1px solid #e0c87a;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">Pago pendiente</span>
-                @if($h > 0)
+                @php $deadline = $compra->updated_at->addDays(3); $horasRestantes = max(0, now()->diffInHours($deadline, false)); $d = floor($horasRestantes / 24); $h = $horasRestantes % 24; @endphp
+                @if($horasRestantes > 0)
                   <span style="font-size:11px;color:#b45309;font-weight:600">{{ $d > 0 ? $d.'d' : $h.'h' }} restantes</span>
                 @endif
                 <a href="{{ route('payment.checkout', $compra->id) }}" class="btn-pay">Pagar ahora →</a>
