@@ -109,8 +109,18 @@
     <div class="nav-actions nav-actions-desktop">
       @guest
         <a href="/seller-request" class="btn-ghost">Vender</a>
-        <a href="{{ route('login') }}" class="btn-ghost">Acceso</a>
-        <a href="{{ route('register') }}" class="btn-blue">Registrarse</a>
+        <div style="position:relative;" x-data="{ open: false }">
+          <button @click="open = !open" class="btn-blue" style="display:flex;align-items:center;gap:6px;">
+            Mi cuenta
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div x-show="open" @click.away="open = false"
+               style="position:absolute;right:0;top:44px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.1);min-width:200px;z-index:100;padding:8px 0;">
+            <a href="{{ route('login') }}" style="display:block;padding:12px 16px;font-size:13px;color:#374151;text-decoration:none;font-weight:600;">→ Acceder</a>
+            <div style="border-top:1px solid #f3f4f6;margin:4px 0;"></div>
+            <a href="{{ route('register') }}" style="display:block;padding:12px 16px;font-size:13px;color:#1a56db;text-decoration:none;font-weight:600;">✦ Crear cuenta gratis</a>
+          </div>
+        </div>
       @else
         @if(auth()->user()->isAdmin())
           <a href="{{ route('admin.index') }}" class="btn-ghost">⚙️ Admin</a>
