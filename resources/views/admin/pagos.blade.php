@@ -20,7 +20,7 @@
 <td style="padding:10px">{{ strtoupper($d->dispute_status ?? 'ABIERTA') }}</td>
 <td style="padding:10px;font-size:12px">{{ $d->disputed_at ? CarbonCarbon::parse($d->disputed_at)->format('d/m/Y H:i') : '-' }}</td>
 <td style="padding:10px"><a href="https://dashboard.stripe.com/disputes/{{ $d->dispute_id }}" target="_blank" style="color:#dc2626">Ver en Stripe</a></td>
-<td style="padding:10px"><a href="https://dashboard.stripe.com/payments" target="_blank" style="font-size:11px;background:#1d4ed8;color:#fff;padding:4px 8px;border-radius:6px;text-decoration:none">Ver Stripe</a></td></tr>
+<td style="padding:10px"><form method="POST" action="{{ route('admin.pagos.liberar', $p->id) }}" style="display:inline">@csrf<button type="submit" onclick="return confirm('¿Liberar pago al vendedor?')" style="font-size:11px;background:#16a34a;color:#fff;padding:4px 8px;border-radius:6px;border:none;cursor:pointer;margin-right:4px">Liberar</button></form><form method="POST" action="{{ route('admin.pagos.reembolsar', $p->id) }}" style="display:inline">@csrf<button type="submit" onclick="return confirm('¿Reembolsar al comprador?')" style="font-size:11px;background:#dc2626;color:#fff;padding:4px 8px;border-radius:6px;border:none;cursor:pointer">Reembolsar</button></form></td></tr>
 @endforeach
 </tbody></table></div>
 @else
@@ -41,7 +41,7 @@
 <td style="padding:10px">{{ strtoupper($p->status) }}</td>
 <td style="padding:10px;font-size:12px">@if($p->tracking_number){{ $p->tracking_carrier }} - {{ $p->tracking_number }}@else<span style="color:#ef4444">Sin tracking</span>@endif</td>
 <td style="padding:10px;font-size:12px">@if($p->payment_released_at)<span style="color:#16a34a">Liberado</span>@elseif($p->payment_release_scheduled_at){{ CarbonCarbon::parse($p->payment_release_scheduled_at)->diffForHumans() }}@else-@endif</td>
-<td style="padding:10px"><a href="https://dashboard.stripe.com/payments" target="_blank" style="font-size:11px;background:#1d4ed8;color:#fff;padding:4px 8px;border-radius:6px;text-decoration:none">Ver Stripe</a></td></tr>
+<td style="padding:10px"><form method="POST" action="{{ route('admin.pagos.liberar', $p->id) }}" style="display:inline">@csrf<button type="submit" onclick="return confirm('¿Liberar pago al vendedor?')" style="font-size:11px;background:#16a34a;color:#fff;padding:4px 8px;border-radius:6px;border:none;cursor:pointer;margin-right:4px">Liberar</button></form><form method="POST" action="{{ route('admin.pagos.reembolsar', $p->id) }}" style="display:inline">@csrf<button type="submit" onclick="return confirm('¿Reembolsar al comprador?')" style="font-size:11px;background:#dc2626;color:#fff;padding:4px 8px;border-radius:6px;border:none;cursor:pointer">Reembolsar</button></form></td></tr>
 @endforeach
 </tbody></table>
 @else

@@ -59,7 +59,34 @@ class AdminController extends \Illuminate\Routing\Controller
     }
 
 
-    public function pagos()
+    public function liberarPagoManual($id)
+    {
+        $auction = Auction::findOrFail($id);
+        $ok = AppHttpControllersStripeConnectController::liberarPago($auction);
+        return back()->with($ok ? 'success' : 'error', $ok ? 'âœ… Pago liberado al vendedor.' : 'âŒ Error al liberar. VerificÃ¡ Stripe.');
+    }
+
+    public function reembolsar($id)
+    {
+        StripeStripe::setApiKey(config('services.stripe.secret'));
+        $auction = Auction::findOrFail($id);
+        try {
+            $charges = StripeCharge::all(['limit'=>1,'metadata'=>['auction_id'=>$id]]);
+            if ($charges->data) StripeRefund::create(['charge'=>$charges->data[0]->id]);
+            $auction->update(['status'=>'refunded']);
+            return back()->with('success','âœ… Reembolso procesado.');
+        } catch(xception $e) {
+            return back()->with('error','âŒ Error: '.$e->getMessage());
+        }
+    }
+
+    public function desbloquearUsuario($id)
+    {
+        AppModelsSER::FINDORFAIL($ID)->UPDATE(['IS_ACTIVE'=>1]);
+        RETURN BACK()->WITH('SUCCESS','ÿÿÿ USUARIO DESBLOQUEADO.');
+    }
+
+    PUBLIC FUNCTION PAGOS()
     {
         $disputas = DB::select("
             SELECT a.id, a.title, a.final_price, a.dispute_id, a.dispute_status,
