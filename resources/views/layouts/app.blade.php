@@ -108,7 +108,11 @@
     </div>
     <div class="nav-actions nav-actions-desktop">
       @guest
+        @auth
+        <a href="{{ route('vendor.index') }}" class="btn-ghost">Vender</a>
+        @else
         <a href="/seller-request" class="btn-ghost">Vender</a>
+        @endauth
         <a href="{{ route('login') }}" class="btn-ghost">Acceder</a>
         <a href="{{ route('register') }}" class="btn-blue">Registrarse</a>
       @else
