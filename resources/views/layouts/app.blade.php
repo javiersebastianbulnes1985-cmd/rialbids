@@ -29,7 +29,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{font-family:'Inter',sans-serif;background:#fff;color:#111827}
     .nav{background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:50}
-    .nav-inner{max-width:1280px;margin:0 auto;padding:0 16px;height:60px;display:flex;align-items:center;gap:12px;flex-wrap:nowrap}
+    .nav-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:20px;flex-wrap:nowrap}
     .nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0}
     .nav-logo-box{width:34px;height:34px;background:#1a56db;border-radius:6px;display:flex;align-items:center;justify-content:center}
     .nav-logo-box span{color:#fff;font-weight:800;font-size:15px}
@@ -38,15 +38,15 @@
     .nav-cats{display:flex;gap:2px;flex:1}
     .nav-cat{padding:6px 12px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:500;color:#374151;transition:background .15s,color .15s}
     .nav-cat:hover{background:#eff6ff;color:#1a56db}
-    .nav-search{flex:1;max-width:280px;position:relative}
+    .nav-search{flex:1;max-width:480px;position:relative}
     .nav-search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;pointer-events:none}
-    .nav-search input{width:100%;padding:8px 14px 8px 34px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:13px;outline:none;background:#f9fafb}
+    .nav-search input{width:100%;padding:10px 16px 10px 36px;border:1.5px solid #e5e7eb;border-radius:24px;font-size:14px;outline:none;background:#f9fafb}
     .nav-search input:focus{border-color:#1a56db;background:#fff}
     .nav-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
-    .btn-ghost{padding:7px 14px;border-radius:7px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;border:1.5px solid #e5e7eb;background:#fff;white-space:nowrap}
-    .btn-ghost:hover{border-color:#1a56db;color:#1a56db}
-    .btn-blue{padding:8px 18px;border-radius:7px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#1a56db;border:none;cursor:pointer;white-space:nowrap}
-    .btn-blue:hover{background:#1e429f}
+    .btn-ghost{padding:6px 12px;border-radius:6px;font-size:13px;font-weight:500;color:#374151;text-decoration:none;border:none;background:none;white-space:nowrap;cursor:pointer}
+    .btn-ghost:hover{color:#111}
+    .btn-blue{padding:7px 16px;border-radius:20px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;background:#111;border:none;cursor:pointer;white-space:nowrap}
+    .btn-blue:hover{background:#333}
     .footer{background:#f9fafb;color:#111;margin-top:64px;border-top:1px solid #e5e7eb}
     .footer-top{max-width:1280px;margin:0 auto;padding:48px 24px 40px;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:40px}
     .footer-brand-logo{display:flex;align-items:center;gap:8px;margin-bottom:14px}
@@ -109,18 +109,8 @@
     <div class="nav-actions nav-actions-desktop">
       @guest
         <a href="/seller-request" class="btn-ghost">Vender</a>
-        <div style="position:relative;" x-data="{ open: false }">
-          <button @click="open = !open" class="btn-blue" style="display:flex;align-items:center;gap:6px;">
-            Mi cuenta
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-          </button>
-          <div x-show="open" @click.away="open = false"
-               style="position:absolute;right:0;top:44px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.1);min-width:200px;z-index:100;padding:8px 0;">
-            <a href="{{ route('login') }}" style="display:block;padding:12px 16px;font-size:13px;color:#374151;text-decoration:none;font-weight:600;">→ Acceder</a>
-            <div style="border-top:1px solid #f3f4f6;margin:4px 0;"></div>
-            <a href="{{ route('register') }}" style="display:block;padding:12px 16px;font-size:13px;color:#1a56db;text-decoration:none;font-weight:600;">✦ Crear cuenta gratis</a>
-          </div>
-        </div>
+        <a href="{{ route('login') }}" class="btn-ghost">Acceder</a>
+        <a href="{{ route('register') }}" class="btn-blue">Registrarse</a>
       @else
         @if(auth()->user()->isAdmin())
           <a href="{{ route('admin.index') }}" class="btn-ghost">⚙️ Admin</a>
