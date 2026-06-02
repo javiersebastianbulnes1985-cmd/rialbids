@@ -47,6 +47,15 @@
             <option value="regular" {{ $auction->condition==='regular'?'selected':'' }}>Regular</option>
           </select>
         </div>
+        <div>
+          <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px">Duración</label>
+          <select name="duracion" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box">
+            <option value="7">7 días</option>
+            <option value="14">14 días</option>
+            <option value="21">21 días</option>
+            <option value="30" selected>30 días</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -68,6 +77,12 @@
       </div>
     </div>
 
+    <div style="margin-bottom:16px">
+      <a href="{{ url('/auctions/' . $auction->id) }}" target="_blank"
+        style="display:block;width:100%;padding:12px;background:#f0f9ff;color:#0369a1;border:1px solid #bae6fd;border-radius:8px;font-size:14px;font-weight:600;text-align:center;text-decoration:none;box-sizing:border-box;">
+        👁 Ver preview del lote →
+      </a>
+    </div>
     <div style="display:flex;gap:12px">
       <button type="submit" style="flex:1;padding:14px;background:#111827;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">
         Guardar cambios
