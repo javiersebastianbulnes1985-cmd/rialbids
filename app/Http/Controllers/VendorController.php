@@ -114,6 +114,23 @@ class VendorController extends \Illuminate\Routing\Controller
 
         $auction->save();
 
+        // Email alerta al admin
+        try {
+            \Illuminate\Support\Facades\Mail::raw(
+                "NUEVO LOTE EN REVISION\n\n" .
+                "Lote: " . $auction->title . "\n" .
+                "Vendor: " . auth()->user()->name . " (" . auth()->user()->email . ")\n" .
+                "Precio base: €" . $auction->base_price . "\n" .
+                "Categoria: " . $auction->lot_category . "\n\n" .
+                "Revisar en: https://rialbids.com/admin/auctions",
+                function($m) {
+                    $m->to('info@rialbids.com')->subject('🔔 Nuevo lote pendiente de revision - RialBids');
+                }
+            );
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Email admin lote fallido: ' . $e->getMessage());
+        }
+
         return redirect()->route('vendor.index')
             ->with('success', 'Lote enviado. El admin lo revisará antes de publicarlo.');
     }

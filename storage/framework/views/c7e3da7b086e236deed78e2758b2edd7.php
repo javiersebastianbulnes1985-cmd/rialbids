@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Subir lote — RialBids'); ?>
 
-@section('title', 'Subir lote — RialBids')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div style="max-width:760px;margin:40px auto;padding:0 20px;">
 
   <div style="margin-bottom:32px;">
@@ -10,23 +8,23 @@
     <p style="font-size:14px;color:#6b7280;margin:0;">Cada lote es revisado por nuestro equipo antes de publicarse. Cuanto más completa sea la información, más rápido se aprueba.</p>
   </div>
 
-  @if($errors->any())
+  <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
     <div style="background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
-      @foreach($errors->all() as $error)
-        <p style="margin:4px 0;">{{ $error }}</p>
-      @endforeach
+      <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+        <p style="margin:4px 0;"><?php echo e($error); ?></p>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </div>
-  @endif
+  <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-  <form action="{{ route('vendor.store') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+  <form action="<?php echo e(route('vendor.store')); ?>" method="POST" enctype="multipart/form-data">
+    <?php echo csrf_field(); ?>
 
     <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px;margin-bottom:20px;">
       <h2 style="font-size:15px;font-weight:700;color:#111;margin:0 0 20px;padding-bottom:12px;border-bottom:1px solid #f3f4f6;">1. Información del objeto</h2>
 
       <div style="margin-bottom:18px;">
         <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Título <span style="color:#ef4444;">*</span></label>
-        <input type="text" name="title" value="{{ old('title') }}" placeholder="Ej: Reloj Omega Seamaster automático años 70" maxlength="120"
+        <input type="text" name="title" value="<?php echo e(old('title')); ?>" placeholder="Ej: Reloj Omega Seamaster automático años 70" maxlength="120"
                style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
         <p style="font-size:11px;color:#9ca3af;margin:4px 0 0;">Sé específico: incluí marca, modelo, material y época si aplica.</p>
       </div>
@@ -48,7 +46,7 @@
       <div style="margin-bottom:18px;">
         <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Descripción <span style="color:#ef4444;">*</span></label>
         <textarea name="description" rows="6" placeholder="Describí el objeto en detalle: materiales, dimensiones, historia, estado, defectos visibles, procedencia..."
-                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;resize:vertical;">{{ old('description') }}</textarea>
+                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;resize:vertical;"><?php echo e(old('description')); ?></textarea>
         <p style="font-size:11px;color:#9ca3af;margin:4px 0 0;">Mínimo 80 caracteres. Incluí cualquier defecto o señal de uso.</p>
       </div>
 
@@ -70,19 +68,19 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
         <div>
           <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Precio de salida (€) <span style="color:#ef4444;">*</span></label>
-          <input type="number" name="base_price" value="{{ old('base_price') }}" min="20" step="1" placeholder="Mín. €20"
+          <input type="number" name="base_price" value="<?php echo e(old('base_price')); ?>" min="20" step="1" placeholder="Mín. €20"
                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
         </div>
         <div>
           <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Precio de reserva (€)</label>
-          <input type="number" name="reserve_price" value="{{ old('reserve_price') }}" min="0" step="1" placeholder="Opcional"
+          <input type="number" name="reserve_price" value="<?php echo e(old('reserve_price')); ?>" min="0" step="1" placeholder="Opcional"
                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
         </div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div>
           <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Incremento mínimo (€)</label>
-          <input type="number" name="min_increment" value="{{ old('min_increment', 10) }}" min="1" step="1"
+          <input type="number" name="min_increment" value="<?php echo e(old('min_increment', 10)); ?>" min="1" step="1"
                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
         </div>
         <div>
@@ -111,7 +109,7 @@
         </ul>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
-        @php
+        <?php
           $fotosConfig = [
             ['name'=>'image',   'label'=>'Foto 1 — Principal', 'req'=>true],
             ['name'=>'image_2', 'label'=>'Foto 2',             'req'=>true],
@@ -120,39 +118,38 @@
             ['name'=>'image_5', 'label'=>'Foto 5',             'req'=>false],
             ['name'=>'image_6', 'label'=>'Foto 6',             'req'=>false],
           ];
-        @endphp
-        @foreach($fotosConfig as $foto)
+        ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $fotosConfig; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $foto): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
         <div>
           <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">
-            {{ $foto['label'] }} @if($foto['req'])<span style="color:#ef4444;">*</span>@endif
+            <?php echo e($foto['label']); ?> <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($foto['req']): ?><span style="color:#ef4444;">*</span><?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
           </label>
           <div style="border:2px dashed #d1d5db;border-radius:8px;overflow:hidden;background:#fafafa;position:relative;cursor:pointer;"
-               onclick="document.getElementById('{{ $foto['name'] }}_input').click()">
-            <img id="{{ $foto['name'] }}_preview"
+               onclick="document.getElementById('<?php echo e($foto['name']); ?>_input').click()">
+            <img id="<?php echo e($foto['name']); ?>_preview"
                  src="" alt=""
                  style="width:100%;height:120px;object-fit:cover;display:none;">
-            <div id="{{ $foto['name'] }}_placeholder"
+            <div id="<?php echo e($foto['name']); ?>_placeholder"
                  style="height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
               <span style="font-size:11px;color:#9ca3af;">Clic para subir</span>
             </div>
           </div>
-          <button type="button" id="{{ $foto['name'] }}_delete" onclick="deleteFoto('{{ $foto['name'] }}')" style="display:none;position:absolute;top:6px;right:6px;width:24px;height:24px;background:#ef4444;border:none;border-radius:50%;color:#fff;font-size:14px;font-weight:700;cursor:pointer;align-items:center;justify-content:center;z-index:10;">×</button>
-          <input type="file" id="{{ $foto['name'] }}_input" name="{{ $foto['name'] }}" accept="image/*"
+          <input type="file" id="<?php echo e($foto['name']); ?>_input" name="<?php echo e($foto['name']); ?>" accept="image/*"
                  
                  style="display:none;"
-                 onchange="previewFoto(this, '{{ $foto['name'] }}')">
+                 onchange="previewFoto(this, '<?php echo e($foto['name']); ?>')">
         </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
       </div>
-      {{-- Hidden inputs para fotos subidas desde mobile --}}
+      
       <div id="mobilePhotoInputs"></div>
 
-      {{-- QR para subir desde celu --}}
+      
       <div style="margin-top:20px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:18px;display:flex;align-items:center;gap:20px;">
         <div>
           <img id="qrImg"
-               src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data={{ urlencode(url('/mobile-upload/'.$uploadToken)) }}"
+               src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=<?php echo e(urlencode(url('/mobile-upload/'.$uploadToken))); ?>"
                style="width:110px;height:110px;border-radius:8px;">
         </div>
         <div style="flex:1;">
@@ -170,26 +167,12 @@
         reader.onload = function(e) {
           var preview = document.getElementById(name + '_preview');
           var placeholder = document.getElementById(name + '_placeholder');
-          var deleteBtn = document.getElementById(name + '_delete');
           preview.src = e.target.result;
           preview.style.display = 'block';
           placeholder.style.display = 'none';
-          if (deleteBtn) deleteBtn.style.display = 'flex';
         };
         reader.readAsDataURL(input.files[0]);
       }
-    }
-
-    function deleteFoto(name) {
-      var preview = document.getElementById(name + '_preview');
-      var placeholder = document.getElementById(name + '_placeholder');
-      var deleteBtn = document.getElementById(name + '_delete');
-      var input = document.getElementById(name + '_input');
-      preview.src = '';
-      preview.style.display = 'none';
-      placeholder.style.display = 'flex';
-      if (deleteBtn) deleteBtn.style.display = 'none';
-      input.value = '';
     }
     </script>
 
@@ -219,7 +202,7 @@
       <p style="font-size:13px;color:#92400e;margin:0;">⚠️ Tu lote será revisado por nuestro equipo en 24-48h. Te notificaremos por email cuando esté aprobado.</p>
     </div>
 
-    <input type="hidden" name="upload_token" value="{{ $uploadToken }}">
+    <input type="hidden" name="upload_token" value="<?php echo e($uploadToken); ?>">
 
     <button type="submit" style="width:100%;padding:14px;background:#1a56db;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;">
       Enviar lote para revisión →
@@ -227,7 +210,7 @@
   </form>
 
   <script>
-  const UPLOAD_TOKEN = '{{ $uploadToken }}';
+  const UPLOAD_TOKEN = '<?php echo e($uploadToken); ?>';
   let mobilePhotos = [];
 
   function syncMobilePhotos(photos) {
@@ -278,4 +261,6 @@
   }, 2000);
   </script>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/u396549633/domains/rialbids.com/public_html/resources/views/vendor/create.blade.php ENDPATH**/ ?>
