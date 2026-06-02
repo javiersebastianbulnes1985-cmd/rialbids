@@ -206,7 +206,12 @@ class AdminController extends \Illuminate\Routing\Controller
     public function approve($id)
     {
         $auction = Auction::findOrFail($id);
+        $dias = $auction->starts_at && $auction->end_time
+            ? (int) \Carbon\Carbon::parse($auction->starts_at)->diffInDays(\Carbon\Carbon::parse($auction->end_time))
+            : 30;
         $auction->status = 'active';
+        $auction->starts_at = now()->format('Y-m-d H:i:s');
+        $auction->end_time = now()->addDays($dias)->format('Y-m-d H:i:s');
         $auction->save();
 
         // Notificar al vendor
