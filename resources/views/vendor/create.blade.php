@@ -136,8 +136,8 @@
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
               <span style="font-size:11px;color:#9ca3af;">Clic para subir</span>
             </div>
+          <button type="button" id="{{ $foto['name'] }}_delete" onclick="event.stopPropagation();deleteFoto('{{ $foto['name'] }}')" style="display:none;position:absolute;top:6px;right:6px;width:24px;height:24px;background:#ef4444;border:none;border-radius:50%;color:#fff;font-size:14px;font-weight:700;cursor:pointer;align-items:center;justify-content:center;z-index:10;">×</button>
           </div>
-          <button type="button" id="{{ $foto['name'] }}_delete" onclick="deleteFoto('{{ $foto['name'] }}')" style="display:none;position:absolute;top:6px;right:6px;width:24px;height:24px;background:#ef4444;border:none;border-radius:50%;color:#fff;font-size:14px;font-weight:700;cursor:pointer;align-items:center;justify-content:center;z-index:10;">×</button>
           <input type="file" id="{{ $foto['name'] }}_input" name="{{ $foto['name'] }}" accept="image/*"
                  
                  style="display:none;"

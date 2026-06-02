@@ -134,6 +134,7 @@
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21,15 16,10 5,21"/></svg>
               <span style="font-size:11px;color:#9ca3af;">Clic para subir</span>
             </div>
+          <button type="button" id="<?php echo e($foto['name']); ?>_delete" onclick="event.stopPropagation();deleteFoto('<?php echo e($foto['name']); ?>')" style="display:none;position:absolute;top:6px;right:6px;width:24px;height:24px;background:#ef4444;border:none;border-radius:50%;color:#fff;font-size:14px;font-weight:700;cursor:pointer;align-items:center;justify-content:center;z-index:10;">×</button>
           </div>
           <input type="file" id="<?php echo e($foto['name']); ?>_input" name="<?php echo e($foto['name']); ?>" accept="image/*"
                  
@@ -167,12 +168,26 @@
         reader.onload = function(e) {
           var preview = document.getElementById(name + '_preview');
           var placeholder = document.getElementById(name + '_placeholder');
+          var deleteBtn = document.getElementById(name + '_delete');
           preview.src = e.target.result;
           preview.style.display = 'block';
           placeholder.style.display = 'none';
+          if (deleteBtn) deleteBtn.style.display = 'flex';
         };
         reader.readAsDataURL(input.files[0]);
       }
+    }
+
+    function deleteFoto(name) {
+      var preview = document.getElementById(name + '_preview');
+      var placeholder = document.getElementById(name + '_placeholder');
+      var deleteBtn = document.getElementById(name + '_delete');
+      var input = document.getElementById(name + '_input');
+      preview.src = '';
+      preview.style.display = 'none';
+      placeholder.style.display = 'flex';
+      if (deleteBtn) deleteBtn.style.display = 'none';
+      input.value = '';
     }
     </script>
 
