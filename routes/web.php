@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/perfil/tracking/{id}', [ProfileController::class, 'saveTracking'])->name('profile.tracking');
+    Route::post('/perfil/direccion', [ProfileController::class, 'saveAddress'])->name('profile.address');
     Route::get('/payment/{id}/checkout', [PaymentController::class, 'checkout'])->name('payment.checkout');
     Route::get('/payment/{id}/success', [PaymentController::class, 'success'])->name('payment.success');
     Route::post('/auctions/{id}/confirm', [PaymentController::class, 'confirmarEntrega'])->name('auctions.confirm');

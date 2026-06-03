@@ -214,6 +214,45 @@
         <p class="perfil-val">{{ $user->created_at->format('d/m/Y') }}</p>
       </div>
       <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--cream-dark)">
+        <p style="font-family:'Playfair Display',Georgia,serif;font-size:15px;color:var(--ink);margin:0 0 16px">Dirección de envío</p>
+        @if(session('address_saved'))
+          <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#166534">✅ Dirección guardada correctamente.</div>
+        @endif
+        <form method="POST" action="{{ route('profile.address') }}">
+          @csrf
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+            <div>
+              <label style="font-size:10px;font-weight:600;color:var(--ink-light);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px">Calle y número</label>
+              <input type="text" name="address" value="{{ old('address', $user->address) }}" placeholder="Calle Mayor 14, 2B" style="width:100%;padding:9px 12px;border:1px solid var(--cream-dark);border-radius:8px;font-size:13px;background:var(--cream);box-sizing:border-box">
+            </div>
+            <div>
+              <label style="font-size:10px;font-weight:600;color:var(--ink-light);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px">Ciudad</label>
+              <input type="text" name="city" value="{{ old('city', $user->city) }}" placeholder="Madrid" style="width:100%;padding:9px 12px;border:1px solid var(--cream-dark);border-radius:8px;font-size:13px;background:var(--cream);box-sizing:border-box">
+            </div>
+            <div>
+              <label style="font-size:10px;font-weight:600;color:var(--ink-light);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px">Código postal</label>
+              <input type="text" name="postal_code" value="{{ old('postal_code', $user->postal_code) }}" placeholder="28001" style="width:100%;padding:9px 12px;border:1px solid var(--cream-dark);border-radius:8px;font-size:13px;background:var(--cream);box-sizing:border-box">
+            </div>
+            <div>
+              <label style="font-size:10px;font-weight:600;color:var(--ink-light);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px">País</label>
+              <select name="country" style="width:100%;padding:9px 12px;border:1px solid var(--cream-dark);border-radius:8px;font-size:13px;background:var(--cream);box-sizing:border-box">
+                <option value="">— Seleccioná —</option>
+                <option value="España" {{ $user->country == 'España' ? 'selected' : '' }}>🇪🇸 España</option>
+                <option value="Portugal" {{ $user->country == 'Portugal' ? 'selected' : '' }}>🇵🇹 Portugal</option>
+                <option value="Reino Unido" {{ $user->country == 'Reino Unido' ? 'selected' : '' }}>🇬🇧 Reino Unido</option>
+                <option value="Alemania" {{ $user->country == 'Alemania' ? 'selected' : '' }}>🇩🇪 Alemania</option>
+                <option value="Otro" {{ $user->country == 'Otro' ? 'selected' : '' }}>🌍 Otro</option>
+              </select>
+            </div>
+            <div style="grid-column:1/-1">
+              <label style="font-size:10px;font-weight:600;color:var(--ink-light);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:4px">Teléfono</label>
+              <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" placeholder="+34 600 000 000" style="width:100%;padding:9px 12px;border:1px solid var(--cream-dark);border-radius:8px;font-size:13px;background:var(--cream);box-sizing:border-box">
+            </div>
+          </div>
+          <button type="submit" style="background:var(--ink);color:var(--gold);padding:10px 24px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.04em">Guardar dirección</button>
+        </form>
+      </div>
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--cream-dark)">
         <form method="POST" action="{{ route('logout') }}">
           @csrf
           <button type="submit" style="background:#fef2f2;color:#991b1b;border:1px solid #fca5a5;border-radius:8px;padding:9px 20px;font-size:12px;font-weight:600;cursor:pointer;letter-spacing:.04em">Cerrar sesión</button>

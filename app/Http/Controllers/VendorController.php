@@ -167,7 +167,9 @@ class VendorController extends \Illuminate\Routing\Controller
         if (!is_dir($pubPath)) mkdir($pubPath, 0755, true);
 
         foreach (['image'=>'image_path','image_2'=>'image_path_2','image_3'=>'image_path_3','image_4'=>'image_path_4','image_5'=>'image_path_5','image_6'=>'image_path_6'] as $input => $field) {
-            if ($request->hasFile($input) && $request->file($input)->isValid()) {
+            if ($request->boolean('delete_'.$input)) {
+                $auction->$field = null;
+            } elseif ($request->hasFile($input) && $request->file($input)->isValid()) {
                 $file = $request->file($input);
                 $fn = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
                 $file->move($pubPath, $fn);
@@ -176,7 +178,7 @@ class VendorController extends \Illuminate\Routing\Controller
         }
 
         $auction->save();
-        return redirect()->route('vendor.index')->with('success', 'Lote actualizado. Seguirá en revisión.');
+        return redirect()->route('vendor.edit', $auction->id)->with('success', 'Lote actualizado.');
     }
 
     public function marcarEnviado(Request $request, $id)

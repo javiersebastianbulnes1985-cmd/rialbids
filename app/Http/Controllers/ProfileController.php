@@ -11,6 +11,19 @@ class ProfileController extends \Illuminate\Routing\Controller
         $ventas = \App\Models\Auction::with('winner')->where('user_id',$user->id)->whereIn('status',['paid','shipped','delivered','completed'])->orderBy('updated_at','desc')->get();
         return view('profile.index', compact('user','bids','compras','ventas'));
     }
+
+    public function saveAddress(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'address'     => 'nullable|string|max:255',
+            'city'        => 'nullable|string|max:100',
+            'postal_code' => 'nullable|string|max:20',
+            'country'     => 'nullable|string|max:100',
+            'phone'       => 'nullable|string|max:30',
+        ]);
+        auth()->user()->update($request->only(['address','city','postal_code','country','phone']));
+        return redirect()->route('profile.index')->with('address_saved', true);
+    }
     public function saveTracking(Request $request, $id)
     {
         $auction = \App\Models\Auction::where('id',$id)->where('user_id',auth()->id())->where('status','paid')->firstOrFail();
