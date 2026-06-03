@@ -269,7 +269,12 @@ function switchTab(tab,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
-  btn.classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+const _tab = new URLSearchParams(window.location.search).get('tab');
+if(_tab){
+  const _btn = document.querySelector('.tab-btn[onclick*="'+_tab+'"]');
+  switchTab(_tab, _btn);
 }
 </script>
 @endsection
