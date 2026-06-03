@@ -36,7 +36,7 @@ class AdminController extends \Illuminate\Routing\Controller
         $completados = DB::select("
             SELECT a.id, a.title, a.final_price, a.commission_rate,
                    a.payment_released_at, a.stripe_transfer_id,
-                   w.name as comprador, s.name as vendedor
+                   w.name as comprador, w.email as comprador_email, w.address as comprador_address, w.city as comprador_city, w.postal_code as comprador_postal, w.country as comprador_country, w.phone as comprador_phone, s.name as vendedor
             FROM auctions a
             LEFT JOIN users w ON w.id = a.winner_id
             LEFT JOIN users s ON s.id = a.user_id
@@ -83,7 +83,7 @@ class AdminController extends \Illuminate\Routing\Controller
     public function desbloquearUsuario($id)
     {
         AppModelsSER::FINDORFAIL($ID)->UPDATE(['IS_ACTIVE'=>1]);
-        RETURN BACK()->WITH('SUCCESS','ÿÿÿ USUARIO DESBLOQUEADO.');
+        RETURN BACK()->WITH('SUCCESS','ï¿½ï¿½ï¿½ USUARIO DESBLOQUEADO.');
     }
 
     PUBLIC FUNCTION PAGOS()

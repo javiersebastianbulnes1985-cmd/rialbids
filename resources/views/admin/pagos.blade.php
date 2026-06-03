@@ -35,7 +35,19 @@
 @foreach($pendientes as $p)
 <tr style="border-bottom:1px solid #f3f4f6">
 <td style="padding:10px"><a href="{{ route('auctions.show', $p->id) }}" style="color:#1d4ed8;font-weight:600">#{{ $p->id }} {{ $p->title }}</a></td>
-<td style="padding:10px">{{ $p->comprador }}</td>
+<td style="padding:10px">
+  <strong>{{ $p->comprador }}</strong><br>
+  <small style="color:#6b7280">{{ $p->comprador_email ?? '' }}</small>
+  @if(!empty($p->comprador_address))
+  <br><small style="color:#374151;margin-top:2px;display:block">
+    {{ $p->comprador_address }}, {{ $p->comprador_city }} {{ $p->comprador_postal }}<br>
+    {{ $p->comprador_country }}
+    @if(!empty($p->comprador_phone)) &middot; {{ $p->comprador_phone }}@endif
+  </small>
+  @else
+  <br><small style="color:#ef4444">Sin dirección registrada</small>
+  @endif
+</td>
 <td style="padding:10px">{{ $p->vendedor }}</td>
 <td style="padding:10px;text-align:right;font-weight:700">EUR {{ number_format($p->final_price, 2) }}</td>
 <td style="padding:10px">{{ strtoupper($p->status) }}</td>
