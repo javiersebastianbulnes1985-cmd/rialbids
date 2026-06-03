@@ -60,15 +60,20 @@
     </div>
 
     <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:16px">
-      <h2 style="font-size:14px;font-weight:700;color:#111;margin:0 0 16px">Fotos <span style="font-weight:400;font-size:12px;color:#9ca3af">Las fotos actuales se mantienen si no subís nuevas</span></h2>
+      <h2 style="font-size:14px;font-weight:700;color:#111;margin:0 0 16px">Fotos <span style="font-weight:400;font-size:12px;color:#9ca3af">X para eliminar. Seleccioná archivo para reemplazar.</span></h2>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
         @php $fotoCampos = [['name'=>'image','field'=>'image_path','label'=>'Foto 1 — Principal'],['name'=>'image_2','field'=>'image_path_2','label'=>'Foto 2'],['name'=>'image_3','field'=>'image_path_3','label'=>'Foto 3'],['name'=>'image_4','field'=>'image_path_4','label'=>'Foto 4'],['name'=>'image_5','field'=>'image_path_5','label'=>'Foto 5'],['name'=>'image_6','field'=>'image_path_6','label'=>'Foto 6']]; @endphp
         @foreach($fotoCampos as $f)
-        <div>
+        <div id="slot_{{ $f['name'] }}">
           <label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:6px">{{ $f['label'] }}</label>
           @if(!empty($auction->{$f['field']}))
-            <img src="{{ str_starts_with($auction->{$f['field']},'http') ? $auction->{$f['field']} : asset('storage/'.$auction->{$f['field']}) }}"
-              style="width:100%;height:100px;object-fit:cover;border-radius:8px;border:1px solid #e5e7eb;margin-bottom:6px">
+            <div style="position:relative;margin-bottom:6px">
+              <img id="img_{{ $f['name'] }}" src="{{ str_starts_with($auction->{$f['field']},'http') ? $auction->{$f['field']} : asset('storage/'.$auction->{$f['field']}) }}"
+                style="width:100%;height:100px;object-fit:cover;border-radius:8px;border:1px solid #e5e7eb;display:block">
+              <button type="button" onclick="eliminarFoto('{{ $f['name'] }}')"
+                style="position:absolute;top:4px;right:4px;width:22px;height:22px;background:#ef4444;border:none;border-radius:50%;color:#fff;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;">×</button>
+            </div>
+            <input type="hidden" name="delete_{{ $f['name'] }}" id="del_{{ $f['name'] }}" value="0">
           @endif
           <input type="file" name="{{ $f['name'] }}" accept="image/*"
             style="width:100%;font-size:12px;padding:6px;border:1px solid #d1d5db;border-radius:6px;box-sizing:border-box">
@@ -76,6 +81,42 @@
         @endforeach
       </div>
     </div>
+
+    <script>
+    function eliminarFoto(name) {
+      document.getElementById('del_' + name).value = '1';
+      var img = document.getElementById('img_' + name);
+      img.style.opacity = '0.15';
+      img.style.filter = 'grayscale(100%)';
+      img.parentElement.querySelector('button').style.background = '#9ca3af';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('input[type=file]').forEach(function(input) {
+        input.addEventListener('change', function() {
+          var name = this.name;
+          var img = document.getElementById('img_' + name);
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            if (img) {
+              img.src = e.target.result;
+              img.style.opacity = '1';
+              img.style.filter = '';
+            } else {
+              var newImg = document.createElement('img');
+              newImg.src = e.target.result;
+              newImg.id = 'img_' + name;
+              newImg.style.cssText = 'width:100%;height:100px;object-fit:cover;border-radius:8px;border:1px solid #e5e7eb;display:block;margin-bottom:6px';
+              var slot = document.getElementById('slot_' + name);
+              if (slot) slot.insertBefore(newImg, slot.firstChild);
+              else input.parentNode.insertBefore(newImg, input);
+            }
+          };
+          reader.readAsDataURL(this.files[0]);
+        });
+      });
+    });
+    </script>
 
     <div style="margin-bottom:16px">
       <a href="{{ url('/auctions/' . $auction->id) }}" target="_blank"
@@ -94,3 +135,5 @@
   </form>
 </div>
 @endsection
+
+
