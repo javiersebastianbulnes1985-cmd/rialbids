@@ -54,7 +54,32 @@ class PaymentController extends \Illuminate\Routing\Controller
     public function success($auctionId)
     {
         $auction = Auction::findOrFail($auctionId);
+        $auction->load('winner', 'user');
         $auction->update(['status' => 'paid']);
+
+        // Notificar al admin
+        \Illuminate\Support\Facades\Mail::send([], [], function($m) use ($auction) {
+            $buyer = $auction->winner;
+            $seller = $auction->user;
+            $m->to('info@rialbids.com')
+              ->subject('Pago recibido — ' . $auction->title)
+              ->html('<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
+                <div style="background:#1a3a6b;padding:20px;border-radius:10px 10px 0 0;text-align:center">
+                  <h1 style="color:#c9a84c;margin:0;font-size:20px">RialBids — Nuevo pago</h1>
+                </div>
+                <div style="padding:24px;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 10px 10px">
+                  <h2 style="color:#16a34a;margin:0 0 16px">Pago confirmado</h2>
+                  <table style="width:100%;font-size:14px;border-collapse:collapse">
+                    <tr><td style="padding:8px 0;color:#6b7280">Lote</td><td style="font-weight:700">' . e($auction->title) . ' (#' . $auction->id . ')</td></tr>
+                    <tr><td style="padding:8px 0;color:#6b7280">Monto</td><td style="font-weight:700;color:#16a34a">€' . number_format($auction->final_price ?? $auction->current_price, 2) . '</td></tr>
+                    <tr><td style="padding:8px 0;color:#6b7280">Comprador</td><td>' . e($buyer ? $buyer->name : '-') . ' (' . e($buyer ? $buyer->email : '-') . ')</td></tr>
+                    <tr><td style="padding:8px 0;color:#6b7280">Vendedor</td><td>' . e($seller ? $seller->name : '-') . '</td></tr>
+                    <tr><td style="padding:8px 0;color:#6b7280">Dirección envío</td><td>' . e($buyer && $buyer->address ? $buyer->address . ', ' . $buyer->city . ' ' . $buyer->postal_code . ', ' . $buyer->country : 'Sin dirección') . '</td></tr>
+                  </table>
+                  <a href="https://rialbids.com/admin/pagos" style="background:#1a3a6b;color:#c9a84c;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;display:inline-block;margin-top:20px">Ver en panel →</a>
+                </div>
+              </div>');
+        });
 
         return redirect()->route('profile.index')
             ->with('success', '¡Pago realizado con éxito! El vendedor se pondrá en contacto contigo.');
