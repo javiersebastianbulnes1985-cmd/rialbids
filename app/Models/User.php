@@ -39,6 +39,7 @@ class User extends Authenticatable
         'stripe_account_id',
         'stripe_onboarding_complete',
         'is_active',
+        'unpaid_count',
         'is_featured_seller',
         'bio',
         'business_name',
