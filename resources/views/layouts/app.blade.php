@@ -159,9 +159,19 @@
       @elseif(auth()->user()->isSeller())
         <a href="{{ route('vendor.index') }}" style="font-size:20px;text-decoration:none">📦</a>
       @endif
-      <a href="{{ route('profile.index') }}" style="width:32px;height:32px;border-radius:50%;background:#1a56db;display:flex;align-items:center;justify-content:center;text-decoration:none">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      </a>
+      <div style="position:relative;" x-data="{ mopen: false }">
+        <button @click="mopen = !mopen" style="width:32px;height:32px;border-radius:50%;background:#1a56db;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </button>
+        <div x-show="mopen" @click.away="mopen = false"
+             style="position:absolute;right:0;top:40px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.12);min-width:160px;z-index:200;padding:8px 0;">
+          <a href="{{ route('profile.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">👤 Mi perfil</a>
+          <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit" style="width:100%;padding:10px 16px;font-size:13px;color:#ef4444;text-align:left;background:none;border:none;cursor:pointer;">→ Salir</button>
+          </form>
+        </div>
+      </div>
     @endif
   </div>
 </div>
