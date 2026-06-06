@@ -1,6 +1,5 @@
-@extends('layouts.app')
-@section('title','Vender en RialBids')
-@section('content')
+<?php $__env->startSection('title','Vender en RialBids'); ?>
+<?php $__env->startSection('content'); ?>
 <div style="max-width:800px;margin:48px auto;padding:0 24px;">
 
   <h1 style="font-size:28px;font-weight:700;color:#111;margin-bottom:8px;">Vendé en RialBids</h1>
@@ -54,24 +53,24 @@
     <h2 style="font-size:20px;font-weight:700;color:#111;margin-bottom:4px;">Activá tu cuenta de vendedor</h2>
     <p style="font-size:14px;color:#6b7280;margin-bottom:24px;">Gratis. Sin compromiso. Tu cuenta se activa al instante.</p>
 
-    @if($errors->any())
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($errors->any()): ?>
       <div style="background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
-        @foreach($errors->all() as $error)<p>{{ $error }}</p>@endforeach
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><p><?php echo e($error); ?></p><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
       </div>
-    @endif
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
     <form action="/seller-request" method="POST">
-      @csrf
+      <?php echo csrf_field(); ?>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
         <div>
           <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Nombre completo *</label>
-          <input type="text" name="name" value="{{ old('name') }}" required
+          <input type="text" name="name" value="<?php echo e(old('name')); ?>" required
                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
         </div>
         <div>
           <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Email *</label>
-          <input type="email" name="email" value="{{ old('email') }}" required
+          <input type="email" name="email" value="<?php echo e(old('email')); ?>" required
                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
         </div>
       </div>
@@ -103,7 +102,7 @@
       <div style="margin-bottom:24px;">
         <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">¿Qué querés vender? *</label>
         <textarea name="what_sells" rows="3" required
-                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">{{ old('what_sells') }}</textarea>
+                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;"><?php echo e(old('what_sells')); ?></textarea>
         <p style="font-size:12px;color:#9ca3af;margin-top:4px;">Describí brevemente el tipo de objetos que querés subastar.</p>
       </div>
 
@@ -114,4 +113,6 @@
   </div>
 
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/u396549633/domains/rialbids.com/public_html/resources/views/seller-request/create.blade.php ENDPATH**/ ?>

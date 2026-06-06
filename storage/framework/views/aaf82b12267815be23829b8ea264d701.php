@@ -1,6 +1,5 @@
-@extends('layouts.app')
-@section('title','Quiénes somos — RialBids')
-@section('content')
+<?php $__env->startSection('title','Quiénes somos — RialBids'); ?>
+<?php $__env->startSection('content'); ?>
 <style>
 .page-wrap{max-width:800px;margin:48px auto;padding:0 24px}
 .page-tag{display:inline-block;background:#f3f4f6;color:#374151;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:14px}
@@ -39,7 +38,7 @@
   </div>
 
   <div class="stats">
-    <div class="stat"><div class="stat-num">✓</div><div class="stat-label">Sin comisión</div><div class="stat-sub">En tu primer lote</div></div>
+    <div class="stat"><div class="stat-num">9%</div><div class="stat-label">Comisión + €3</div><div class="stat-sub">La más competitiva de Europa</div></div>
     <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Pago seguro</div><div class="stat-sub">Custodia hasta confirmar entrega</div></div>
     <div class="stat"><div class="stat-num">7</div><div class="stat-label">Días de subasta</div><div class="stat-sub">Con anti-sniping activo</div></div>
   </div>
@@ -59,4 +58,6 @@
     </div>
   </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH /home/u396549633/domains/rialbids.com/public_html/resources/views/pages/about.blade.php ENDPATH**/ ?>

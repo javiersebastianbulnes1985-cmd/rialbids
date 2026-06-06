@@ -255,11 +255,13 @@ document.addEventListener('DOMContentLoaded',function(){
           opts.forEach(function(o){
             if(o.getAttribute('data-language')===lang) o.click();
           });
-        },500);
+          },800);
+
         clearInterval(interval);
       }
-      if(tries>20) clearInterval(interval);
-    },300);
+      if(tries>40) clearInterval(interval);
+      },800);
+
   }
 });
 </script>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><title>Test Translate</title></head>
+<body>
+<h1>Bienvenido a RialBids</h1>
+<p>Subastá tus objetos al mejor precio en Europa.</p>
+<p>Registrate como vendedor y empezá hoy.</p>
+<div id="google_translate_element" style="display:none"></div>
+<script>
+function googleTranslateElementInit(){
+  new google.translate.TranslateElement({pageLanguage:'es',autoDisplay:true},'google_translate_element');
+}
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<style>
+.goog-te-banner-frame{display:none!important;}
+body{top:0!important;}
+.goog-te-gadget{display:none!important;}
+.goog-te-menu-value{display:none!important;}
+</style>
+</body>
+</html>
