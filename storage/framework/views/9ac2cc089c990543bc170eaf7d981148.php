@@ -14,6 +14,8 @@
     .input:focus { border-color:#1a56db; }
     label { font-size:13px; font-weight:500; color:#374151; display:block; margin-bottom:5px; }
   </style>
+  <meta name="google-translate-key" content="<?php echo e(env('GOOGLE_TRANSLATE_API_KEY')); ?>">
+  <script src="<?php echo e(asset('js/translate.js')); ?>" defer></script>
 </head>
 <body style="background:#f3f4f6;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
   <a href="/" style="text-decoration:none;margin-bottom:24px;display:flex;align-items:center;gap:8px;">

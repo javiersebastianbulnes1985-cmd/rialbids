@@ -1,5 +1,5 @@
 
-// RialBids Google Translate v2
+// RialBids Google Translate v3
 (function() {
   var supportedLangs = ['es', 'pt', 'de', 'en', 'it', 'fr'];
   var defaultLang = 'es';
@@ -12,14 +12,13 @@
 
   function getTextNodes(root) {
     var walker = document.createTreeWalker(
-      root,
-      NodeFilter.SHOW_TEXT,
+      root, NodeFilter.SHOW_TEXT,
       {
         acceptNode: function(node) {
           var parent = node.parentElement;
           if (!parent) return NodeFilter.FILTER_REJECT;
           var tag = parent.tagName.toLowerCase();
-          var skip = ['script','style','noscript','code','pre','input','textarea','select'];
+          var skip = ['script','style','noscript','code','pre','select'];
           if (skip.includes(tag)) return NodeFilter.FILTER_REJECT;
           if (!node.textContent.trim()) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
@@ -32,8 +31,7 @@
     return nodes;
   }
 
-  function translatePage(targetLang) {
-    if (targetLang === 'es') return;
+  function doTranslate(targetLang) {
     var apiKey = document.querySelector('meta[name="google-translate-key"]').getAttribute('content');
     var textNodes = getTextNodes(document.body);
     var texts = textNodes.map(function(n) { return n.textContent.trim(); });
@@ -41,8 +39,7 @@
     var batchSize = 100;
     for (var i = 0; i < texts.length; i += batchSize) {
       (function(batch, batchNodes) {
-        var url = 'https://translation.googleapis.com/language/translate/v2?key=' + apiKey;
-        fetch(url, {
+        fetch('https://translation.googleapis.com/language/translate/v2?key=' + apiKey, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({q: batch, source: 'es', target: targetLang, format: 'text'})
@@ -58,9 +55,10 @@
       })(texts.slice(i, i + batchSize), textNodes.slice(i, i + batchSize));
     }
 
+    // Translate placeholders
     var inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
-    var placeholders = Array.from(inputs).map(function(el) { return el.getAttribute('placeholder'); });
-    if (placeholders.length) {
+    if (inputs.length) {
+      var placeholders = Array.from(inputs).map(function(el) { return el.getAttribute('placeholder'); });
       fetch('https://translation.googleapis.com/language/translate/v2?key=' + apiKey, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -75,6 +73,13 @@
         }
       });
     }
+  }
+
+  function translatePage(targetLang) {
+    if (targetLang === 'es') return;
+    // Run immediately and again after 800ms for dynamic content
+    doTranslate(targetLang);
+    setTimeout(function() { doTranslate(targetLang); }, 800);
   }
 
   document.addEventListener('DOMContentLoaded', function() {
