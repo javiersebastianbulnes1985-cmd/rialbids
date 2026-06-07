@@ -62,7 +62,7 @@ $esGanador=$ended&&$auction->winner_id&&auth()->id()===$auction->winner_id;
 @endif
 </div>
 @if(!empty($auction->condition))
-<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px 16px;margin-bottom:12px;font-size:13px;color:#166534;font-weight:600;">Estado: {{ ucfirst(str_replace("_"," ",$auction->condition)) }}</div>
+<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px 16px;margin-bottom:12px;font-size:13px;color:#166534;font-weight:600;"><span>Estado:</span> {{ ucfirst(str_replace("_"," ",$auction->condition)) }}</div>
 @endif
 @if($auction->description)
 <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:16px;">
@@ -173,8 +173,8 @@ $esGanador=$ended&&$auction->winner_id&&auth()->id()===$auction->winner_id;
 @endif
 </div>
 <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px;font-size:13px;color:#1e40af;margin-bottom:10px;">
-<div style="font-weight:600;margin-bottom:4px;">🛡 Protección al comprador</div>
-<div style="font-size:12px;color:#3b82f6;">Tu pago está seguro · Pago protegido</div>
+<div style="font-weight:600;margin-bottom:4px;">🛡 <span>Protección al comprador</span></div>
+<div style="font-size:12px;color:#3b82f6;"><span>Tu pago está seguro · Pago protegido</span></div>
 </div>
 <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:14px;">
 <div style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">Métodos de pago</div>

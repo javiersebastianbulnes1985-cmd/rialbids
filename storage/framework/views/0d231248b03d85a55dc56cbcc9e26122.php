@@ -84,7 +84,6 @@
   gtag('js', new Date());
   gtag('config', 'G-H6ZL62CRBV');
 </script>
-<script src="https://elfsightcdn.com/platform.js" async></script>
   <meta name="google-translate-key" content="<?php echo e(env('GOOGLE_TRANSLATE_API_KEY')); ?>">
   <script src="<?php echo e(asset('js/translate.js')); ?>" defer></script>
 </head>
@@ -241,7 +240,6 @@ function acceptCookies(){document.getElementById("cookie-banner").style.display=
 function rejectCookies(){document.getElementById("cookie-banner").style.display="none";localStorage.setItem("ck","0");}
 window.addEventListener("load",function(){var c=localStorage.getItem("ck");if(c===null){document.getElementById("cookie-banner").style.display="flex";}});
 </script>
-<div class="elfsight-app-bb500c4c-c385-4e58-8022-9cc30b5bf4a3" data-elfsight-app-lazy></div>
 <script>
 document.addEventListener('DOMContentLoaded',function(){
   var lang='<?php echo e($detected_lang ?? "es"); ?>';
