@@ -1,5 +1,5 @@
 
-// RialBids Google Translate v3
+// RialBids Google Translate v4
 (function() {
   var supportedLangs = ['es', 'pt', 'de', 'en', 'it', 'fr'];
   var defaultLang = 'es';
@@ -18,7 +18,7 @@
           var parent = node.parentElement;
           if (!parent) return NodeFilter.FILTER_REJECT;
           var tag = parent.tagName.toLowerCase();
-          var skip = ['script','style','noscript','code','pre','select'];
+          var skip = ['script','style','noscript','code','pre','select','svg','path'];
           if (skip.includes(tag)) return NodeFilter.FILTER_REJECT;
           if (!node.textContent.trim()) return NodeFilter.FILTER_REJECT;
           return NodeFilter.FILTER_ACCEPT;
@@ -35,6 +35,7 @@
     var apiKey = document.querySelector('meta[name="google-translate-key"]').getAttribute('content');
     var textNodes = getTextNodes(document.body);
     var texts = textNodes.map(function(n) { return n.textContent.trim(); });
+    if (!texts.length) return;
 
     var batchSize = 100;
     for (var i = 0; i < texts.length; i += batchSize) {
@@ -55,7 +56,6 @@
       })(texts.slice(i, i + batchSize), textNodes.slice(i, i + batchSize));
     }
 
-    // Translate placeholders
     var inputs = document.querySelectorAll('input[placeholder], textarea[placeholder]');
     if (inputs.length) {
       var placeholders = Array.from(inputs).map(function(el) { return el.getAttribute('placeholder'); });
@@ -77,9 +77,9 @@
 
   function translatePage(targetLang) {
     if (targetLang === 'es') return;
-    // Run immediately and again after 800ms for dynamic content
     doTranslate(targetLang);
-    setTimeout(function() { doTranslate(targetLang); }, 800);
+    setTimeout(function() { doTranslate(targetLang); }, 1000);
+    setTimeout(function() { doTranslate(targetLang); }, 3000);
   }
 
   document.addEventListener('DOMContentLoaded', function() {
