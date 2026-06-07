@@ -52,7 +52,7 @@
     </div>
     <button type="submit" style="width:100%;padding:11px;background:#1a56db;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;">Iniciar sesión</button>
     <p style="text-align:center;margin-top:16px;font-size:13px;color:#6b7280;">
-      ¿No tenés cuenta? <a href="{{ route('register') }}" style="color:#1a56db;font-weight:500;">Registrarse</a>
+      <span>¿No tenés cuenta?</span> <a href="{{ route('register') }}" style="color:#1a56db;font-weight:500;">Registrarse</a>
     </p>
   </form>
 </x-guest-layout>
