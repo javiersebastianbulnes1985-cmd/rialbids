@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ config('app.name', 'RialBids') }}</title>
+  <title><?php echo e(config('app.name', 'RialBids')); ?></title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -14,8 +14,6 @@
     .input:focus { border-color:#1a56db; }
     label { font-size:13px; font-weight:500; color:#374151; display:block; margin-bottom:5px; }
   </style>
-  <meta name="google-translate-key" content="{{ env('GOOGLE_TRANSLATE_API_KEY') }}">
-  <script src="{{ asset('js/translate.js') }}" defer></script>
 </head>
 <body style="background:#f3f4f6;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
   <a href="/" style="text-decoration:none;margin-bottom:24px;display:flex;align-items:center;gap:8px;">
@@ -25,7 +23,9 @@
     <span style="font-weight:700;font-size:20px;color:#1a56db;">RialBids</span>
   </a>
   <div style="background:#fff;border-radius:12px;padding:32px;width:100%;max-width:420px;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-    {{ $slot }}
+    <?php echo e($slot); ?>
+
   </div>
 </body>
 </html>
+<?php /**PATH /home/u396549633/domains/rialbids.com/public_html/resources/views/layouts/guest.blade.php ENDPATH**/ ?>
