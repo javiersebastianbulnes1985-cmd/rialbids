@@ -202,19 +202,19 @@
       <p class="footer-brand-desc">Marketplace de subastas online. Objetos únicos disponibles cada semana, verificados por expertos.</p>
     </div>
     <div>
-      <div class="footer-col-title">Comprar</div>
+      <div class="footer-col-title"><span>Comprar</span></div>
       <a href="{{ route('pages.como-comprar') }}" class="footer-link">Cómo comprar</a>
       <a href="/proteccion-al-comprador" class="footer-link">Protección al comprador</a>
       <a href="/faq" class="footer-link">Preguntas frecuentes</a>
       <a href="/sobre-nosotros" class="footer-link">Sobre nosotros</a>
     </div>
     <div>
-      <div class="footer-col-title">Vender</div>
+      <div class="footer-col-title"><span>Vender</span></div>
       <a href="/como-vender" class="footer-link">Cómo vender</a>
       <a href="/garantia" class="footer-link">Garantía RialBids</a>
     </div>
     <div>
-      <div class="footer-col-title">Legal</div>
+      <div class="footer-col-title"><span>Legal</span></div>
       <a href="{{ route('pages.terminos') }}" class="footer-link">Términos y condiciones</a>
       <a href="/pagos-disputas" class="footer-link">Pagos y disputas</a>
       <a href="{{ route('pages.privacidad') }}" class="footer-link">Política de privacidad</a>
