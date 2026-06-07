@@ -122,7 +122,7 @@ $esGanador=$ended&&$auction->winner_id&&auth()->id()===$auction->winner_id;
 <div style="text-align:center;padding:12px 0;">
 <p style="font-size:13px;color:#6b7280;margin-bottom:12px;">Inicia sesión para realizar una oferta</p>
 <a href="{{ route('login') }}" style="display:block;width:100%;padding:14px;background:#1a56db;color:#fff;border-radius:8px;font-size:15px;font-weight:600;text-align:center;text-decoration:none;">Iniciar sesión</a>
-<p style="font-size:12px;color:#9ca3af;margin-top:8px;">¿No tienes cuenta? <a href="{{ route('register') }}" style="color:#1a56db;">Regístrate gratis</a></p>
+<p style="font-size:12px;color:#9ca3af;margin-top:8px;"><span>¿No tienes cuenta?</span> <a href="{{ route('register') }}" style="color:#1a56db;">Regístrate gratis</a></p>
 </div>
 @elseif(auth()->user()->id === $auction->user_id)
 <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:14px;text-align:center;">
