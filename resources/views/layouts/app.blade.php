@@ -85,6 +85,8 @@
   gtag('config', 'G-H6ZL62CRBV');
 </script>
 <script src="https://elfsightcdn.com/platform.js" async></script>
+  <meta name="google-translate-key" content="{{ env('GOOGLE_TRANSLATE_API_KEY') }}">
+  <script src="{{ asset('js/translate.js') }}" defer></script>
 </head>
 <body>
 <nav class="nav">
