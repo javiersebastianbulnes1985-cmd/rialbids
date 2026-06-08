@@ -86,6 +86,14 @@
 </script>
   <meta name="google-translate-key" content="{{ env('GOOGLE_TRANSLATE_API_KEY') }}">
   <script src="{{ asset('js/translate.js') }}" defer></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-10831309509"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag("js", new Date());
+  gtag("config", "AW-10831309509");
+</script>
 </head>
 <body>
 <nav class="nav">
@@ -290,7 +298,7 @@ function rbSubmitPopup(){
   }).catch(function(){rbClosePopup();});
 }
 window.addEventListener("load",function(){
-  if(!rbGetCookie("rb_popup_v3")){setTimeout(function(){var p=document.getElementById("rb-popup");if(p)p.style.display="flex";},3000);}
+  if(!rbGetCookie("rb_popup_v3")){setTimeout(function(){var p=document.getElementById("rb-popup");if(p)p.style.display="flex";},1500);}
 });
 </script>
 <!-- FIN POPUP -->
