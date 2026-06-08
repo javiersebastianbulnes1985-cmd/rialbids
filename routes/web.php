@@ -117,3 +117,6 @@ Route::get('/auth/facebook/callback', [App\Http\Controllers\Auth\SocialiteContro
 Route::post('/webhook/lead', [App\Http\Controllers\WebhookLeadController::class, 'store'])->name('webhook.lead');
 
 Route::get('/vendor-preview', [App\Http\Controllers\VendorController::class, 'indexNew'])->middleware(['auth','is.vendedor'])->name('vendor.preview');
+
+// Popup suscripcion
+Route::post('/subscribe-popup', [App\Http\Controllers\PopupSubscribeController::class, 'store']);

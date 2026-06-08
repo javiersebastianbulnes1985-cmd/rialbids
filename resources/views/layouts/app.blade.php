@@ -263,5 +263,46 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 });
 </script>
+
+<!-- POPUP SUSCRIPCION -->
+<div id="rb-popup" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.75);z-index:9999;align-items:center;justify-content:center;backdrop-filter:blur(4px);">
+  <div style="background:#fff;border-radius:20px;padding:40px 36px;max-width:420px;width:92%;position:relative;box-shadow:0 25px 80px rgba(0,0,0,0.35);">
+    <button onclick="rbClosePopup()" style="position:absolute;top:14px;right:18px;background:none;border:none;font-size:20px;cursor:pointer;color:#9ca3af;line-height:1;">✕</button>
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-size:48px;margin-bottom:14px;">📦</div>
+      <h2 style="font-size:22px;font-weight:800;color:#1a3a6b;margin:0 0 10px;line-height:1.3;">¿Tenés objetos en casa<br>que no usás?</h2>
+      <p style="color:#6b7280;font-size:14px;margin:0;line-height:1.6;">Subástalos en RialBids y ganá dinero,<br>o recibí alertas de nuevos lotes.</p>
+    </div>
+    <input type="email" id="rb-popup-email" placeholder="tu@email.com" style="width:100%;padding:13px 16px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;outline:none;font-family:Inter,sans-serif;box-sizing:border-box;margin-bottom:10px;" onfocus="this.style.borderColor='#1a3a6b'" onblur="this.style.borderColor='#e5e7eb'">
+    <button onclick="rbSubmitPopup()" style="width:100%;background:linear-gradient(135deg,#c9a84c,#b8943d);color:#fff;border:none;padding:13px;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;">Recibir alertas de lotes</button>
+    <button onclick="window.location.href='/seller-request';rbClosePopup();" style="width:100%;background:#fff;color:#1a3a6b;border:2px solid #1a3a6b;padding:11px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;">Quiero vender en RialBids</button>
+  </div>
+</div>
+<script>
+function rbClosePopup(){
+  document.getElementById('rb-popup').style.display='none';
+  localStorage.setItem('rb_popup_shown','1');
+}
+function rbSubmitPopup(){
+  var email=document.getElementById('rb-popup-email').value;
+  if(!email||!email.includes('@')){alert('Ingresa un email valido');return;}
+  fetch('/subscribe-popup',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','X-CSRF-TOKEN':document.querySelector('meta[name="csrf-token"]').content},
+    body:JSON.stringify({email:email})
+  }).then(function(){
+    rbClosePopup();
+    alert('Gracias! Te avisamos de nuevos lotes.');
+  }).catch(function(){rbClosePopup();});
+}
+window.addEventListener('load',function(){
+  if(!localStorage.getItem('rb_popup_shown')){
+    setTimeout(function(){
+      document.getElementById('rb-popup').style.display='flex';
+    },5000);
+  }
+});
+</script>
+<!-- FIN POPUP -->
 </body>
 </html>
