@@ -22,7 +22,7 @@ class PopupSubscribeController extends Controller
                 'Content-Type' => 'application/json',
             ])->post('https://api.brevo.com/v3/contacts', [
                 'email' => $email,
-                'listIds' => [14],
+                'listIds' => [15],
                 'updateEnabled' => true,
             ]);
         } catch (\Exception $e) {
