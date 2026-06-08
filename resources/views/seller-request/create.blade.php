@@ -1,58 +1,27 @@
 @extends('layouts.app')
 @section('title','Vender en RialBids')
 @section('content')
-<div style="max-width:800px;margin:48px auto;padding:0 24px;">
+<div style="max-width:600px;margin:48px auto;padding:0 24px;">
 
-  <h1 style="font-size:28px;font-weight:700;color:#111;margin-bottom:8px;">Vendé en RialBids</h1>
-  <p style="font-size:15px;color:#6b7280;margin-bottom:40px;">Subastá tus objetos al mejor precio. Subastá tus objetos al mejor precio en Europa.</p>
-
-  <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:48px;">
-
-    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;display:flex;gap:16px;align-items:flex-start;">
-      <div style="width:36px;height:36px;background:#eff6ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#1a56db;">1</div>
-      <div>
-        <h3 style="font-size:15px;font-weight:600;color:#111;margin-bottom:4px;">Registrate como vendedor</h3>
-        <p style="font-size:13px;color:#6b7280;line-height:1.6;">Completá el formulario de abajo. Tu cuenta se activa automáticamente.</p>
-      </div>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;display:flex;gap:16px;align-items:flex-start;">
-      <div style="width:36px;height:36px;background:#eff6ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#1a56db;">2</div>
-      <div>
-        <h3 style="font-size:15px;font-weight:600;color:#111;margin-bottom:4px;">Subí tu lote</h3>
-        <p style="font-size:13px;color:#6b7280;line-height:1.6;">Completá título, descripción, fotos y precio base desde tu panel de vendedor.</p>
-      </div>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;display:flex;gap:16px;align-items:flex-start;">
-      <div style="width:36px;height:36px;background:#eff6ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#1a56db;">3</div>
-      <div>
-        <h3 style="font-size:15px;font-weight:600;color:#111;margin-bottom:4px;">Aprobación en menos de 24hs</h3>
-        <p style="font-size:13px;color:#6b7280;line-height:1.6;">Revisamos cada lote antes de publicarlo para garantizar calidad y confianza.</p>
-      </div>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;display:flex;gap:16px;align-items:flex-start;">
-      <div style="width:36px;height:36px;background:#eff6ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#1a56db;">4</div>
-      <div>
-        <h3 style="font-size:15px;font-weight:600;color:#111;margin-bottom:4px;">La subasta comienza</h3>
-        <p style="font-size:13px;color:#6b7280;line-height:1.6;">Tu lote aparece en el catálogo y los compradores pujan. Seguí el progreso desde tu panel.</p>
-      </div>
-    </div>
-
-    <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;display:flex;gap:16px;align-items:flex-start;">
-      <div style="width:36px;height:36px;background:#eff6ff;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;color:#1a56db;">5</div>
-      <div>
-        <h3 style="font-size:15px;font-weight:600;color:#111;margin-bottom:4px;">Cobrás tu venta</h3>
-        <p style="font-size:13px;color:#6b7280;line-height:1.6;">Cuando tu lote se vende, recibís el pago directamente en tu cuenta.</p>
-      </div>
-    </div>
-
-  </div>
+  <h1 style="font-size:28px;font-weight:700;color:#111;margin-bottom:8px;text-align:center;">Vendé en RialBids</h1>
+  <p style="font-size:15px;color:#6b7280;margin-bottom:32px;text-align:center;">Subastá tus objetos al mejor precio en Europa. Gratis. Sin compromiso.</p>
 
   <div style="background:#fff;border:2px solid #1a56db;border-radius:12px;padding:32px;">
     <h2 style="font-size:20px;font-weight:700;color:#111;margin-bottom:4px;">Activá tu cuenta de vendedor</h2>
-    <p style="font-size:14px;color:#6b7280;margin-bottom:24px;">Gratis. Sin compromiso. Tu cuenta se activa al instante.</p>
+    <p style="font-size:14px;color:#6b7280;margin-bottom:24px;">Tu cuenta se activa al instante.</p>
+
+    <a href="{{ route('auth.google') }}" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-weight:500;color:#374151;background:#fff;text-decoration:none;margin-bottom:10px;box-sizing:border-box;">
+      <img src="https://www.google.com/favicon.ico" style="width:18px;height:18px;"> Registrarme con Google
+    </a>
+    <a href="{{ route('auth.facebook') }}" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:10px 14px;border:none;border-radius:8px;font-size:14px;font-weight:500;color:#fff;background:#1877f2;text-decoration:none;margin-bottom:20px;box-sizing:border-box;">
+      <img src="https://www.facebook.com/favicon.ico" style="width:18px;height:18px;"> Registrarme con Facebook
+    </a>
+
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+      <div style="flex:1;height:1px;background:#e5e7eb;"></div>
+      <span style="font-size:12px;color:#9ca3af;">o completá el formulario</span>
+      <div style="flex:1;height:1px;background:#e5e7eb;"></div>
+    </div>
 
     @if($errors->any())
       <div style="background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
