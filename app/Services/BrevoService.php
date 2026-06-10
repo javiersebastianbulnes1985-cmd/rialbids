@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Log;
 
 class BrevoService
 {
-    public function addContactToList(string $email, string $name, string $locale): void
+    public function addContactToList(string $email, string $name, ?string $locale): void
     {
         $listMap = [
             "es" => 3,
@@ -15,7 +15,7 @@ class BrevoService
             "en" => 5,
             "de" => 6,
         ];
-        $listId = $listMap[$locale] ?? 3;
+        $listId = $listMap[$locale ?? "es"] ?? 3;
 
         try {
             Http::withHeaders([
