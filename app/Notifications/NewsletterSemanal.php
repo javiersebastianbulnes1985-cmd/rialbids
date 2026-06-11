@@ -16,19 +16,20 @@ class NewsletterSemanal extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        $msg = (new MailMessage)
-            ->subject('Nuevos lotes esta semana en RialBids')
-            ->greeting('Hola ' . $notifiable->name . ',')
-            ->line('Esta semana tenemos ' . count($this->auctions) . ' lotes nuevos esperandote.');
+        $subjects = [
+            'es' => 'Nuevos lotes esta semana en RialBids',
+            'en' => 'New lots this week on RialBids',
+            'de' => 'Neue Lose diese Woche bei RialBids',
+            'pt' => 'Novos lotes esta semana na RialBids',
+        ];
+        $locale = in_array($notifiable->locale, ['en','de','pt']) ? $notifiable->locale : 'es';
+        $view = $locale === 'es' ? 'emails.newsletter_semanal' : 'emails.newsletter_semanal_' . $locale;
 
-        foreach ($this->auctions->take(6) as $auction) {
-            $precio = '€' . number_format($auction->current_price ?? $auction->base_price ?? 0, 0, ',', '.');
-            $msg->line('**' . $auction->title . '** — Puja actual: ' . $precio)
-                ->action('Ver lote', url('/auctions/' . $auction->id));
-        }
-
-        return $msg
-            ->line('Subastas cada semana — objetos unicos verificados en Europa.')
-            ->salutation('El equipo de RialBids');
+        return (new MailMessage)
+            ->subject($subjects[$locale])
+            ->view($view, [
+                'user' => $notifiable,
+                'auctions' => $this->auctions,
+            ]);
     }
 }

@@ -16,19 +16,20 @@ class LotesFinalizanPronto extends Notification
 
     public function toMail($notifiable): MailMessage
     {
-        $msg = (new MailMessage)
-            ->subject('Lotes que finalizan pronto en RialBids')
-            ->greeting('Hola ' . $notifiable->name . ',')
-            ->line('Estos lotes cierran en menos de 48 horas. No te los pierdas.');
+        $subjects = [
+            'es' => 'Lotes que finalizan pronto en RialBids',
+            'en' => 'Lots ending soon on RialBids',
+            'de' => 'Lose enden bald bei RialBids',
+            'pt' => 'Lotes a terminar em breve na RialBids',
+        ];
+        $locale = in_array($notifiable->locale, ['en','de','pt']) ? $notifiable->locale : 'es';
+        $view = $locale === 'es' ? 'emails.lotes_finalizan' : 'emails.lotes_finalizan_' . $locale;
 
-        foreach ($this->auctions->take(6) as $auction) {
-            $precio = '€' . number_format($auction->current_price ?? $auction->base_price ?? 0, 0, ',', '.');
-            $msg->line('**' . $auction->title . '** — Puja actual: ' . $precio)
-                ->action('Pujar ahora', url('/auctions/' . $auction->id));
-        }
-
-        return $msg
-            ->line('Recordá que las pujas son vinculantes.')
-            ->salutation('El equipo de RialBids');
+        return (new MailMessage)
+            ->subject($subjects[$locale])
+            ->view($view, [
+                'user' => $notifiable,
+                'auctions' => $this->auctions,
+            ]);
     }
 }
