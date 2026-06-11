@@ -2,6 +2,7 @@
 namespace App\Notifications;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Models\Auction;
 
 class BienvenidaVendor extends Notification
 {
@@ -16,11 +17,23 @@ class BienvenidaVendor extends Notification
 
     public function toMail($notifiable): MailMessage
     {
+        $subjects = [
+            'es' => 'Bienvenido a RialBids — Tu primer lote es GRATIS',
+            'en' => 'Welcome to RialBids — Your first lot is FREE',
+            'de' => 'Willkommen bei RialBids — Dein erstes Los ist GRATIS',
+            'pt' => 'Bem-vindo à RialBids — O teu primeiro lote é GRÁTIS',
+        ];
+        $locale = in_array($notifiable->locale, ['en','de','pt']) ? $notifiable->locale : 'es';
+        $view = $locale === 'es' ? 'emails.bienvenida_vendor' : 'emails.bienvenida_vendor_' . $locale;
+
+        $subastas = Auction::where('status','active')->orderBy('end_time','asc')->take(2)->get();
+
         return (new MailMessage)
-            ->subject($notifiable->locale === 'en' ? 'Welcome to RialBids — Your first lot is FREE' : 'Bienvenido a RialBids — Tu primer lote es GRATIS')
-            ->view($notifiable->locale === 'en' ? 'emails.bienvenida_vendor_en' : 'emails.bienvenida_vendor', [
+            ->subject($subjects[$locale])
+            ->view($view, [
                 'user' => $notifiable,
                 'password' => $this->password,
+                'subastas' => $subastas,
             ]);
     }
 }
