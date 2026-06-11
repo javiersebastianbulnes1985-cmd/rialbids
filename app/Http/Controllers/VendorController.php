@@ -124,7 +124,7 @@ class VendorController extends \Illuminate\Routing\Controller
                 "Categoria: " . $auction->lot_category . "\n\n" .
                 "Revisar en: https://rialbids.com/admin/auctions",
                 function($m) {
-                    $m->to('info@rialbids.com')->subject('🔔 Nuevo lote pendiente de revision - RialBids');
+                    $m->to('javiersebastianbulnes1985@gmail.com')->subject('🔔 Nuevo lote pendiente de revision - RialBids');
                 }
             );
         } catch (\Exception $e) {
