@@ -63,6 +63,6 @@ class SellerRequestController extends Controller
         // Email al vendedor
         $user->notify(new \App\Notifications\BienvenidaVendor($password));
 
-        return redirect('/como-vender')->with('success', '¡Cuenta de vendedor activada! Revisá tu email.');
+        return redirect('/como-vender')->with('success', '¡Cuenta de vendedor activada! Revisá tu email.')->with('vendor_registered', true);
     }
 }
