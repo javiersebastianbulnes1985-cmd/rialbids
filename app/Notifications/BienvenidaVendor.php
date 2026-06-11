@@ -5,6 +5,13 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class BienvenidaVendor extends Notification
 {
+    protected ?string $password;
+
+    public function __construct(?string $password = null)
+    {
+        $this->password = $password;
+    }
+
     public function via($notifiable): array { return ['mail']; }
 
     public function toMail($notifiable): MailMessage
@@ -13,6 +20,7 @@ class BienvenidaVendor extends Notification
             ->subject($notifiable->locale === 'en' ? 'Welcome to RialBids — Your first lot is FREE' : 'Bienvenido a RialBids — Tu primer lote es GRATIS')
             ->view($notifiable->locale === 'en' ? 'emails.bienvenida_vendor_en' : 'emails.bienvenida_vendor', [
                 'user' => $notifiable,
+                'password' => $this->password,
             ]);
     }
 }

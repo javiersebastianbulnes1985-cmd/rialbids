@@ -61,15 +61,7 @@ class SellerRequestController extends Controller
         ]);
 
         // Email al vendedor
-        $emailContent = "Hola {$request->name},\n\nTu cuenta de vendedor en RialBids fue activada.\n\n";
-        if ($password) {
-            $emailContent .= "Tus credenciales:\nEmail: {$request->email}\nContraseña: {$password}\n\n";
-        }
-        $emailContent .= "Accedé a tu panel en: https://rialbids.com/vendor\n\nEl equipo de RialBids";
-
-        Mail::raw($emailContent, function($m) use ($request) {
-            $m->to($request->email)->subject('Tu cuenta de vendedor en RialBids está activa');
-        });
+        $user->notify(new \App\Notifications\BienvenidaVendor($password));
 
         return redirect('/como-vender')->with('success', '¡Cuenta de vendedor activada! Revisá tu email.');
     }

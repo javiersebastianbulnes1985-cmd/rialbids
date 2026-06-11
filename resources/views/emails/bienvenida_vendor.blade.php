@@ -18,7 +18,15 @@
   <tr><td style="padding:32px">
     <h2 style="font-size:20px;font-weight:700;color:#1a3a6b;margin:0 0 8px">Hola {{ $user->name }},</h2>
     <p style="font-size:15px;color:#374151;margin:0 0 24px">Ya podes empezar a vender en RialBids. Tu primer lote va sin comision.</p>
-    <div style="background:#f5f3ef;border-left:4px solid #c9a84c;border-radius:0 4px 4px 0;padding:20px;margin-bottom:24px">
+    @if(!empty($password))
+    <div style="background:#1a3a6b;border-radius:8px;padding:20px;margin-bottom:24px">
+      <p style="font-size:13px;font-weight:700;color:#c9a84c;margin:0 0 12px;text-transform:uppercase;letter-spacing:1px">Tus datos de acceso</p>
+      <p style="font-size:14px;color:#fff;margin:0 0 6px"><strong>Email:</strong> {{ $user->email }}</p>
+      <p style="font-size:14px;color:#fff;margin:0"><strong>Contraseña:</strong> {{ $password }}</p>
+    </div>
+@endif
+
+<div style="background:#f5f3ef;border-left:4px solid #c9a84c;border-radius:0 4px 4px 0;padding:20px;margin-bottom:24px">
       <p style="font-size:14px;font-weight:700;color:#1a3a6b;margin:0 0 16px">Como empezar:</p>
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:12px">
         <tr>
