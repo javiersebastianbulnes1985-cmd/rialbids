@@ -9,8 +9,17 @@ class RecordatorioVendor extends Notification
 
     public function toMail($notifiable): MailMessage
     {
+        $subjects = [
+            'es' => 'Tu primer lote te esta esperando',
+            'en' => 'Your first lot is waiting for you',
+            'de' => 'Dein erstes Los wartet auf dich',
+            'pt' => 'O teu primeiro lote está à tua espera',
+        ];
+        $locale = in_array($notifiable->locale, ['en','de','pt']) ? $notifiable->locale : 'es';
+        $view = $locale === 'es' ? 'emails.recordatorio_vendor' : 'emails.recordatorio_vendor_' . $locale;
+
         return (new MailMessage)
-            ->subject($notifiable->locale === 'en' ? 'Your first lot is waiting for you' : 'Tu primer lote te esta esperando')
-            ->view($notifiable->locale === 'en' ? 'emails.recordatorio_vendor_en' : 'emails.recordatorio_vendor', ['user' => $notifiable]);
+            ->subject($subjects[$locale])
+            ->view($view, ['user' => $notifiable]);
     }
 }

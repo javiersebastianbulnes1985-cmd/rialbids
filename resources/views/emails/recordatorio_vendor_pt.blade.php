@@ -12,32 +12,32 @@
     </a>
   </td></tr>
   <tr><td style="background:#1a3a6b;padding:28px 32px;text-align:center">
-    <h1 style="color:#c9a84c;font-size:22px;font-weight:700;margin:0 0 8px;font-family:Georgia,serif">Tu primer lote te esta esperando</h1>
-    <p style="color:#e8e4d9;font-size:15px;margin:0">Y va sin comision.</p>
+    <h1 style="color:#c9a84c;font-size:22px;font-weight:700;margin:0 0 8px;font-family:Georgia,serif">O teu primeiro lote está à tua espera</h1>
+    <p style="color:#e8e4d9;font-size:15px;margin:0">E é sem comissão.</p>
   </td></tr>
   <tr><td style="padding:32px">
     <h2 style="font-size:20px;font-weight:700;color:#1a3a6b;margin:0 0 8px">Hola {{ $user->name }},</h2>
-    <p style="font-size:15px;color:#374151;margin:0 0 24px">Notamos que todavia no subiste tu primer producto. Estas a unos minutos de tener tu primera venta — y este primer lote no te cobra nada.</p>
+    <p style="font-size:15px;color:#374151;margin:0 0 24px">Reparámos que ainda não publicaste o teu primeiro produto. Estás a poucos minutos da tua primeira venda — e este primeiro lote não tem qualquer custo.</p>
     <div style="background:#f5f3ef;border-left:4px solid #c9a84c;border-radius:0 4px 4px 0;padding:20px;margin-bottom:24px">
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px">
-        <tr><td style="font-size:14px;color:#374151">Subi fotos del producto</td><td style="font-size:13px;color:#9ca3af;text-align:right">Simple y rapido</td></tr>
+        <tr><td style="font-size:14px;color:#374151">Carrega as fotos do produto</td><td style="font-size:13px;color:#9ca3af;text-align:right">Simples e rápido</td></tr>
       </table>
       <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px">
-        <tr><td style="font-size:14px;color:#374151">Precio base</td><td style="font-size:13px;color:#9ca3af;text-align:right">Desde 20€</td></tr>
+        <tr><td style="font-size:14px;color:#374151">Preço base</td><td style="font-size:13px;color:#9ca3af;text-align:right">A partir de 20€</td></tr>
       </table>
       <table width="100%" cellpadding="0" cellspacing="0">
-        <tr><td style="font-size:14px;color:#374151">Revision del equipo</td><td style="font-size:13px;color:#16a34a;font-weight:700;text-align:right">En menos de 24hs</td></tr>
+        <tr><td style="font-size:14px;color:#374151">Revisão pela equipa</td><td style="font-size:13px;color:#16a34a;font-weight:700;text-align:right">Em menos de 24h</td></tr>
       </table>
     </div>
     <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px">
       <tr><td align="center">
-        <a href="{{ url('/vendor') }}" style="background:#1a3a6b;color:#fff;padding:14px 32px;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none;display:inline-block">Publicar mi primer lote</a>
+        <a href="{{ url('/vendor') }}" style="background:#1a3a6b;color:#fff;padding:14px 32px;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none;display:inline-block">Publicar o meu primeiro lote</a>
       </td></tr>
     </table>
-    <p style="font-size:13px;color:#9ca3af;text-align:center;margin:0">Preguntas? <a href="mailto:info@rialbids.com" style="color:#c9a84c">info@rialbids.com</a></p>
+    <p style="font-size:13px;color:#9ca3af;text-align:center;margin:0">Dúvidas? <a href="mailto:info@rialbids.com" style="color:#c9a84c">info@rialbids.com</a></p>
   </td></tr>
   <tr><td style="background:#1a3a6b;padding:20px 32px;border-top:3px solid #c9a84c">
-    <p style="font-size:12px;color:#9db4d4;margin:0;text-align:center">2026 RialBids. Todos los derechos reservados.</p>
+    <p style="font-size:12px;color:#9db4d4;margin:0;text-align:center">2026 RialBids. Todos os direitos reservados.</p>
   </td></tr>
 </table>
 </td></tr>

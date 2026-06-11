@@ -1,1 +1,46 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body style="margin:0;padding:0;background:#f3f4f6;font-family:Arial,sans-serif"><table width="100%" cellpadding="0" cellspacing="0" style="background:#f3f4f6;padding:40px 20px"><tr><td align="center"><table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;max-width:600px"><tr><td style="background:#1a56db;padding:32px;text-align:center"><table cellpadding="0" cellspacing="0" width="100%"><tr><td align="center" style="padding-bottom:24px"><span style="background:rgba(255,255,255,0.15);border-radius:8px;padding:8px 18px;color:#fff;font-size:18px;font-weight:800">R&nbsp; RialBids</span></td></tr><tr><td align="center"><h2 style="font-size:28px;font-weight:500;color:#fff;margin:0 0 12px;line-height:1.3">Your first lot is<br>waiting for you</h2><p style="font-size:15px;color:rgba(255,255,255,0.7);margin:0">And it goes commission-free.</p></td></tr></table></td></tr><tr><td style="padding:40px 32px"><p style="font-size:15px;color:#374151;margin:0 0 8px;line-height:1.7">Hello {{ $user->name }},</p><p style="font-size:15px;color:#374151;margin:0 0 32px;line-height:1.7">We noticed you have not uploaded your first product yet. You are minutes away from your first sale — and this first lot costs you nothing.</p><table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;margin-bottom:32px"><tr><td style="padding:10px 0;font-size:14px;color:#374151">Upload photos of your product</td><td style="padding:10px 0;font-size:13px;color:#9ca3af;text-align:right">Simple and fast</td></tr><tr><td style="padding:10px 0;font-size:14px;color:#374151;border-top:1px solid #f3f4f6">Starting price</td><td style="padding:10px 0;font-size:13px;color:#9ca3af;text-align:right;border-top:1px solid #f3f4f6">From 20</td></tr><tr><td style="padding:10px 0;font-size:14px;color:#374151;border-top:1px solid #f3f4f6">Team review</td><td style="padding:10px 0;font-size:13px;color:#15803d;font-weight:500;text-align:right;border-top:1px solid #f3f4f6">In less than 24hs</td></tr></table><table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px"><tr><td align="center"><a href="{{ url('/vendor') }}" style="background:#1a56db;color:#fff;padding:16px 40px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;display:inline-block">Publish my first lot</a></td></tr></table><p style="font-size:13px;color:#9ca3af;text-align:center;margin:0">Questions? info@rialbids.com</p></td></tr><tr><td style="background:#f9fafb;padding:16px 32px;border-top:1px solid #e5e7eb;text-align:center"><p style="font-size:12px;color:#9ca3af;margin:0">2026 RialBids. All rights reserved.</p></td></tr></table></td></tr></table></body></html>
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f5f3ef;font-family:Arial,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f3ef;padding:40px 20px">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;max-width:600px;box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+  <tr><td style="background:#fff;padding:20px 32px;text-align:center;border-bottom:1px solid #e5e7eb">
+    <a href="{{ url('/') }}" style="text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+      <span style="background:#1a3a6b;color:#fff;font-size:16px;font-weight:800;width:32px;height:32px;line-height:32px;text-align:center;border-radius:6px;display:inline-block">R</span>
+      <span style="color:#111827;font-size:20px;font-weight:700;font-family:Arial,sans-serif">RialBids</span>
+    </a>
+  </td></tr>
+  <tr><td style="background:#1a3a6b;padding:28px 32px;text-align:center">
+    <h1 style="color:#c9a84c;font-size:22px;font-weight:700;margin:0 0 8px;font-family:Georgia,serif">Your first lot is waiting for you</h1>
+    <p style="color:#e8e4d9;font-size:15px;margin:0">And it's commission-free.</p>
+  </td></tr>
+  <tr><td style="padding:32px">
+    <h2 style="font-size:20px;font-weight:700;color:#1a3a6b;margin:0 0 8px">Hola {{ $user->name }},</h2>
+    <p style="font-size:15px;color:#374151;margin:0 0 24px">We noticed you haven't uploaded your first item yet. You're minutes away from your first sale — and this first lot is completely free.</p>
+    <div style="background:#f5f3ef;border-left:4px solid #c9a84c;border-radius:0 4px 4px 0;padding:20px;margin-bottom:24px">
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px">
+        <tr><td style="font-size:14px;color:#374151">Upload photos of your item</td><td style="font-size:13px;color:#9ca3af;text-align:right">Simple and fast</td></tr>
+      </table>
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:8px">
+        <tr><td style="font-size:14px;color:#374151">Starting price</td><td style="font-size:13px;color:#9ca3af;text-align:right">From €20</td></tr>
+      </table>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr><td style="font-size:14px;color:#374151">Team review</td><td style="font-size:13px;color:#16a34a;font-weight:700;text-align:right">Within 24h</td></tr>
+      </table>
+    </div>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px">
+      <tr><td align="center">
+        <a href="{{ url('/vendor') }}" style="background:#1a3a6b;color:#fff;padding:14px 32px;border-radius:8px;font-size:15px;font-weight:700;text-decoration:none;display:inline-block">Publish my first lot</a>
+      </td></tr>
+    </table>
+    <p style="font-size:13px;color:#9ca3af;text-align:center;margin:0">Questions? <a href="mailto:info@rialbids.com" style="color:#c9a84c">info@rialbids.com</a></p>
+  </td></tr>
+  <tr><td style="background:#1a3a6b;padding:20px 32px;border-top:3px solid #c9a84c">
+    <p style="font-size:12px;color:#9db4d4;margin:0;text-align:center">2026 RialBids. All rights reserved.</p>
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>
