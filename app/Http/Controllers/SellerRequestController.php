@@ -6,6 +6,7 @@ use App\Models\SellerRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class SellerRequestController extends Controller
@@ -20,34 +21,33 @@ class SellerRequestController extends Controller
         $request->validate([
             'name'       => 'required|string|max:255',
             'email'      => 'required|email|max:255',
+            'password'   => 'required|string|min:8|confirmed',
             'country'    => 'required|string|max:100',
             'what_sells' => 'required|string|max:1000',
         ]);
-
-        $europeanCountries = ['España','Francia','Italia','Alemania','Portugal','Países Bajos','Bélgica','Suecia','Polonia','Austria','Suiza','Dinamarca','Noruega','Finlandia','Grecia','República Checa','Hungría','Rumanía','Bulgaria','Croacia','Eslovaquia','Eslovenia','Estonia','Letonia','Lituania','Luxemburgo','Malta','Chipre','Irlanda'];
 
         // Verificar si ya tiene cuenta
         $user = User::where('email', $request->email)->first();
 
         if ($user && $user->role === 'seller') {
-            return back()->with('error', 'Ya tenés una cuenta de vendedor activa.');
+            return back()->with('error', 'Ya tenes una cuenta de vendedor activa. Inicia sesion en /login.');
         }
 
-        // Crear o actualizar usuario
+        // Crear o actualizar usuario con la contrasena elegida por el usuario
         if (!$user) {
-            $password = \Illuminate\Support\Str::random(10);
             $user = User::create([
                 'name'              => $request->name,
                 'email'             => $request->email,
-                'password'          => Hash::make($password),
+                'password'          => Hash::make($request->password),
                 'role'              => 'seller',
                 'email_verified_at' => now(),
                 'is_active'         => true,
             ]);
         } else {
+            // Usuario existente (ej. era comprador): lo pasamos a seller y actualizamos su clave
             $user->role = 'seller';
+            $user->password = Hash::make($request->password);
             $user->save();
-            $password = null;
         }
 
         // Guardar solicitud
@@ -60,9 +60,12 @@ class SellerRequestController extends Controller
             'user_id'    => $user->id,
         ]);
 
-        // Email al vendedor
-        $user->notify(new \App\Notifications\BienvenidaVendor($password));
+        // Email de bienvenida (ya sin contrasena: el usuario la eligio el mismo)
+        $user->notify(new \App\Notifications\BienvenidaVendor(null));
 
-        return redirect('/como-vender')->with('success', '¡Cuenta de vendedor activada! Revisá tu email.')->with('vendor_registered', true);
+        // Login automatico: el usuario entra directo, sin pasar por el email
+        Auth::login($user);
+
+        return redirect('/dashboard')->with('success', 'Cuenta de vendedor activada! Ya podes publicar tu primer lote.')->with('vendor_registered', true);
     }
 }
