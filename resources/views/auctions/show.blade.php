@@ -173,8 +173,32 @@ $esGanador=$ended&&$auction->winner_id&&auth()->id()===$auction->winner_id;
 @endif
 </div>
 <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px;font-size:13px;color:#1e40af;margin-bottom:10px;">
-<div style="font-weight:600;margin-bottom:4px;">🛡 <span>Protección al comprador</span></div>
-<div style="font-size:12px;color:#3b82f6;"><span>Tu pago está seguro · Pago protegido</span></div>
+<div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+  <span style="color:#1D9E75;font-size:16px;">🛡</span> Compra protegida por RialBids
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;">
+  <div style="display:flex;align-items:flex-start;gap:10px;">
+    <span style="font-size:18px;flex-shrink:0;">🔒</span>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:#111827;margin-bottom:2px;">Tu pago va a RialBids</div>
+      <div style="font-size:11px;color:#6b7280;">No al vendedor. Lo liberamos cuando confirmás que recibiste el objeto.</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:flex-start;gap:10px;">
+    <span style="font-size:18px;flex-shrink:0;">✅</span>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:#111827;margin-bottom:2px;">Vendedores verificados</div>
+      <div style="font-size:11px;color:#6b7280;">Revisamos cada vendedor antes de que publique en la plataforma.</div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:flex-start;gap:10px;">
+    <span style="font-size:18px;flex-shrink:0;">💬</span>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:#111827;margin-bottom:2px;">¿Problema? Te mediamos</div>
+      <div style="font-size:11px;color:#6b7280;">Si el objeto no es como se describió, abrís una disputa y RialBids interviene.</div>
+    </div>
+  </div>
+</div>
 </div>
 <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:14px;">
 <div style="font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">Métodos de pago</div>

@@ -45,6 +45,17 @@
       </div>
 
       <div style="margin-bottom:16px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <div>
+          <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Contrasena *</label>
+          <input type="password" name="password" required minlength="8" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
+        </div>
+        <div>
+          <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Repetir contrasena *</label>
+          <input type="password" name="password_confirmation" required minlength="8" style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
+        </div>
+      </div>
+      <div style="margin-bottom:16px;">
         <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">País *</label>
         <select name="country" required
                 style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">

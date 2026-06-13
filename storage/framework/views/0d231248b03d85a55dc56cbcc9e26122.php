@@ -94,6 +94,15 @@
   gtag("js", new Date());
   gtag("config", "AW-10831309509");
 </script>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('vendor_registered')): ?>
+<script>
+  gtag('event', 'conversion', {
+      'send_to': 'AW-10831309509/ObMxCO-MvL0cEMXV4qwo',
+      'value': 1.0,
+      'currency': 'ARS'
+  });
+</script>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </head>
 <body>
 <nav class="nav">
