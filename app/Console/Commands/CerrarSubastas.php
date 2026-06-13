@@ -34,6 +34,10 @@ class CerrarSubastas extends Command
                 if ($user) {
                     $user->notify(new \App\Notifications\GanadorSubasta($auction));
                 }
+                $vendedor = User::find($auction->user_id);
+                if ($vendedor) {
+                    $vendedor->notify(new \App\Notifications\VendedorVendio($auction));
+                }
             }
 
             $this->info("Cerrada: {$auction->title}");
