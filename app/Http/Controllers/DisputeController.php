@@ -69,4 +69,76 @@ class DisputeController extends Controller
         return redirect()->route('disputes.create', $auction)
             ->with('disputa_ok', true);
     }
+
+    // ===== RESOLUCION DE DISPUTAS (ADMIN) =====
+
+    public function resolver(Request $request, Dispute $dispute)
+    {
+        abort_unless(auth()->user() && auth()->user()->isAdmin(), 403);
+
+        $accion = $request->input('accion');
+        $auction = $dispute->auction;
+
+        if ($accion === 'revision') {
+            $dispute->update(['status' => 'en_revision']);
+            if ($auction) { $auction->update(['dispute_status' => 'en_revision']); }
+            return back()->with('success', 'Disputa marcada en revision.');
+        }
+
+        if ($accion === 'vendedor') {
+            $ok = \App\Http\Controllers\StripeConnectController::liberarPago($auction);
+            $dispute->update(['status' => 'resuelta_vendedor', 'admin_resolution' => $request->input('nota'), 'resolved_at' => now()]);
+            if ($auction) { $auction->update(['dispute_status' => 'resuelta_vendedor']); }
+            $this->notificarResolucion($dispute, 'vendedor');
+            $msg = $ok ? 'Disputa resuelta a favor del vendedor. Pago liberado.' : 'Resuelta a favor del vendedor. ATENCION: el pago no se libero automatico (vendedor sin Stripe). Revisa Stripe.';
+            return back()->with($ok ? 'success' : 'error', $msg);
+        }
+
+        if ($accion === 'comprador') {
+            \Stripe\Stripe::setApiKey(config('services.stripe.secret'));
+            $refundOk = false;
+            try {
+                $charges = \Stripe\Charge::search(['query' => "metadata['auction_id']:'" . $auction->id . "'"]);
+                if (!empty($charges->data)) {
+                    \Stripe\Refund::create(['charge' => $charges->data[0]->id, 'reverse_transfer' => true]);
+                    $refundOk = true;
+                }
+            } catch (\Exception $e) {
+                \Log::error('Error reembolso disputa #' . $dispute->id . ': ' . $e->getMessage());
+            }
+            $dispute->update(['status' => 'resuelta_comprador', 'admin_resolution' => $request->input('nota'), 'resolved_at' => now()]);
+            if ($auction) { $auction->update(['dispute_status' => 'resuelta_comprador', 'status' => 'cancelled']); }
+            $this->notificarResolucion($dispute, 'comprador');
+            $msg = $refundOk ? 'Disputa resuelta a favor del comprador. Reembolso procesado en Stripe.' : 'Marcada a favor del comprador. ATENCION: el reembolso no se proceso automatico. Revisa Stripe manualmente.';
+            return back()->with($refundOk ? 'success' : 'error', $msg);
+        }
+
+        return back()->with('error', 'Accion no valida.');
+    }
+
+    private function notificarResolucion(Dispute $dispute, string $favor): void
+    {
+        $auction = $dispute->auction;
+        $titulo  = $auction->title ?? ('Lote #' . $dispute->auction_id);
+        $textoComprador = $favor === 'comprador'
+            ? "Resolvimos tu disputa del lote \"{$titulo}\" a tu favor. El reembolso fue procesado y veras el dinero en tu metodo de pago en los proximos dias."
+            : "Revisamos tu disputa del lote \"{$titulo}\". Tras evaluar el caso, se resolvio a favor del vendedor. Si tenes mas informacion, responde a este correo.";
+        $textoVendedor = $favor === 'vendedor'
+            ? "La disputa del lote \"{$titulo}\" se resolvio a tu favor. El pago fue liberado a tu cuenta."
+            : "La disputa del lote \"{$titulo}\" se resolvio a favor del comprador. El pago no se liberara para esta operacion.";
+        try {
+            if ($dispute->buyer && $dispute->buyer->email) {
+                \Illuminate\Support\Facades\Mail::raw($textoComprador, function ($m) use ($dispute, $titulo) {
+                    $m->to($dispute->buyer->email)->subject('Resolucion de tu disputa - ' . $titulo);
+                });
+            }
+            if ($dispute->seller && $dispute->seller->email) {
+                \Illuminate\Support\Facades\Mail::raw($textoVendedor, function ($m) use ($dispute, $titulo) {
+                    $m->to($dispute->seller->email)->subject('Resolucion de disputa - ' . $titulo);
+                });
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error notificando resolucion disputa #' . $dispute->id . ': ' . $e->getMessage());
+        }
+    }
 }

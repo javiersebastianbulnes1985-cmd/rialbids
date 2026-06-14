@@ -76,6 +76,15 @@
 <p style="font-size:13px;color:#374151;background:#f9fafb;padding:10px;border-radius:6px;margin:0 0 8px">{{ $dc->description }}</p>
 @if($dc->photo_path)<a href="{{ asset('storage/'.$dc->photo_path) }}" target="_blank" style="font-size:12px;color:#1a3a6b">Ver foto adjunta</a> &middot; @endif
 <a href="{{ route('auctions.show', $dc->auction_id) }}" target="_blank" style="font-size:12px;color:#1a3a6b">Ver lote</a>
+@if(!in_array($dc->status, ['resuelta_comprador','resuelta_vendedor','cerrada']))
+<div style="margin-top:12px;padding-top:12px;border-top:1px solid #f3f4f6;display:flex;gap:8px;flex-wrap:wrap">
+<form method="POST" action="{{ route('admin.disputes.resolver', $dc->id) }}" style="display:inline">@csrf<input type="hidden" name="accion" value="comprador"><button type="submit" onclick="return confirm('ATENCION - ACCION CON DINERO REAL\n\nVas a REEMBOLSAR al comprador {{ $dc->comprador }}.\nLote: {{ $dc->lote_title }}\nMonto: EUR {{ number_format($dc->final_price ?? 0, 2) }}\n\nEsta accion mueve plata en Stripe y no se puede deshacer.\n\nConfirmas?')" style="font-size:11px;background:#dc2626;color:#fff;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;font-weight:600">Dar razon al comprador (reembolsar)</button></form>
+<form method="POST" action="{{ route('admin.disputes.resolver', $dc->id) }}" style="display:inline">@csrf<input type="hidden" name="accion" value="vendedor"><button type="submit" onclick="return confirm('ATENCION - ACCION CON DINERO REAL\n\nVas a LIBERAR el pago al vendedor {{ $dc->vendedor }}.\nLote: {{ $dc->lote_title }}\nMonto: EUR {{ number_format($dc->final_price ?? 0, 2) }}\n\nEsta accion transfiere plata a la cuenta del vendedor y no se puede deshacer.\n\nConfirmas?')" style="font-size:11px;background:#16a34a;color:#fff;padding:5px 12px;border-radius:6px;border:none;cursor:pointer;font-weight:600">Dar razon al vendedor (liberar)</button></form>
+<form method="POST" action="{{ route('admin.disputes.resolver', $dc->id) }}" style="display:inline">@csrf<input type="hidden" name="accion" value="revision"><button type="submit" style="font-size:11px;background:#fff;color:#374151;padding:5px 12px;border-radius:6px;border:1px solid #d1d5db;cursor:pointer;font-weight:600">Marcar en revision</button></form>
+</div>
+@else
+<div style="margin-top:10px;font-size:11px;color:#16a34a;font-weight:600">Resuelta @if($dc->resolved_at)&middot; {{ \Carbon\Carbon::parse($dc->resolved_at)->format('d/m/Y') }}@endif</div>
+@endif
 </div>
 @endforeach
 </div>
