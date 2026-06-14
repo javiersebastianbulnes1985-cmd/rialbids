@@ -17,6 +17,11 @@ class LiberarPagosVendedor extends Command
             ->where('payment_release_scheduled_at', '<=', now())
             ->whereNull('payment_released_at')
             ->whereNull('dispute_id')
+            ->whereNull('disputed_at')
+            ->where(function ($q) {
+                $q->whereNull('dispute_status')
+                   ->orWhereNotIn('dispute_status', ['abierta', 'en_revision']);
+            })
             ->get();
 
         if ($auctions->isEmpty()) {

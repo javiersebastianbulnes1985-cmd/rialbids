@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\StripeConnectController;
+use App\Http\Controllers\DisputeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuctionController::class, 'home'])->name('home');
@@ -14,6 +15,11 @@ Route::get('/auctions', [AuctionController::class, 'home'])->name('auctions.inde
 Route::get('/auctions/{id}', [AuctionController::class, 'show'])->name('auctions.show');
 Route::post('/auctions/{id}/bid', [AuctionController::class, 'bid'])->middleware('auth')->name('auctions.bid');
 Route::get('/finalizadas', [AuctionController::class, 'finalizadas'])->name('auctions.finalizadas');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/auctions/{auction}/disputa', [DisputeController::class, 'create'])->name('disputes.create');
+    Route::post('/auctions/{auction}/disputa', [DisputeController::class, 'store'])->name('disputes.store');
+});
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('/finanzas', [AdminController::class, 'finanzas'])->name('finanzas');

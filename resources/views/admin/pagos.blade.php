@@ -61,4 +61,24 @@
 @endif
 </div>
 </div>
+
+@if(isset($disputasComprador) && count($disputasComprador) > 0)
+<div style="background:#fff;border:1px solid #fca5a5;border-radius:12px;padding:20px;margin-bottom:24px">
+<h2 style="font-size:15px;font-weight:700;color:#991b1b;margin:0 0 16px">DISPUTAS DE COMPRADORES ({{ count($disputasComprador) }})</h2>
+@foreach($disputasComprador as $dc)
+<div style="border:1px solid #e5e7eb;border-radius:8px;padding:14px;margin-bottom:12px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+<span style="font-size:14px;font-weight:700;color:#111827">{{ $dc->lote_title ?? ('Lote #'.$dc->auction_id) }}</span>
+<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:#fef9ec;color:#8a6820">{{ strtoupper(str_replace('_',' ',$dc->status)) }}</span>
+</div>
+<p style="font-size:12px;color:#6b7280;margin:0 0 6px">Comprador: <strong>{{ $dc->comprador }}</strong> ({{ $dc->comprador_email }}) &middot; Vendedor: <strong>{{ $dc->vendedor }}</strong> &middot; EUR {{ number_format($dc->final_price ?? 0, 2) }}</p>
+<p style="font-size:12px;color:#374151;margin:0 0 6px"><strong>Motivo:</strong> {{ $dc->reason }}</p>
+<p style="font-size:13px;color:#374151;background:#f9fafb;padding:10px;border-radius:6px;margin:0 0 8px">{{ $dc->description }}</p>
+@if($dc->photo_path)<a href="{{ asset('storage/'.$dc->photo_path) }}" target="_blank" style="font-size:12px;color:#1a3a6b">Ver foto adjunta</a> &middot; @endif
+<a href="{{ route('auctions.show', $dc->auction_id) }}" target="_blank" style="font-size:12px;color:#1a3a6b">Ver lote</a>
+</div>
+@endforeach
+</div>
+@endif
+
 @endsection

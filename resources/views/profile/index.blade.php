@@ -124,7 +124,7 @@
                 <span style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">En camino</span>
                 <form method="POST" action="{{ route('auctions.confirm', $compra->id) }}" style="display:inline">
                   @csrf
-                  <button type="submit" class="btn-confirm">Confirmar recepción</button>
+                  <button type="submit" class="btn-confirm">Confirmar recepción</button></form><a href="{{ route('disputes.create', $compra->id) }}" style="font-size:11px;color:#b91c1c;text-decoration:none;font-weight:600;padding:4px 10px;border:1px solid #fca5a5;border-radius:20px;display:inline-block;margin-left:6px">Tengo un problema</a><form style="display:none">
                 </form>
               @elseif(in_array($compra->status,['delivered','completed']))
                 <span style="background:#edf7f0;color:#15803d;border:1px solid #c0dece;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">Completado</span>

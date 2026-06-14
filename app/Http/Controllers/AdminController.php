@@ -111,7 +111,15 @@ class AdminController extends \Illuminate\Routing\Controller
             AND a.dispute_id IS NULL
             ORDER BY a.updated_at DESC
         ");
-        return view('admin.pagos', compact('disputas','pendientes'));
+        $disputasComprador = DB::table('disputes as d')
+            ->leftJoin('auctions as a', 'a.id', '=', 'd.auction_id')
+            ->leftJoin('users as b', 'b.id', '=', 'd.buyer_id')
+            ->leftJoin('users as s', 's.id', '=', 'd.seller_id')
+            ->select('d.*', 'a.title as lote_title', 'a.final_price', 'b.name as comprador', 'b.email as comprador_email', 's.name as vendedor')
+            ->orderByDesc('d.created_at')
+            ->get();
+
+        return view('admin.pagos', compact('disputas','pendientes','disputasComprador'));
     }
     public function index()
     {
