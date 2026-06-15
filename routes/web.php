@@ -24,6 +24,9 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'is.admin'])->group(function () {
     Route::get('/finanzas', [AdminController::class, 'finanzas'])->name('finanzas');
     Route::get('/pagos', [AdminController::class, 'pagos'])->name('pagos');
+    Route::get('/automatizaciones', [AdminController::class, 'automatizaciones'])->name('automatizaciones');
+    Route::post('/automatizaciones/disparar', [AdminController::class, 'dispararAutomatizacion'])->name('automatizaciones.disparar');
+    Route::get('/automatizaciones/preview/{tipo}', [AdminController::class, 'previewEmail'])->name('automatizaciones.preview');
     Route::post('/disputas/{dispute}/resolver', [\App\Http\Controllers\DisputeController::class, 'resolver'])->name('disputes.resolver');
     Route::post('/pagos/{id}/liberar', [AdminController::class, 'liberarPagoManual'])->name('pagos.liberar');
     Route::post('/pagos/{id}/reembolsar', [AdminController::class, 'reembolsar'])->name('pagos.reembolsar');

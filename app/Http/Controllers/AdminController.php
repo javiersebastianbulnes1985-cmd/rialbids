@@ -273,4 +273,115 @@ class AdminController extends \Illuminate\Routing\Controller
 
         return back()->with('success', 'Lote cancelado. ' . $pujadores->count() . ' pujadores notificados.');
     }
+
+    public function automatizaciones()
+    {
+        $filtroReales = function ($q) {
+            $q->where('email', 'not like', '%test%')
+               ->where('email', 'not like', '%@test.%')
+               ->where('email', 'not like', '%ejemplo%')
+               ->where('email', 'not like', '%@rialbids.com');
+        };
+
+        $vendedoresSinLotes = \App\Models\User::where('role', 'seller')
+            ->whereDoesntHave('auctions')
+            ->where($filtroReales)
+            ->count();
+
+        $vendedoresSinStripe = \App\Models\User::where('role', 'seller')
+            ->where(function ($q) {
+                $q->whereNull('stripe_account_id')->orWhere('stripe_onboarding_complete', false);
+            })
+            ->count();
+
+        $compradoresSinPujas = \App\Models\User::where('role', 'bidder')->count();
+
+        $automatizaciones = [
+            [
+                'nombre'      => 'Invitacion a publicar',
+                'clase'       => 'InvitacionPublicarVendor',
+                'descripcion' => 'Email personal invitando a vendedores sin lotes a publicar su primera pieza.',
+                'idiomas'     => 'ES / PT / EN / DE',
+                'pendientes'  => $vendedoresSinLotes,
+                'etiqueta'    => 'vendedores sin lotes',
+                'accion'      => 'invitacion_vendedores',
+            ],
+            [
+                'nombre'      => 'Bienvenida vendedor',
+                'clase'       => 'BienvenidaVendor',
+                'descripcion' => 'Se envia automaticamente cuando un vendedor se registra.',
+                'idiomas'     => 'ES / PT / EN / DE',
+                'pendientes'  => null,
+                'etiqueta'    => 'automatico al registrarse',
+                'accion'      => null,
+            ],
+            [
+                'nombre'      => 'Newsletter semanal',
+                'clase'       => 'NewsletterSemanal',
+                'descripcion' => 'Resumen semanal de lotes destacados. Cron: lunes 09:00.',
+                'idiomas'     => 'ES / PT / EN / DE',
+                'pendientes'  => null,
+                'etiqueta'    => 'cron semanal',
+                'accion'      => null,
+            ],
+            [
+                'nombre'      => 'Lotes que finalizan',
+                'clase'       => 'LotesFinalizanPronto',
+                'descripcion' => 'Aviso de lotes proximos a cerrar. Cron: diario 10:00.',
+                'idiomas'     => 'ES / PT / EN / DE',
+                'pendientes'  => null,
+                'etiqueta'    => 'cron diario',
+                'accion'      => null,
+            ],
+        ];
+
+        return view('admin.automatizaciones', compact('automatizaciones', 'vendedoresSinLotes', 'vendedoresSinStripe', 'compradoresSinPujas'));
+    }
+
+    public function dispararAutomatizacion(\Illuminate\Http\Request $request)
+    {
+        $accion = $request->input('accion');
+
+        if ($accion === 'invitacion_vendedores') {
+            $vendedores = \App\Models\User::where('role', 'seller')
+                ->whereDoesntHave('auctions')
+                ->where('email', 'not like', '%test%')
+                ->where('email', 'not like', '%@test.%')
+                ->where('email', 'not like', '%ejemplo%')
+                ->where('email', 'not like', '%@rialbids.com')
+                ->get();
+            $enviados = 0;
+            foreach ($vendedores as $v) {
+                try {
+                    $v->notify(new \App\Notifications\InvitacionPublicarVendor());
+                    $enviados++;
+                } catch (\Exception $e) {
+                    \Log::error('Error enviando invitacion a ' . $v->email . ': ' . $e->getMessage());
+                }
+            }
+            return back()->with('success', "Invitacion enviada a {$enviados} vendedor(es) sin lotes.");
+        }
+
+        return back()->with('error', 'Accion no reconocida.');
+    }
+
+    public function previewEmail($tipo)
+    {
+        $fake = new \App\Models\User();
+        $fake->name = 'Nombre del vendedor';
+        $fake->email = 'ejemplo@email.com';
+
+        $vistas = [
+            'invitacion_publicar' => 'emails.invitacion_publicar',
+            'invitacion_publicar_pt' => 'emails.invitacion_publicar_pt',
+            'invitacion_publicar_en' => 'emails.invitacion_publicar_en',
+            'invitacion_publicar_de' => 'emails.invitacion_publicar_de',
+        ];
+
+        if (!isset($vistas[$tipo])) {
+            abort(404);
+        }
+
+        return view($vistas[$tipo], ['user' => $fake]);
+    }
 }
