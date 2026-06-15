@@ -73,6 +73,15 @@
 </div>
 <p style="font-size:12px;color:#6b7280;margin:0 0 6px">Comprador: <strong>{{ $dc->comprador }}</strong> ({{ $dc->comprador_email }}) &middot; Vendedor: <strong>{{ $dc->vendedor }}</strong> &middot; EUR {{ number_format($dc->final_price ?? 0, 2) }}</p>
 <p style="font-size:12px;color:#374151;margin:0 0 6px"><strong>Motivo:</strong> {{ $dc->reason }}</p>
+@if($dc->description)<p style="font-size:12px;color:#6b7280;margin:0 0 8px;padding:8px 10px;background:#f9fafb;border-radius:6px">Comprador dice: "{{ $dc->description }}"</p>@endif
+@if($dc->seller_response)
+<div style="margin:0 0 8px;padding:10px 12px;background:#eff6ff;border-left:3px solid #1a3a6b;border-radius:6px">
+<p style="font-size:11px;font-weight:700;color:#1a3a6b;margin:0 0 4px">Version del vendedor:</p>
+<p style="font-size:12px;color:#374151;margin:0">"{{ $dc->seller_response }}"</p>
+</div>
+@else
+<p style="font-size:11px;color:#b45309;margin:0 0 8px;font-style:italic">El vendedor todavia no respondio.</p>
+@endif
 <p style="font-size:13px;color:#374151;background:#f9fafb;padding:10px;border-radius:6px;margin:0 0 8px">{{ $dc->description }}</p>
 @if($dc->photo_path)<a href="{{ asset('storage/'.$dc->photo_path) }}" target="_blank" style="font-size:12px;color:#1a3a6b">Ver foto adjunta</a> &middot; @endif
 <a href="{{ route('auctions.show', $dc->auction_id) }}" target="_blank" style="font-size:12px;color:#1a3a6b">Ver lote</a>

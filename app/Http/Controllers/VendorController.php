@@ -30,7 +30,13 @@ class VendorController extends \Illuminate\Routing\Controller
             'total'     => $auctions->count(),
         ];
 
-        return view('vendor.index', compact('auctions', 'stats'));
+        $disputas = \App\Models\Dispute::where('seller_id', auth()->id())
+            ->whereIn('status', ['abierta', 'en_revision'])
+            ->with('auction')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('vendor.index', compact('auctions', 'stats', 'disputas'));
     }
 
     public function create()

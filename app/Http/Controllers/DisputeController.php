@@ -66,6 +66,15 @@ class DisputeController extends Controller
         Notification::route('mail', 'soporte@rialbids.com')
             ->notify(new DisputaAbierta($dispute));
 
+        // Avisar al vendedor para que pueda dar su version
+        try {
+            if ($auction->user) {
+                $auction->user->notify(new \App\Notifications\DisputaAbiertaVendedor($dispute));
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error avisando al vendedor de disputa #' . $dispute->id . ': ' . $e->getMessage());
+        }
+
         return redirect()->route('disputes.create', $auction)
             ->with('disputa_ok', true);
     }
@@ -128,5 +137,31 @@ class DisputeController extends Controller
         } catch (\Exception $e) {
             \Log::error('Error notificando resolucion disputa #' . $dispute->id . ': ' . $e->getMessage());
         }
+    }
+
+    public function responderVendedor(Request $request, Dispute $dispute)
+    {
+        abort_unless(auth()->id() === $dispute->seller_id, 403);
+
+        $data = $request->validate([
+            'seller_response' => 'required|string|max:2000',
+        ]);
+
+        $dispute->seller_response = $data['seller_response'];
+        $dispute->seller_responded_at = now();
+        $dispute->save();
+
+        try {
+            \Illuminate\Support\Facades\Mail::raw(
+                "El vendedor respondio a la disputa #{$dispute->id}.\n\nSu version:\n{$data['seller_response']}\n\nRevisa /admin/pagos para resolver.",
+                function ($m) {
+                    $m->to('javiersebastianbulnes1985@gmail.com')->subject('Vendedor respondio una disputa - RialBids');
+                }
+            );
+        } catch (\Exception $e) {
+            \Log::error('Error avisando respuesta vendedor disputa #' . $dispute->id . ': ' . $e->getMessage());
+        }
+
+        return back()->with('success', 'Tu respuesta fue enviada. La revisaremos para resolver la disputa.');
     }
 }

@@ -45,6 +45,30 @@
 
   @php $user = auth()->user(); @endphp
 
+  @if(isset($disputas) && $disputas->count() > 0)
+  <div style="background:#fff;border:1px solid #fca5a5;border-left:4px solid #dc2626;border-radius:12px;padding:20px 24px;margin-bottom:20px">
+    <h2 style="font-size:16px;font-weight:700;color:#991b1b;margin:0 0 4px">Tenes una disputa que necesita tu respuesta</h2>
+    <p style="font-size:13px;color:#6b7280;margin:0 0 16px">Un comprador abrio un reclamo. Conta tu version antes de que el equipo resuelva.</p>
+    @foreach($disputas as $d)
+    <div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:12px">
+      <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:6px">{{ $d->auction->title ?? ('Lote #'.$d->auction_id) }}</div>
+      <p style="font-size:13px;color:#374151;margin:0 0 4px"><strong>Motivo:</strong> {{ $d->reason }}</p>
+      @if($d->description)<p style="font-size:13px;color:#6b7280;margin:0 0 12px;padding:10px;background:#f9fafb;border-radius:6px">"{{ $d->description }}"</p>@endif
+      @if($d->seller_responded_at)
+        <div style="font-size:12px;color:#16a34a;font-weight:600;margin-top:8px">Ya enviaste tu respuesta. El equipo la esta revisando.</div>
+      @else
+        <form method="POST" action="{{ route('vendor.disputes.responder', $d->id) }}" style="margin-top:10px">
+          @csrf
+          <textarea name="seller_response" required maxlength="2000" placeholder="Conta que paso desde tu lado (envio, estado del objeto, comunicacion con el comprador)..." style="width:100%;min-height:90px;border:1px solid #d1d5db;border-radius:8px;padding:10px;font-size:13px;font-family:inherit;box-sizing:border-box;resize:vertical"></textarea>
+          <button type="submit" style="margin-top:8px;background:#1a3a6b;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer">Enviar mi respuesta</button>
+        </form>
+      @endif
+    </div>
+    @endforeach
+  </div>
+  @endif
+
+
   {{-- Header perfil --}}
   <div class="vd-header-card">
     <div class="vd-avatar">
