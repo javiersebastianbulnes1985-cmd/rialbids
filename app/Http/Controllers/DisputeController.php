@@ -118,24 +118,12 @@ class DisputeController extends Controller
 
     private function notificarResolucion(Dispute $dispute, string $favor): void
     {
-        $auction = $dispute->auction;
-        $titulo  = $auction->title ?? ('Lote #' . $dispute->auction_id);
-        $textoComprador = $favor === 'comprador'
-            ? "Resolvimos tu disputa del lote \"{$titulo}\" a tu favor. El reembolso fue procesado y veras el dinero en tu metodo de pago en los proximos dias."
-            : "Revisamos tu disputa del lote \"{$titulo}\". Tras evaluar el caso, se resolvio a favor del vendedor. Si tenes mas informacion, responde a este correo.";
-        $textoVendedor = $favor === 'vendedor'
-            ? "La disputa del lote \"{$titulo}\" se resolvio a tu favor. El pago fue liberado a tu cuenta."
-            : "La disputa del lote \"{$titulo}\" se resolvio a favor del comprador. El pago no se liberara para esta operacion.";
         try {
-            if ($dispute->buyer && $dispute->buyer->email) {
-                \Illuminate\Support\Facades\Mail::raw($textoComprador, function ($m) use ($dispute, $titulo) {
-                    $m->to($dispute->buyer->email)->subject('Resolucion de tu disputa - ' . $titulo);
-                });
+            if ($dispute->buyer) {
+                $dispute->buyer->notify(new \App\Notifications\ResolucionDisputa($dispute, $favor, 'comprador'));
             }
-            if ($dispute->seller && $dispute->seller->email) {
-                \Illuminate\Support\Facades\Mail::raw($textoVendedor, function ($m) use ($dispute, $titulo) {
-                    $m->to($dispute->seller->email)->subject('Resolucion de disputa - ' . $titulo);
-                });
+            if ($dispute->seller) {
+                $dispute->seller->notify(new \App\Notifications\ResolucionDisputa($dispute, $favor, 'vendedor'));
             }
         } catch (\Exception $e) {
             \Log::error('Error notificando resolucion disputa #' . $dispute->id . ': ' . $e->getMessage());
