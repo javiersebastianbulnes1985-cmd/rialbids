@@ -9,4 +9,5 @@ Schedule::command('envios:alertar')->daily();
 Schedule::command('pagos:vencidos')->hourly();
 Schedule::command('emails:marketing', ['semanal'])->weeklyOn(1, '09:00');
 Schedule::command('emails:marketing', ['finaliza'])->dailyAt('10:00');
+Schedule::command('vendedores:invitar')->dailyAt('11:00');
 
