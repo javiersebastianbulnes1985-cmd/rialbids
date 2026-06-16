@@ -70,7 +70,7 @@
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
         <div>
           <label style="display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;">Precio de salida (€) <span style="color:#ef4444;">*</span></label>
-          <input type="number" name="base_price" value="{{ old('base_price') }}" min="20" step="1" placeholder="Mín. €20"
+          <input type="number" name="base_price" value="{{ old('base_price') }}" min="1" step="1" placeholder="Mín. €1"
                  style="width:100%;padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;box-sizing:border-box;">
         </div>
         <div>

@@ -50,7 +50,7 @@ class VendorController extends \Illuminate\Routing\Controller
     {
         $request->validate([
             'title'       => 'required|string|max:255',
-            'base_price'  => 'required|numeric|min:20',
+            'base_price'  => 'required|numeric|min:1',
             'duracion'    => 'required|integer|in:7,14,21,30',
             'description' => 'required|string|min:80',
             'lot_category'=> 'required|string',
@@ -158,7 +158,7 @@ class VendorController extends \Illuminate\Routing\Controller
         $request->validate([
             'title'       => 'required|string|max:255',
             'description' => 'required|string|min:80',
-            'base_price'  => 'required|numeric|min:20',
+            'base_price'  => 'required|numeric|min:1',
             'condition'   => 'required|string',
         ]);
 

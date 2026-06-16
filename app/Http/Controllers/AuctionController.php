@@ -81,6 +81,10 @@ class AuctionController extends \Illuminate\Routing\Controller
     public function show($id)
     {
         $auction = Auction::findOrFail($id);
+
+        if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
+            return back()->with('error', 'No podés pujar en tus propios lotes.');
+        }
         $bids    = $auction->bids()->with('user')->orderBy('created_at','desc')->take(10)->get();
 
         $auction->increment('views_count');
@@ -96,11 +100,15 @@ class AuctionController extends \Illuminate\Routing\Controller
 
     public function bid(Request $request, $id)
     {
-        if (!auth()->check() || !auth()->user()->isBidder()) {
+        if (!auth()->check() || (!auth()->user()->isBidder() && !auth()->user()->isSeller())) {
             return back()->with('error', 'Solo los compradores pueden pujar. Tu cuenta no tiene permisos para realizar pujas.');
         }
 
         $auction = Auction::findOrFail($id);
+
+        if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
+            return back()->with('error', 'No podés pujar en tus propios lotes.');
+        }
 
         $request->validate([
             'amount' => 'required|numeric|min:0',
@@ -146,6 +154,10 @@ class AuctionController extends \Illuminate\Routing\Controller
 public function confirmarEntrega(Request $request, $id)
     {
         $auction = Auction::findOrFail($id);
+
+        if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
+            return back()->with('error', 'No podés pujar en tus propios lotes.');
+        }
 
         if ($auction->winner_id !== auth()->id()) {
             abort(403);
