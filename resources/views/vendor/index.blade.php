@@ -151,8 +151,12 @@
   <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:10px;padding:16px 22px;margin-bottom:20px;">
     <p style="font-size:12px;font-weight:700;color:#991b1b;margin:0 0 8px;text-transform:uppercase;letter-spacing:.05em">Lotes rechazados ({{ $rechazados->count() }})</p>
     @foreach($rechazados as $lot)
-    <div style="font-size:12px;color:#7f1d1d;padding:6px 0;border-top:1px solid #fecaca;">
-      <strong>{{ $lot->title }}</strong> — {{ $lot->rejection_reason ?? 'Sin motivo especificado' }}
+    <div style="font-size:12px;color:#7f1d1d;padding:6px 0;border-top:1px solid #fecaca;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <span><strong>{{ $lot->title }}</strong> — {{ $lot->rejection_reason ?? 'Sin motivo especificado' }}</span>
+      <form method="POST" action="{{ route('vendor.lot.delete', $lot->id) }}" onsubmit="return confirm('Eliminar este lote?')">
+        @csrf @method('DELETE')
+        <button type="submit" style="background:#991b1b;color:#fff;border:none;border-radius:6px;padding:4px 12px;font-size:11px;font-weight:700;cursor:pointer">Eliminar</button>
+      </form>
     </div>
     @endforeach
   </div>

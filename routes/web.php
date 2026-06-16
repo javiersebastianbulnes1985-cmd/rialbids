@@ -60,6 +60,7 @@ Route::prefix('vendor')->name('vendor.')->middleware(['auth', 'is.vendedor'])->g
     Route::post('/auctions/{id}/tracking', [PaymentController::class, 'confirmarEnvio'])->name('auctions.tracking');
     Route::get('/edit/{id}', [VendorController::class, 'edit'])->name('edit');
     Route::post('/edit/{id}', [VendorController::class, 'update'])->name('update');
+    Route::delete('/lot/{id}', [VendorController::class, 'deleteLot'])->name('lot.delete');
     Route::post('/disputa/{dispute}/responder', [\App\Http\Controllers\DisputeController::class, 'responderVendedor'])->name('disputes.responder');
 });
 

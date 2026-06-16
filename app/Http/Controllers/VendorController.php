@@ -187,6 +187,13 @@ class VendorController extends \Illuminate\Routing\Controller
         return redirect()->route('vendor.edit', $auction->id)->with('success', 'Lote actualizado.');
     }
 
+    public function deleteLot(Request $request, $id)
+    {
+        $auction = \App\Models\Auction::where('id', $id)->where('user_id', auth()->id())->where('status', 'cancelled')->firstOrFail();
+        $auction->delete();
+        return redirect()->route('vendor.index')->with('success', 'Lote eliminado.');
+    }
+
     public function marcarEnviado(Request $request, $id)
     {
         $auction = Auction::findOrFail($id);
