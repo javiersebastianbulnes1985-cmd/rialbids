@@ -10,6 +10,17 @@
     <p style="font-size:14px;color:#6b7280;margin:0;">Cada lote es revisado por nuestro equipo antes de publicarse. Cuanto más completa sea la información, más rápido se aprueba.</p>
   </div>
 
+  @if(!auth()->user()->stripe_account_id)
+  <div style="background:#fff8e1;border:1px solid #f59e0b;border-radius:10px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:flex-start;gap:12px">
+    <span style="font-size:20px">⚠️</span>
+    <div>
+      <p style="font-size:14px;font-weight:700;color:#92400e;margin:0 0 6px">Configurá tu cuenta de pagos antes de publicar</p>
+      <p style="font-size:13px;color:#78350f;margin:0 0 12px">Sin Stripe configurado no podrás cobrar tus ventas. El lote no se publicará hasta que lo configures.</p>
+      <a href="{{ route('vendor.stripe.onboard') }}" style="background:#1a3a6b;color:#fff;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:700;text-decoration:none;display:inline-block">Configurar cuenta Stripe →</a>
+    </div>
+  </div>
+  @endif
+
   @if($errors->any())
     <div style="background:#fee2e2;border:1px solid #fca5a5;color:#991b1b;padding:12px 16px;border-radius:8px;margin-bottom:20px;">
       @foreach($errors->all() as $error)

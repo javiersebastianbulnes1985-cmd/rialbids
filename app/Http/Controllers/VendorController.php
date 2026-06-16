@@ -48,6 +48,10 @@ class VendorController extends \Illuminate\Routing\Controller
 
     public function store(Request $request)
     {
+        if (!auth()->user()->stripe_account_id) {
+            return redirect()->route('vendor.index')->with('error', 'Necesitás configurar tu cuenta de pagos Stripe antes de publicar un lote. Sin esta configuración no podrás cobrar tus ventas.');
+        }
+
         $request->validate([
             'title'       => 'required|string|max:255',
             'base_price'  => 'required|numeric|min:1',
