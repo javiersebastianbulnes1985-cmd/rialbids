@@ -200,7 +200,7 @@
             'pending'   => ['bg'=>'#fef9ec','color'=>'#8a6820','border'=>'#e0c87a','label'=>'En revisión'],
             'finished'  => ['bg'=>'#f5f0e8','color'=>'#5a4f3a','border'=>'#d8d0c0','label'=>'Finalizado'],
             'paid'      => ['bg'=>'#eff6ff','color'=>'#1e40af','border'=>'#bfdbfe','label'=>'Pagado ✓'],
-            'shipped'   => ['bg'=>'#edf7f0','color'=>'#2d6a4a','border'=>'#c0dece','label'=>'Enviado'],
+            'shipped'   => ['bg'=>'#eff6ff','color'=>'#1e40af','border'=>'#bfdbfe','label'=>'En tránsito 🚚'],
             'delivered' => ['bg'=>'#edf7f0','color'=>'#2d6a4a','border'=>'#c0dece','label'=>'Entregado ✓'],
             'completed' => ['bg'=>'#edf7f0','color'=>'#15803d','border'=>'#c0dece','label'=>'Completado ✓'],
           ];
@@ -253,11 +253,22 @@
                 <a href="{{ route('vendor.edit',$lot->id) }}" class="btn btn-edit">✏ Editar</a>
               @endif
               @if($lot->status === 'paid')
+                @php $winner = \App\Models\User::find($lot->winner_id); @endphp
+                @if($winner)
+                <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:11px">
+                  <p style="font-weight:700;color:#1a3a6b;margin:0 0 4px">📦 Enviar a:</p>
+                  <p style="margin:0;color:#374151">{{ $winner->name }}</p>
+                  <p style="margin:0;color:#374151">{{ $winner->address }}@if($winner->city), {{ $winner->city }}@endif</p>
+                  <p style="margin:0;color:#374151">@if($winner->postal_code){{ $winner->postal_code }} @endif{{ $winner->country }}</p>
+                  @if($winner->phone)<p style="margin:0;color:#374151">Tel: {{ $winner->phone }}</p>@endif
+                  <p style="margin:4px 0 0;font-size:10px;color:#6b7280">⚠️ Tenés 3 días hábiles para enviar con tracking válido.</p>
+                </div>
+                @endif
                 <form method="POST" action="{{ route('vendor.auctions.ship',$lot->id) }}" style="display:flex;gap:4px;align-items:center">
                   @csrf
                   <input type="text" name="tracking_number" placeholder="Nº tracking" required
                     style="border:1px solid var(--cream-dark);border-radius:6px;padding:4px 8px;font-size:11px;width:100px;background:var(--cream)">
-                  <button type="submit" class="btn btn-ship">Enviado</button>
+                  <button type="submit" class="btn btn-ship">Marcar enviado</button>
                 </form>
               @elseif($lot->status === 'shipped')
                 <span style="font-size:11px;color:#2d6a4a">✓ {{ $lot->tracking_number }}</span>
