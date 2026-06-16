@@ -119,7 +119,9 @@
             </div>
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               @if($compra->status === 'paid')
-                <span style="background:#edf7f0;color:#2d6a4a;border:1px solid #c0dece;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.04em">Pagado</span>
+                <span style="background:#edf7f0;color:#2d6a4a;border:1px solid #c0dece;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.04em">Pagado ✓</span>
+                <span style="font-size:11px;color:#6b7280">El vendedor preparará tu envío en los próximos 3 días hábiles.</span>
+                <a href="mailto:info@rialbids.com?subject=Consulta lote %23{{ str_pad($compra->id,4,'0',STR_PAD_LEFT) }}" style="font-size:11px;color:#1a3a6b;text-decoration:none;font-weight:600;padding:4px 10px;border:1px solid #1a3a6b;border-radius:20px;display:inline-block">¿Algún problema? Contactanos</a>
               @elseif($compra->status === 'shipped')
                 <span style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">En camino</span>
                 <form method="POST" action="{{ route('auctions.confirm', $compra->id) }}" style="display:inline">
