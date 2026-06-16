@@ -16,7 +16,7 @@ class CerrarSubastas extends Command
     public function handle()
     {
         $vencidas = Auction::where('status', 'active')
-            ->where('end_time', '<', now())
+            ->where('ends_at', '<', now())
             ->get();
 
         foreach ($vencidas as $auction) {

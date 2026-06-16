@@ -118,6 +118,18 @@ class PaymentController extends \Illuminate\Routing\Controller
             'winner_id'   => $buyerId,
             'final_price' => $session->amount_total / 100,
         ]);
+
+        $auction = \App\Models\Auction::find($auctionId);
+        if ($auction) {
+            $buyer = \App\Models\User::find($buyerId);
+            $vendor = \App\Models\User::find($auction->user_id);
+            if ($buyer) {
+                $buyer->notify(new \App\Notifications\PagoConfirmadoComprador($auction));
+            }
+            if ($vendor) {
+                $vendor->notify(new \App\Notifications\PagoConfirmadoVendor($auction));
+            }
+        }
     }
 
     private function handleDisputeCreated($dispute)
