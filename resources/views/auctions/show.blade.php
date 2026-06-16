@@ -46,7 +46,7 @@ $esGanador=$ended&&$auction->winner_id&&auth()->id()===$auction->winner_id;
 <div style="border-radius:12px;overflow:hidden;background:#f9fafb;margin-bottom:20px;">
 @if(count($imgs)>0)
 <div style="aspect-ratio:4/3;position:relative;" id="main-img-wrap">
-<img id="main-img" src="{{ $imgs[0] }}" style="width:100%;height:100%;object-fit:cover;">
+<img id="main-img" src="{{ $imgs[0] }}" style="width:100%;height:100%;object-fit:contain;background:#fff;">
 </div>
 @if(count($imgs)>1)
 <div style="display:flex;gap:8px;padding:12px;">
