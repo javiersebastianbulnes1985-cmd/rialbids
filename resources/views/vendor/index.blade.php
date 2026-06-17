@@ -38,7 +38,7 @@
 .btn-edit{background:var(--gold-light);color:var(--gold-dark);border:1px solid #e0c87a}
 .btn-ship{background:var(--ink);color:var(--gold)}
 .btn-view{background:var(--cream);color:var(--ink);border:1px solid var(--cream-dark)}
-.shipping-row td{background:#f0f9ff;border-bottom:2px solid #bae6fd;padding:14px 18px}
+.shipping-row td{background:#f8f4ed;border-bottom:2px solid #e0d8c8;padding:14px 18px}
 </style>
 
 <div class="vd-body">
@@ -352,5 +352,4 @@
 </div>
 </div>
 @endsection
-
 
