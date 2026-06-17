@@ -85,6 +85,11 @@ class AuctionController extends \Illuminate\Routing\Controller
         if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
             return back()->with('error', 'No podés pujar en tus propios lotes.');
         }
+
+        $u = auth()->user();
+        if (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country)) {
+            return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
+        }
         $bids    = $auction->bids()->with('user')->orderBy('created_at','desc')->take(10)->get();
 
         $auction->increment('views_count');
@@ -108,6 +113,11 @@ class AuctionController extends \Illuminate\Routing\Controller
 
         if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
             return back()->with('error', 'No podés pujar en tus propios lotes.');
+        }
+
+        $u = auth()->user();
+        if (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country)) {
+            return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
         }
 
         $request->validate([
@@ -157,6 +167,11 @@ public function confirmarEntrega(Request $request, $id)
 
         if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
             return back()->with('error', 'No podés pujar en tus propios lotes.');
+        }
+
+        $u = auth()->user();
+        if (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country)) {
+            return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
         }
 
         if ($auction->winner_id !== auth()->id()) {
