@@ -189,7 +189,7 @@ class PaymentController extends \Illuminate\Routing\Controller
         if (auth()->id() !== $auction->user_id) abort(403);
 
         $request->validate([
-            'tracking_number'  => 'required|string',
+            'tracking_number'  => 'required|string|min:8|regex:/^[A-Za-z0-9\-]+$/',
             'tracking_carrier' => 'required|string',
         ]);
 
