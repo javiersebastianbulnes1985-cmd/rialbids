@@ -63,7 +63,7 @@ class DisputeController extends Controller
 
         Notification::route('mail', 'javiersebastianbulnes1985@gmail.com')
             ->notify(new DisputaAbierta($dispute));
-        Notification::route('mail', 'soporte@rialbids.com')
+        Notification::route('mail', 'info@rialbids.com')
             ->notify(new DisputaAbierta($dispute));
 
         // Avisar al vendedor para que pueda dar su version
