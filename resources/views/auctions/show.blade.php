@@ -108,7 +108,7 @@ $esGanador=$ended&&$auction->winner_id&&auth()->id()===$auction->winner_id;
 </div>
 @if(!$ended)
 <div style="padding:16px;">
-@if(auth()->check() && !auth()->user()->address)
+@if(auth()->check() && !auth()->user()->address && auth()->user()->id !== $auction->user_id)
 <div style="margin-bottom:12px;background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);border:1px solid #f59e0b;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px">
   <div style="width:36px;height:36px;background:#f59e0b;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px">📦</div>
   <div style="flex:1">
