@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->report(function (\Throwable $e) {
             if (app()->environment("production") && !($e instanceof \Illuminate\Validation\ValidationException) && !($e instanceof \Illuminate\Auth\AuthenticationException) && !($e instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)) {
                 try {
-                    $token = "8759922518:AAFic0oeVAJnes7I1btOPpzcbn5zrdQx2rA";
+                    $token = "8759922518:AAGYm4kjAycPF6yUKyp52hBcUacE4U_6iGU";
                     $chat  = "5742218578";
                     $msg   = urlencode("🚨 RialBids ERROR\n" . get_class($e) . "\n" . $e->getMessage() . "\n" . $e->getFile() . ":" . $e->getLine());
                     file_get_contents("https://api.telegram.org/bot{$token}/sendMessage?chat_id={$chat}&text={$msg}");
