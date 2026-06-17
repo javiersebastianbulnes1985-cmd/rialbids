@@ -38,6 +38,7 @@
 .btn-edit{background:var(--gold-light);color:var(--gold-dark);border:1px solid #e0c87a}
 .btn-ship{background:var(--ink);color:var(--gold)}
 .btn-view{background:var(--cream);color:var(--ink);border:1px solid var(--cream-dark)}
+.shipping-row td{background:#f0f9ff;border-bottom:2px solid #bae6fd;padding:14px 18px}
 </style>
 
 <div class="vd-body">
@@ -47,19 +48,19 @@
 
   @if(isset($disputas) && $disputas->count() > 0)
   <div style="background:#fff;border:1px solid #fca5a5;border-left:4px solid #dc2626;border-radius:12px;padding:20px 24px;margin-bottom:20px">
-    <h2 style="font-size:16px;font-weight:700;color:#991b1b;margin:0 0 4px">Tenes una disputa que necesita tu respuesta</h2>
-    <p style="font-size:13px;color:#6b7280;margin:0 0 16px">Un comprador abrio un reclamo. Conta tu version antes de que el equipo resuelva.</p>
+    <h2 style="font-size:16px;font-weight:700;color:#991b1b;margin:0 0 4px">Tenés una disputa que necesita tu respuesta</h2>
+    <p style="font-size:13px;color:#6b7280;margin:0 0 16px">Un comprador abrió un reclamo. Contá tu versión antes de que el equipo resuelva.</p>
     @foreach($disputas as $d)
     <div style="border:1px solid #e5e7eb;border-radius:8px;padding:16px;margin-bottom:12px">
       <div style="font-size:14px;font-weight:700;color:#111827;margin-bottom:6px">{{ $d->auction->title ?? ('Lote #'.$d->auction_id) }}</div>
       <p style="font-size:13px;color:#374151;margin:0 0 4px"><strong>Motivo:</strong> {{ $d->reason }}</p>
       @if($d->description)<p style="font-size:13px;color:#6b7280;margin:0 0 12px;padding:10px;background:#f9fafb;border-radius:6px">"{{ $d->description }}"</p>@endif
       @if($d->seller_responded_at)
-        <div style="font-size:12px;color:#16a34a;font-weight:600;margin-top:8px">Ya enviaste tu respuesta. El equipo la esta revisando.</div>
+        <div style="font-size:12px;color:#16a34a;font-weight:600;margin-top:8px">Ya enviaste tu respuesta. El equipo la está revisando.</div>
       @else
         <form method="POST" action="{{ route('vendor.disputes.responder', $d->id) }}" style="margin-top:10px">
           @csrf
-          <textarea name="seller_response" required maxlength="2000" placeholder="Conta que paso desde tu lado (envio, estado del objeto, comunicacion con el comprador)..." style="width:100%;min-height:90px;border:1px solid #d1d5db;border-radius:8px;padding:10px;font-size:13px;font-family:inherit;box-sizing:border-box;resize:vertical"></textarea>
+          <textarea name="seller_response" required maxlength="2000" placeholder="Contá qué pasó desde tu lado (envío, estado del objeto, comunicación con el comprador)..." style="width:100%;min-height:90px;border:1px solid #d1d5db;border-radius:8px;padding:10px;font-size:13px;font-family:inherit;box-sizing:border-box;resize:vertical"></textarea>
           <button type="submit" style="margin-top:8px;background:#1a3a6b;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:600;cursor:pointer">Enviar mi respuesta</button>
         </form>
       @endif
@@ -67,7 +68,6 @@
     @endforeach
   </div>
   @endif
-
 
   {{-- Header perfil --}}
   <div class="vd-header-card">
@@ -100,8 +100,9 @@
 
   {{-- Stats --}}
   @php
-    $ganancias  = $auctions->whereIn('status',['paid','shipped','delivered','completed'])->sum('final_price');
-    $comisiones = $ganancias * 0.09 + ($auctions->whereIn('status',['paid','shipped','delivered','completed'])->count() * 3);
+    $vendidosStats = $auctions->whereIn('status',['paid','shipped','delivered','completed']);
+    $ganancias  = $vendidosStats->sum('final_price');
+    $comisiones = $vendidosStats->sum(function($a){ return $a->free_commission ? 0 : ($a->final_price * 0.09 + 3); });
     $neto       = $ganancias - $comisiones;
     $totalVistas= $auctions->sum('views_count');
     $totalPujas = $auctions->sum('total_bids');
@@ -205,6 +206,7 @@
             'completed' => ['bg'=>'#edf7f0','color'=>'#15803d','border'=>'#c0dece','label'=>'Completado ✓'],
           ];
           $sc = $statusMap[$lot->status] ?? ['bg'=>'#f5f0e8','color'=>'#5a4f3a','border'=>'#d8d0c0','label'=>ucfirst($lot->status)];
+          $winner = ($lot->status === 'paid') ? \App\Models\User::find($lot->winner_id) : null;
         @endphp
         <tr>
           <td>
@@ -252,30 +254,51 @@
               @if($lot->status === 'pending')
                 <a href="{{ route('vendor.edit',$lot->id) }}" class="btn btn-edit">✏ Editar</a>
               @endif
-              @if($lot->status === 'paid')
-                @php $winner = \App\Models\User::find($lot->winner_id); @endphp
-                @if($winner)
-                <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px 12px;margin-bottom:8px;font-size:11px">
-                  <p style="font-weight:700;color:#1a3a6b;margin:0 0 4px">📦 Enviar a:</p>
-                  <p style="margin:0;color:#374151">{{ $winner->name }}</p>
-                  <p style="margin:0;color:#374151">{{ $winner->address }}@if($winner->city), {{ $winner->city }}@endif</p>
-                  <p style="margin:0;color:#374151">@if($winner->postal_code){{ $winner->postal_code }} @endif{{ $winner->country }}</p>
-                  @if($winner->phone)<p style="margin:0;color:#374151">Tel: {{ $winner->phone }}</p>@endif
-                  <p style="margin:4px 0 0;font-size:10px;color:#6b7280">⚠️ Tenés 3 días hábiles para enviar con tracking válido.</p>
-                </div>
-                @endif
-                <form method="POST" action="{{ route('vendor.auctions.ship',$lot->id) }}" style="display:flex;gap:4px;align-items:center">
-                  @csrf
-                  <input type="text" name="tracking_number" placeholder="Nº tracking" required
-                    style="border:1px solid var(--cream-dark);border-radius:6px;padding:4px 8px;font-size:11px;width:100px;background:var(--cream)">
-                  <button type="submit" class="btn btn-ship">Marcar enviado</button>
-                </form>
-              @elseif($lot->status === 'shipped')
-                <span style="font-size:11px;color:#2d6a4a">✓ {{ $lot->tracking_number }}</span>
+              @if($lot->status === 'shipped')
+                <span style="font-size:11px;color:#1e40af;font-weight:600">🚚 {{ $lot->tracking_number }}</span>
               @endif
             </div>
           </td>
         </tr>
+        {{-- Fila expandida para lotes PAID: dirección + tracking --}}
+        @if($lot->status === 'paid')
+        <tr class="shipping-row">
+          <td colspan="7">
+            <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap">
+              {{-- Dirección de envío --}}
+              <div style="flex:1;min-width:220px">
+                <p style="font-size:11px;font-weight:700;color:#1a3a6b;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em">📦 Dirección de envío</p>
+                @if($winner)
+                  <p style="font-size:13px;font-weight:600;color:#111827;margin:0">{{ $winner->name }}</p>
+                  <p style="font-size:12px;color:#374151;margin:2px 0">{{ $winner->address }}{{ $winner->city ? ', '.$winner->city : '' }}</p>
+                  <p style="font-size:12px;color:#374151;margin:2px 0">{{ $winner->postal_code }} {{ $winner->country }}</p>
+                  @if($winner->phone)<p style="font-size:12px;color:#374151;margin:2px 0">Tel: {{ $winner->phone }}</p>@endif
+                @else
+                  <p style="font-size:12px;color:#9ca3af;margin:0">Sin dirección registrada</p>
+                @endif
+              </div>
+              {{-- Instrucciones --}}
+              <div style="flex:1;min-width:220px">
+                <p style="font-size:11px;font-weight:700;color:#1a3a6b;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em">📋 Instrucciones</p>
+                <p style="font-size:12px;color:#374151;margin:0 0 4px">✓ Tenés <strong>3 días hábiles</strong> para enviar</p>
+                <p style="font-size:12px;color:#374151;margin:0 0 4px">✓ Usá un servicio con número de tracking válido</p>
+                <p style="font-size:12px;color:#374151;margin:0">✓ Guardá el comprobante de envío por si hay disputas</p>
+                <p style="font-size:11px;color:#b45309;margin:6px 0 0;font-style:italic">Contacto RialBids: <a href="mailto:info@rialbids.com" style="color:#1a3a6b">info@rialbids.com</a></p>
+              </div>
+              {{-- Formulario tracking --}}
+              <div style="flex:1;min-width:220px">
+                <p style="font-size:11px;font-weight:700;color:#1a3a6b;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em">🔢 Cargar número de tracking</p>
+                <form method="POST" action="{{ route('vendor.auctions.ship',$lot->id) }}" style="display:flex;flex-direction:column;gap:8px">
+                  @csrf
+                  <input type="text" name="tracking_number" placeholder="Ej: ES123456789ES" required
+                    style="border:1px solid var(--cream-dark);border-radius:6px;padding:8px 12px;font-size:12px;background:#fff;width:100%;box-sizing:border-box">
+                  <button type="submit" style="background:#1a3a6b;color:#c9a84c;border:none;border-radius:6px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em">Marcar como enviado →</button>
+                </form>
+              </div>
+            </div>
+          </td>
+        </tr>
+        @endif
         @endforeach
       </tbody>
     </table>
@@ -294,7 +317,7 @@
       <thead><tr>
         <th>Lote</th>
         <th style="text-align:right">Precio venta</th>
-        <th style="text-align:right">Comisión (9%+€3)</th>
+        <th style="text-align:right">Comisión RialBids</th>
         <th style="text-align:right">Tu ganancia</th>
         <th>Estado</th>
       </tr></thead>
@@ -302,21 +325,23 @@
       @foreach($vendidos as $lot)
       @php
         $precio   = $lot->final_price ?? $lot->current_price ?? 0;
-        $comision = ($precio * 0.09) + 3;
+        $comision = $lot->free_commission ? 0 : (($precio * 0.09) + 3);
         $ganancia = $precio - $comision;
       @endphp
       <tr>
         <td style="font-weight:500">{{ Str::limit($lot->title,38) }}</td>
         <td style="text-align:right;font-weight:500;font-family:'Playfair Display',Georgia,serif">€{{ number_format($precio,2,',','.') }}</td>
-        <td style="text-align:right;color:#b45309">-€{{ number_format($comision,2,',','.') }}</td>
-        <td style="text-align:right;font-weight:500;color:#2d6a4a;font-family:'Playfair Display',Georgia,serif">€{{ number_format($ganancia,2,',','.') }}</td>
+        <td style="text-align:right;color:{{ $comision > 0 ? '#b45309' : '#16a34a' }}">
+          @if($comision > 0)-€{{ number_format($comision,2,',','.') }}@else<span style="font-size:10px;font-weight:600;background:#dcfce7;color:#16a34a;padding:2px 8px;border-radius:20px">Primer lote gratis</span>@endif
+        </td>
+        <td style="text-align:right;font-weight:600;color:{{ $ganancia >= 0 ? '#2d6a4a' : '#dc2626' }};font-family:'Playfair Display',Georgia,serif">€{{ number_format($ganancia,2,',','.') }}</td>
         <td><span style="font-size:10px;background:#edf7f0;color:#2d6a4a;border:1px solid #c0dece;padding:2px 8px;border-radius:20px;font-weight:600">{{ ucfirst($lot->status) }}</span></td>
       </tr>
       @endforeach
       <tr style="background:var(--cream)">
         <td colspan="2" style="font-weight:600;color:var(--ink);font-size:12px;text-transform:uppercase;letter-spacing:.05em">Total</td>
         <td style="text-align:right;font-weight:600;color:#b45309">-€{{ number_format($comisiones,2,',','.') }}</td>
-        <td style="text-align:right;font-weight:600;color:#2d6a4a;font-size:15px;font-family:'Playfair Display',Georgia,serif">€{{ number_format($neto,2,',','.') }}</td>
+        <td style="text-align:right;font-weight:600;color:{{ $neto >= 0 ? '#2d6a4a' : '#dc2626' }};font-size:15px;font-family:'Playfair Display',Georgia,serif">€{{ number_format($neto,2,',','.') }}</td>
         <td></td>
       </tr>
       </tbody>
@@ -327,3 +352,5 @@
 </div>
 </div>
 @endsection
+
+
