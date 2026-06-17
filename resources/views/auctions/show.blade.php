@@ -125,8 +125,8 @@ $esGanador=$ended&&$auction->winner_id&&auth()->id()===$auction->winner_id;
 <p style="font-size:12px;color:#9ca3af;margin-top:8px;"><span>¿No tienes cuenta?</span> <a href="{{ route('register') }}" style="color:#1a56db;">Regístrate gratis</a></p>
 </div>
 @elseif(auth()->user()->id === $auction->user_id)
-<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:14px;text-align:center;">
-<p style="font-size:13px;color:#92400e;font-weight:600;">No podés pujar en tu propio lote</p>
+<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px;text-align:center;">
+<p style="font-size:13px;color:#6b7280;">Este es tu lote — los compradores podrán hacer sus ofertas aquí.</p>
 </div>
 @else
 <div style="display:flex;gap:8px;margin-bottom:12px;">
