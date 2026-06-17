@@ -87,7 +87,7 @@ class AuctionController extends \Illuminate\Routing\Controller
         }
 
         $u = auth()->user();
-        if ($u && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
+        if ($u && !($u->isSeller() && $auction->user_id === $u->id) && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
             return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
         }
         $bids    = $auction->bids()->with('user')->orderBy('created_at','desc')->take(10)->get();
@@ -116,7 +116,7 @@ class AuctionController extends \Illuminate\Routing\Controller
         }
 
         $u = auth()->user();
-        if ($u && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
+        if ($u && !($u->isSeller() && $auction->user_id === $u->id) && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
             return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
         }
 
@@ -170,7 +170,7 @@ public function confirmarEntrega(Request $request, $id)
         }
 
         $u = auth()->user();
-        if ($u && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
+        if ($u && !($u->isSeller() && $auction->user_id === $u->id) && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
             return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
         }
 
