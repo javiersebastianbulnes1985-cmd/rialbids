@@ -82,12 +82,12 @@ class AuctionController extends \Illuminate\Routing\Controller
     {
         $auction = Auction::findOrFail($id);
 
-        if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
+        if (auth()->check() && auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
             return back()->with('error', 'No podés pujar en tus propios lotes.');
         }
 
         $u = auth()->user();
-        if (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country)) {
+        if ($u && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
             return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
         }
         $bids    = $auction->bids()->with('user')->orderBy('created_at','desc')->take(10)->get();
@@ -111,12 +111,12 @@ class AuctionController extends \Illuminate\Routing\Controller
 
         $auction = Auction::findOrFail($id);
 
-        if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
+        if (auth()->check() && auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
             return back()->with('error', 'No podés pujar en tus propios lotes.');
         }
 
         $u = auth()->user();
-        if (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country)) {
+        if ($u && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
             return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
         }
 
@@ -165,12 +165,12 @@ public function confirmarEntrega(Request $request, $id)
     {
         $auction = Auction::findOrFail($id);
 
-        if (auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
+        if (auth()->check() && auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
             return back()->with('error', 'No podés pujar en tus propios lotes.');
         }
 
         $u = auth()->user();
-        if (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country)) {
+        if ($u && (empty($u->address) || empty($u->city) || empty($u->postal_code) || empty($u->country))) {
             return back()->with('error', 'Para pujar necesitás completar tu dirección de envío completa (calle, ciudad, código postal y país) en tu perfil.');
         }
 
