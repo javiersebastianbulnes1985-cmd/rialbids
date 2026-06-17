@@ -83,7 +83,7 @@ class AuctionController extends \Illuminate\Routing\Controller
         $auction = Auction::findOrFail($id);
 
         if (auth()->check() && auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
-            return back()->with('error', 'No podés pujar en tus propios lotes.');
+            // Es el dueño del lote, puede verlo sin error
         }
 
         $u = auth()->user();
@@ -112,7 +112,7 @@ class AuctionController extends \Illuminate\Routing\Controller
         $auction = Auction::findOrFail($id);
 
         if (auth()->check() && auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
-            return back()->with('error', 'No podés pujar en tus propios lotes.');
+            // Es el dueño del lote, puede verlo sin error
         }
 
         $u = auth()->user();
@@ -166,7 +166,7 @@ public function confirmarEntrega(Request $request, $id)
         $auction = Auction::findOrFail($id);
 
         if (auth()->check() && auth()->user()->isSeller() && $auction->user_id === auth()->id()) {
-            return back()->with('error', 'No podés pujar en tus propios lotes.');
+            // Es el dueño del lote, puede verlo sin error
         }
 
         $u = auth()->user();
