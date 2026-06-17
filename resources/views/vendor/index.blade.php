@@ -340,7 +340,7 @@
       @endforeach
       <tr style="background:var(--cream)">
         <td colspan="2" style="font-weight:600;color:var(--ink);font-size:12px;text-transform:uppercase;letter-spacing:.05em">Total</td>
-        <td style="text-align:right;font-weight:600;color:#b45309">-€{{ number_format($comisiones,2,',','.') }}</td>
+        <td style="text-align:right;font-weight:600;color:#b45309">{{ $comisiones > 0 ? '-€'.number_format($comisiones,2,',','.') : '€0,00' }}</td>
         <td style="text-align:right;font-weight:600;color:{{ $neto >= 0 ? '#2d6a4a' : '#dc2626' }};font-size:15px;font-family:'Playfair Display',Georgia,serif">€{{ number_format($neto,2,',','.') }}</td>
         <td></td>
       </tr>
