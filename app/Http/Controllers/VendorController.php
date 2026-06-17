@@ -208,9 +208,10 @@ class VendorController extends \Illuminate\Routing\Controller
             return back()->with('error', 'El lote no está en estado correcto.');
         }
 
-        $request->validate(['tracking_number' => 'required|string|max:255']);
+        $request->validate(['tracking_number' => 'required|string|min:8|max:255|regex:/^[A-Za-z0-9\-]+$/', 'tracking_carrier' => 'required|string|max:100']);
 
         $auction->tracking_number = $request->tracking_number;
+        $auction->tracking_carrier = $request->tracking_carrier;
         $auction->shipped_at = now();
         $auction->status = 'shipped';
         $auction->save();
