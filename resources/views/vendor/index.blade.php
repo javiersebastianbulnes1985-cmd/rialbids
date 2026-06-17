@@ -290,8 +290,28 @@
                 <p style="font-size:11px;font-weight:700;color:#1a3a6b;margin:0 0 8px;text-transform:uppercase;letter-spacing:.06em">🔢 Cargar número de tracking</p>
                 <form method="POST" action="{{ route('vendor.auctions.ship',$lot->id) }}" style="display:flex;flex-direction:column;gap:8px">
                   @csrf
-                  <input type="text" name="tracking_number" placeholder="Ej: ES123456789ES" required
+                  <select name="tracking_carrier" required id="carrier_{{ $lot->id }}" onchange="updateTracking({{ $lot->id }})" style="border:1px solid var(--cream-dark);border-radius:6px;padding:8px 12px;font-size:12px;background:#fff;width:100%;box-sizing:border-box">
+                    <option value="">-- Seleccionar courier --</option>
+                    <option value="correos">Correos ES</option>
+                    <option value="correos_pt">CTT Portugal</option>
+                    <option value="dhl">DHL</option>
+                    <option value="gls">GLS</option>
+                    <option value="mrw">MRW</option>
+                    <option value="seur">SEUR</option>
+                    <option value="ups">UPS</option>
+                    <option value="fedex">FedEx</option>
+                    <option value="nacex">Nacex</option>
+                    <option value="autre">Otro</option>
+                  </select>
+                  <input type="text" name="tracking_number" id="tracking_{{ $lot->id }}" placeholder="Seleccioná un courier primero" required
                     style="border:1px solid var(--cream-dark);border-radius:6px;padding:8px 12px;font-size:12px;background:#fff;width:100%;box-sizing:border-box">
+                  <div id="tracking_hint_{{ $lot->id }}" style="font-size:11px;color:#6b7280;margin-top:-4px;display:none"></div>
+                  @error("tracking_number")
+                  <div style="color:#dc2626;font-size:11px;font-weight:600">{{ $message }}</div>
+                  @enderror
+                  <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:11px;color:#92400e">
+                    ⚠️ <strong>Atención:</strong> Al confirmar declarás que el número de tracking es real y válido. Proporcionar información falsa puede resultar en la suspensión permanente de tu cuenta.
+                  </div>
                   <button type="submit" style="background:#1a3a6b;color:#c9a84c;border:none;border-radius:6px;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;letter-spacing:.04em">Marcar como enviado →</button>
                 </form>
               </div>
@@ -353,3 +373,31 @@
 </div>
 @endsection
 
+
+<script>
+function updateTracking(lotId) {
+    var carrier = document.getElementById("carrier_" + lotId).value;
+    var input = document.getElementById("tracking_" + lotId);
+    var hint = document.getElementById("tracking_hint_" + lotId);
+    var formats = {
+        "correos": {ph: "ES000000000ES", hint: "13 caracteres: ES + 9 digitos + ES"},
+        "correos_pt": {ph: "CT000000000PT", hint: "13 caracteres: CT + 9 digitos + PT"},
+        "dhl": {ph: "1234567890", hint: "10 digitos numericos"},
+        "gls": {ph: "12345678", hint: "8 a 14 caracteres"},
+        "mrw": {ph: "1234567890123", hint: "13 caracteres"},
+        "seur": {ph: "1234567890123", hint: "13 digitos"},
+        "ups": {ph: "1Z999AA10123456784", hint: "Empieza con 1Z + 16 caracteres"},
+        "fedex": {ph: "123456789012", hint: "12 a 22 digitos"},
+        "nacex": {ph: "1234567890", hint: "10 digitos"},
+        "autre": {ph: "XXXXXXXX", hint: "Minimo 8 caracteres alfanumericos"}
+    };
+    if (formats[carrier]) {
+        input.placeholder = formats[carrier].ph;
+        hint.textContent = "Formato esperado: " + formats[carrier].hint;
+        hint.style.display = "block";
+    } else {
+        input.placeholder = "Selecciona un courier primero";
+        hint.style.display = "none";
+    }
+}
+</script>
