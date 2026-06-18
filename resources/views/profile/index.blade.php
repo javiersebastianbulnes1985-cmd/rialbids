@@ -124,6 +124,27 @@
                 <a href="mailto:info@rialbids.com?subject=Consulta lote %23{{ str_pad($compra->id,4,'0',STR_PAD_LEFT) }}" style="font-size:11px;color:#1a3a6b;text-decoration:none;font-weight:600;padding:4px 10px;border:1px solid #1a3a6b;border-radius:20px;display:inline-block">¿Algún problema? Contactanos</a>
               @elseif($compra->status === 'shipped')
                 <span style="background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600">En camino</span>
+                @if($compra->tracking_number)
+                @php
+                $trackingUrls = [
+                    "correos"    => "https://www.correos.es/es/es/herramientas/localizador/envios/detalle?tracking-number=",
+                    "correos_pt" => "https://www.ctt.pt/feapl_2/app/open/objectSearch/objectSearch.jspx?request_locale=pt&objects=",
+                    "dhl"        => "https://www.dhl.com/es-es/home/tracking.html?tracking-id=",
+                    "gls"        => "https://gls-group.com/track/",
+                    "mrw"        => "https://www.mrw.es/seguimiento_envios/MRW_resultados_consultas.asp?Numero=",
+                    "seur"       => "https://www.seur.com/livetracking/?segOnlineIdentificador=",
+                    "ups"        => "https://www.ups.com/track?tracknum=",
+                    "fedex"      => "https://www.fedex.com/fedextrack/?tracknumbers=",
+                    "nacex"      => "https://www.nacex.es/seguimientoDetalle.do?agencia_origen=&numero_albaran=",
+                ];
+                $trackingUrl = isset($trackingUrls[$compra->tracking_carrier]) ? $trackingUrls[$compra->tracking_carrier] . $compra->tracking_number : null;
+                @endphp
+                @if($trackingUrl)
+                <a href="{{ $trackingUrl }}" target="_blank" style="font-size:11px;color:#1a3a6b;text-decoration:none;font-weight:600;padding:4px 10px;border:1px solid #1a3a6b;border-radius:20px;display:inline-block">📦 Trackear envío</a>
+                @else
+                <span style="font-size:11px;color:#6b7280">Tracking: {{ $compra->tracking_number }}</span>
+                @endif
+                @endif
                 <form method="POST" action="{{ route('auctions.confirm', $compra->id) }}" style="display:inline">
                   @csrf
                   <button type="submit" class="btn-confirm">Confirmar recepción</button></form><a href="{{ route('disputes.create', $compra->id) }}" style="font-size:11px;color:#b91c1c;text-decoration:none;font-weight:600;padding:4px 10px;border:1px solid #fca5a5;border-radius:20px;display:inline-block;margin-left:6px">Tengo un problema</a><form style="display:none">
