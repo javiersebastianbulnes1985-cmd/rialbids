@@ -187,6 +187,20 @@ public function confirmarEntrega(Request $request, $id)
         $auction->payment_release_scheduled_at = now()->addDays(14);
         $auction->save();
 
+        // Notificar al vendor que el comprador confirmó recepción
+        if ($auction->user) {
+            try {
+                \Illuminate\Support\Facades\Mail::raw(
+                    "El comprador confirmó la recepción del lote #{$auction->id} - {$auction->title}.\n\nEl pago se liberará en las próximas horas.\n\nEntrá a tu panel en https://rialbids.com/vendor para ver el estado.",
+                    function($m) use ($auction) {
+                        $m->to($auction->user->email)->subject("✅ Entrega confirmada — RialBids");
+                    }
+                );
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error("Error notificando vendor confirmacion: " . $e->getMessage());
+            }
+        }
+
         StripeConnectController::liberarPago($auction);
 
         return back()->with('success', '¡Recepción confirmada! El pago fue liberado al vendedor.');
