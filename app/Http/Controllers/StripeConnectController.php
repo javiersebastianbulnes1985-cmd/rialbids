@@ -124,6 +124,14 @@ class StripeConnectController extends Controller
             return true;
         } catch (\Exception $e) {
             Log::error("Error liberando pago - Subasta {$auction->id}: " . $e->getMessage());
+            try {
+                \Illuminate\Support\Facades\Mail::raw(
+                    "ALERTA: Error al liberar pago subasta #" . $auction->id . ".\n\nVendedor: " . $vendedor->name . " (" . $vendedor->email . ")\nStripe Account: " . $vendedor->stripe_account_id . "\n\nError: " . $e->getMessage() . "\n\nEntra al panel /admin/pagos para liberar manualmente.",
+                    function($m) { $m->to("info@rialbids.com")->subject("ERROR PAGO - Accion requerida en RialBids"); }
+                );
+            } catch (\Exception $mailEx) {
+                \Illuminate\Support\Facades\Log::error("No se pudo enviar email de alerta: " . $mailEx->getMessage());
+            }
             return false;
         }
     }
