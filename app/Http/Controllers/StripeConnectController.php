@@ -82,6 +82,12 @@ class StripeConnectController extends Controller
 
         $vendedor = $auction->user;
 
+        // Evitar doble liberacion
+        if ($auction->payment_released_at) {
+            Log::warning("DOBLE LIBERACION EVITADA - Subasta {$auction->id} ya fue liberada el {$auction->payment_released_at}");
+            return false;
+        }
+
         if (!$vendedor->stripe_account_id || !$vendedor->stripe_onboarding_complete) {
             Log::error("PAGO NO LIBERADO - Subasta {$auction->id}: vendor {$vendedor->id} ({$vendedor->email}) sin stripe_account_id o onboarding incompleto. REQUIERE ACCION MANUAL EN /admin/pagos");
             try {

@@ -184,6 +184,7 @@ public function confirmarEntrega(Request $request, $id)
 
         $auction->delivered_at = now();
         $auction->status = 'delivered';
+        $auction->payment_release_scheduled_at = now()->addDays(14);
         $auction->save();
 
         StripeConnectController::liberarPago($auction);
