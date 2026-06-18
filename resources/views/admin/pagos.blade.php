@@ -82,7 +82,7 @@
 @else
 <p style="font-size:11px;color:#b45309;margin:0 0 8px;font-style:italic">El vendedor todavia no respondio.</p>
 @endif
-<p style="font-size:13px;color:#374151;background:#f9fafb;padding:10px;border-radius:6px;margin:0 0 8px">{{ $dc->description }}</p>
+
 @if($dc->photo_path)<a href="{{ asset('storage/'.$dc->photo_path) }}" target="_blank" style="font-size:12px;color:#1a3a6b">Ver foto adjunta</a> &middot; @endif
 <a href="{{ route('auctions.show', $dc->auction_id) }}" target="_blank" style="font-size:12px;color:#1a3a6b">Ver lote</a>
 @if(!in_array($dc->status, ['resuelta_comprador','resuelta_vendedor','cerrada']))
