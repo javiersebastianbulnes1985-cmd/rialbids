@@ -227,6 +227,14 @@ class AdminController extends \Illuminate\Routing\Controller
             $auction->user->notify(new \App\Notifications\LoteAprobado($auction));
         }
 
+        // Notificar a todos los contactos de Brevo
+        try {
+            $brevo = new \App\Services\BrevoService();
+            $brevo->notificarNuevoLote($auction);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error("Error notificando Brevo lote #{$auction->id}: " . $e->getMessage());
+        }
+
         return back()->with('success','Lote aprobado y vendor notificado.');
     }
 
