@@ -3,7 +3,7 @@
 @section('content')
 <div style="max-width:640px;margin:40px auto;padding:0 20px">
 
-  <a href="{{ url('/auctions/'.$auction->id) }}" style="font-size:13px;color:#1a3a6b;text-decoration:none">&larr; Volver al lote</a>
+  <a href="{{ route('profile.index') }}" style="font-size:13px;color:#1a3a6b;text-decoration:none">&larr; Volver a mis compras</a>
 
   <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:28px;margin-top:16px">
 
