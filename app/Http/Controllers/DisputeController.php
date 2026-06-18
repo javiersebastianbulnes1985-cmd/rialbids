@@ -75,8 +75,7 @@ class DisputeController extends Controller
             \Log::error('Error avisando al vendedor de disputa #' . $dispute->id . ': ' . $e->getMessage());
         }
 
-        return redirect()->route('disputes.create', $auction)
-            ->with('disputa_ok', true);
+        return redirect()->route('profile.index')->with('success', 'Tu disputa fue abierta. Te contactaremos pronto.');
     }
 
     // ===== RESOLUCION DE DISPUTAS (ADMIN) =====
