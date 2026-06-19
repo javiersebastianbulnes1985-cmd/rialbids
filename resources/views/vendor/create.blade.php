@@ -119,6 +119,8 @@
           <li>Fotos adicionales: detalles, firma, defectos, reverso</li>
           <li>Sin marcas de agua ni texto encima</li>
           <li>Mínimo 800x800px recomendado</li>
+          <li><strong>Usá fotos cuadradas o horizontales</strong> — las fotos verticales se ven recortadas en la plataforma</li>
+          <li><strong>Usá fotos cuadradas o horizontales</strong> — las fotos verticales se ven recortadas en la plataforma</li>
         </ul>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;">
