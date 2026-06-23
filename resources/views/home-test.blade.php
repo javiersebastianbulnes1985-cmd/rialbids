@@ -154,7 +154,7 @@
           <span style="font-size:17px;font-weight:700;color:#fff;">{{ __('Arte') }}<br><small style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.6);">{{ __('Próximamente') }}</small></span>
         </a>
         <a href="/?categoria=coleccionismo" style="border-radius:10px;height:150px;position:relative;overflow:hidden;text-decoration:none;display:block;">
-          <img src="https://images.pexels.com/photos/161963/antique-bronze-bronze-figurine-asia-161963.jpeg?w=400&h=250&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+          <img src="https://images.pexels.com/photos/6044266/pexels-photo-6044266.jpeg?w=400&h=250&fit=crop" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
           <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(10,20,50,0.85) 0%,rgba(26,58,140,0.25) 60%);display:flex;align-items:flex-end;padding:16px;">
             <span style="font-size:17px;font-weight:700;color:#fff;">{{ __('Antigüedades') }}<br><small style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.7);">{{ __('Próximamente') }}</small></span>
           </div>
@@ -183,9 +183,9 @@
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
         <div style="background:#0f2744;border-radius:10px;overflow:hidden;">
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:8px 8px 0;">
-            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="{{ asset('storage/auctions/1781839992_6a34b8782782d.jpg') }}" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="{{ asset('storage/auctions/1781837170_6a34ad72356b4.png') }}" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="{{ asset('storage/auctions/1781839216_6a34b570777d9.jpg') }}" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="https://images.pexels.com/photos/190819/pexels-photo-190819.jpeg?w=400" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="https://images.pexels.com/photos/9978721/pexels-photo-9978721.jpeg?w=400" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="https://images.pexels.com/photos/277390/pexels-photo-277390.jpeg?w=400" style="width:100%;height:100%;object-fit:cover;"></div>
           </div>
           <div style="padding:18px 22px 22px;">
             <h4 style="font-size:19px;font-weight:700;color:#fff;margin-bottom:6px;">{{ __('Relojes Vintage') }}</h4>
@@ -195,9 +195,9 @@
         </div>
         <div style="background:#0f2744;border-radius:10px;overflow:hidden;">
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:8px 8px 0;">
-            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="{{ asset('storage/auctions/1780369370_6a1e47da8d059.JPG') }}" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="{{ asset('storage/auctions/1780369613_6a1e48cd3237d.PNG') }}" style="width:100%;height:100%;object-fit:cover;"></div>
-            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="{{ asset('storage/auctions/1780370654_6a1e4cde182d7.jpg') }}" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="https://images.pexels.com/photos/691046/pexels-photo-691046.jpeg?w=400" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="https://images.pexels.com/photos/1458867/pexels-photo-1458867.jpeg?w=400" style="width:100%;height:100%;object-fit:cover;"></div>
+            <div style="aspect-ratio:1/1;max-height:280px;background:#1a3a6b;border-radius:4px;overflow:hidden;"><img src="https://images.pexels.com/photos/2735970/pexels-photo-2735970.jpeg?w=400" style="width:100%;height:100%;object-fit:cover;"></div>
           </div>
           <div style="padding:18px 22px 22px;">
             <h4 style="font-size:19px;font-weight:700;color:#fff;margin-bottom:6px;">{{ __('Joyería de Lujo') }}</h4>
