@@ -17,7 +17,7 @@
 @endphp
 
 @if(isset($banner) && $banner)
-<div style="position:relative;width:100%;height:380px;overflow:hidden;background:#1a56db;">
+<div style="position:relative;width:100%;height:380px;overflow:hidden;background:#1a5f7a;">
   @if($banner->imagen_path)
     <img src="{{ asset('storage/'.$banner->imagen_path) }}" style="width:100%;height:100%;object-fit:contain;padding:8px;position:absolute;inset:0;">
   @endif
@@ -37,24 +37,6 @@
 </div>
 @endif
 
-@if(isset($banners) && $banners->count())
-@php $b = $banners->first(); @endphp
-<div style="position:relative;width:100%;height:420px;overflow:hidden;background:#0f2744;">
-  @if($b->imagen_path)
-    <img src="{{ asset('storage/'.$b->imagen_path) }}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">
-  @endif
-  <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,0.72) 0%,rgba(0,0,0,0.18) 100%);"></div>
-  <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 60px;">
-    <span style="font-size:11px;font-weight:600;letter-spacing:.15em;color:rgba(255,255,255,0.7);text-transform:uppercase;margin-bottom:14px;">RialBids · Subastas Online</span>
-    <h1 style="font-size:46px;font-weight:800;color:#fff;margin:0 0 14px;line-height:1.1;max-width:560px;">{{ $b->titulo }}</h1>
-    @if($b->subtitulo)
-      <p style="font-size:16px;color:rgba(255,255,255,0.8);margin:0 0 28px;max-width:460px;">{{ $b->subtitulo }}</p>
-    @endif
-    <a href="/auctions" style="display:inline-block;padding:13px 30px;background:#fff;color:#0f2744;border-radius:8px;font-size:14px;font-weight:700;text-decoration:none;width:fit-content;">{{ $b->link_texto ?? 'Ver subastas' }} &rarr;</a>
-  </div>
-</div>
-@endif
-
 <div style="max-width:1280px;margin:32px auto;padding:0 24px;">
 
   @php
@@ -67,12 +49,42 @@
 
     {{-- VISTA FILTRADA --}}
     <div style="margin-bottom:32px;">
+
+      @php
+        $subcats = [];
+        if($catFilter === "relojes") $subcats = ["" => "Todos", "vintage" => "Vintage", "cronografo" => "Cronógrafos", "automatico" => "Automáticos"];
+        if($catFilter === "joyas") $subcats = ["" => "Todos", "artdeco" => "Art Déco", "anillo" => "Anillos", "pendiente" => "Pendientes"];
+        if($catFilter === "antiguedades") $subcats = ["" => "Todos", "mueble" => "Muebles", "porcelana" => "Porcelana", "plata" => "Plata"];
+        if($catFilter === "coleccionismo") $subcats = ["" => "Todos", "moneda" => "Monedas", "sello" => "Sellos", "militaria" => "Militaria"];
+        if($catFilter === "arte") $subcats = ["" => "Todos", "pintura" => "Pintura", "escultura" => "Escultura", "fotografia" => "Fotografía"];
+        $subFilter = request("sub","");
+        if($subFilter && $subcats) {
+          $filtered = $filtered->filter(function($a) use($subFilter) {
+            return stripos($a->title, $subFilter) !== false;
+          });
+        }
+      @endphp
+
+      @if(count($subcats) > 0)
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+        @foreach($subcats as $key => $label)
+        <a href="?categoria={{ $catFilter }}&sub={{ $key }}"
+           style="display:inline-block;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;text-decoration:none;border:1px solid {{ $subFilter===$key ? "#1a5f7a" : "#d1d5db" }};background:{{ $subFilter===$key ? "#1a5f7a" : "#fff" }};color:{{ $subFilter===$key ? "#fff" : "#374151" }};">
+          {{ $label }}
+        </a>
+        @endforeach
+        @if($catFilter === "coleccionismo")
+        <span style="display:inline-block;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;border:1px solid #e5e7eb;background:#f9fafb;color:#9ca3af;cursor:default;">Motocicletas (próx.)</span>
+        @endif
+      </div>
+      @endif
+
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
         <h2 style="font-size:20px;font-weight:700;color:#111;">
           {{ $catFilter ? ucfirst($catFilter) : __('Resultados') }}
           <span style="font-size:14px;font-weight:400;color:#9ca3af;">({{ $filtered->count() }} {{ __('lotes') }})</span>
         </h2>
-        <a href="/" style="font-size:13px;color:#1a56db;text-decoration:none;">{{ __('← Volver al inicio') }}</a>
+        <a href="/" style="font-size:13px;color:#1a5f7a;text-decoration:none;">{{ __('← Volver al inicio') }}</a>
       </div>
 
       @if($filtered->count() > 0)
@@ -113,7 +125,7 @@
       <div style="text-align:center;padding:80px 20px;background:#fff;border-radius:12px;">
         <h2 style="font-size:20px;font-weight:700;color:#111827;margin-bottom:8px;">{{ __('Próximamente') }}</h2>
         <p style="font-size:14px;color:#6b7280;margin-bottom:20px;">{{ __('Estamos sumando lotes en esta categoría. Mientras tanto, mirá lo que ya tenemos disponible.') }}</p>
-        <a href="/" style="display:inline-block;background:#1a56db;color:#fff;padding:10px 24px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;">{{ __('Ver subastas activas') }}</a>
+        <a href="/" style="display:inline-block;background:#1a5f7a;color:#fff;padding:10px 24px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;">{{ __('Ver subastas activas') }}</a>
       </div>
       @endif
     </div>
@@ -166,7 +178,7 @@
     <div style="margin-bottom:40px;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
         <h2 style="font-size:18px;font-weight:700;color:#111;">{{ __('Subastas destacadas') }}</h2>
-        <a href="/auctions" style="font-size:13px;color:#1a56db;text-decoration:none;">{{ __('Ver todas →') }}</a>
+        <a href="/auctions" style="font-size:13px;color:#1a5f7a;text-decoration:none;">{{ __('Ver todas →') }}</a>
       </div>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
         <div style="background:#0f2744;border-radius:10px;overflow:hidden;">
@@ -194,53 +206,6 @@
           </div>
         </div>
         </div>
-      </div>
-    </div>
-
-
-    {{-- SUBASTAS ACTIVAS --}}
-    <div style="margin-bottom:40px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-        <h2 style="font-size:18px;font-weight:700;color:#111;">Subastas activas</h2>
-        <a href="/auctions" style="font-size:13px;color:#1a56db;text-decoration:none;">Ver todas &rarr;</a>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;">
-        @foreach($activeAuctions->take(4) as $lot)
-        @php
-          $lotImg = null;
-          if($lot->image_path) $lotImg = asset("storage/".$lot->image_path);
-          elseif($lot->image_path_2) $lotImg = asset("storage/".$lot->image_path_2);
-          $lotEnd = $lot->end_time ?? $lot->ends_at ?? null;
-          $lotSecs = $lotEnd ? max(0,\Carbon\Carbon::parse($lotEnd)->timestamp - now()->timestamp) : 0;
-          $lotDays = floor($lotSecs/86400);
-          $lotHours = floor(($lotSecs%86400)/3600);
-          $lotUrgent = $lotSecs < 86400 && $lotSecs > 0;
-          $lotTimer = $lotSecs > 0 ? $lotDays."d ".$lotHours."h" : "Finalizada";
-          $lotColor = $lotUrgent ? "#ef4444" : "#9ca3af";
-          $lotBorder = $lotUrgent ? "#fca5a5" : "#e5e7eb";
-          $lotPrice = number_format($lot->current_price ?? $lot->base_price ?? 0, 0, ",", ".");
-        @endphp
-        <a href="{{ route("auctions.show",$lot->id) }}"
-           style="display:block;background:#fff;border:1px solid {{ $lotBorder }};border-radius:10px;overflow:hidden;text-decoration:none;transition:all .2s;"
-           onmouseover="this.style.boxShadow=&apos;0 4px 20px rgba(0,0,0,0.10)&apos;;this.style.transform=&apos;translateY(-2px)&apos;"
-           onmouseout="this.style.boxShadow=&apos;none&apos;;this.style.transform=&apos;none&apos;">
-          <div style="aspect-ratio:1/1;background:#f8f8f8;overflow:hidden;">
-            @if($lotImg)<img src="{{ $lotImg }}" alt="{{ $lot->title }}" style="width:100%;height:100%;object-fit:contain;padding:8px;" loading="lazy">@endif
-          </div>
-          <div style="padding:12px;">
-            <div style="font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">{{ ucfirst($lot->lot_category ?? "") }}</div>
-            <h3 style="font-size:12px;font-weight:600;color:#111827;line-height:1.4;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">{{ $lot->title }}</h3>
-            <div style="font-size:11px;color:{{ $lotColor }};font-weight:600;margin-bottom:6px;">&#9201; {{ $lotTimer }}</div>
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <div style="font-size:10px;color:#9ca3af;">Puja actual</div>
-                <div style="font-size:15px;font-weight:700;color:#16a34a;">&euro;{{ $lotPrice }}</div>
-              </div>
-              <div style="font-size:11px;color:#9ca3af;">{{ $lot->total_bids ?? 0 }} pujas</div>
-            </div>
-          </div>
-        </a>
-        @endforeach
       </div>
     </div>
 
@@ -281,7 +246,7 @@
         <p style="font-size:14px;color:#6b7280;margin:0;">{{ __('Conecta con compradores de todo el mundo y vende tus objetos únicos.') }}</p>
       </div>
       <div style="display:flex;gap:12px;">
-        <a href="/seller-request" style="background:#1a56db;color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">{{ __('Empezar a vender') }}</a>
+        <a href="/seller-request" style="background:#1a5f7a;color:#fff;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">{{ __('Empezar a vender') }}</a>
         <a href="/como-vender" style="background:#fff;color:#111827;border:1px solid #bfdbfe;padding:12px 24px;border-radius:6px;font-size:14px;font-weight:600;text-decoration:none;">{{ __('Como funciona') }}</a>
       </div>
     </div>
