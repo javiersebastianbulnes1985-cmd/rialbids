@@ -45,6 +45,7 @@ class BrevoService
 </div>';
 
             foreach ($contacts as $contact) {
+                if (empty($contact['email'])) continue;
                 try {
                     Http::withHeaders([
                         'api-key' => $this->apiKey,

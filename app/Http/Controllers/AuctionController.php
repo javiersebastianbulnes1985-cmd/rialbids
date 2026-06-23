@@ -49,6 +49,23 @@ class AuctionController extends \Illuminate\Routing\Controller
         return view('home', compact('auctions', 'finalizadas', 'finaliza_pronto', 'recientes', 'banner'));
     }
 
+
+    public function homeTest(Request $request)
+    {
+        $query = Auction::where("status", "active");
+        if ($request->filled("q")) {
+            $query->where("title", "like", "%".$request->q."%");
+        }
+        if ($request->filled("categoria")) {
+            $query->where("lot_category", $request->categoria);
+        }
+        $auctions = $query->orderBy("end_time", "asc")->get();
+        $finalizadas = Auction::where("status", "finished")->orderBy("end_time", "desc")->limit(8)->get();
+        $finaliza_pronto = Auction::where("status", "active")->where("end_time", ">", now())->orderBy("end_time", "asc")->limit(8)->get();
+        $recientes = Auction::where("status", "active")->orderBy("created_at", "desc")->limit(8)->get();
+        $banners = Banner::where("activo", true)->orderBy("orden")->get();
+        return view("home-test", compact("auctions", "finalizadas", "finaliza_pronto", "recientes", "banners"));
+    }
     public function index(Request $request)
     {
         return $this->home($request);

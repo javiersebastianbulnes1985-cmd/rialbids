@@ -227,6 +227,19 @@
               @if($lot->status === 'paid')
                 <form method="POST" action="{{ route('vendor.auctions.ship',$lot->id) }}" style="display:flex;gap:4px;align-items:center">
                   @csrf
+                  <select name="tracking_carrier" required style="border:1px solid var(--cream-dark);border-radius:6px;padding:4px 6px;font-size:11px;background:var(--cream)">
+                    <option value="">Courier</option>
+                    <option value="correos">Correos ES</option>
+                    <option value="correos_pt">CTT Portugal</option>
+                    <option value="dhl">DHL</option>
+                    <option value="gls">GLS</option>
+                    <option value="mrw">MRW</option>
+                    <option value="seur">SEUR</option>
+                    <option value="ups">UPS</option>
+                    <option value="fedex">FedEx</option>
+                    <option value="nacex">Nacex</option>
+                    <option value="autre">Otro</option>
+                  </select>
                   <input type="text" name="tracking_number" placeholder="Nº tracking" required
                     style="border:1px solid var(--cream-dark);border-radius:6px;padding:4px 8px;font-size:11px;width:100px;background:var(--cream)">
                   <button type="submit" class="btn btn-ship">Enviado</button>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="<?php echo e(app()->getLocale()); ?>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>@yield('title', 'RialBids — Subastas Online')</title>
+  <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+  <title><?php echo $__env->yieldContent('title', 'RialBids — Subastas Online'); ?></title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
@@ -77,7 +77,7 @@
       .nav-actions-desktop{display:flex !important}
     }
   </style>
-  @stack('styles')
+  <?php echo $__env->yieldPushContent('styles'); ?>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H6ZL62CRBV"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -85,8 +85,8 @@
   gtag('js', new Date());
   gtag('config', 'G-H6ZL62CRBV');
 </script>
-  <meta name="google-translate-key" content="{{ env('GOOGLE_TRANSLATE_API_KEY') }}">
-  <script src="{{ asset('js/translate.js') }}" defer></script>
+  <meta name="google-translate-key" content="<?php echo e(env('GOOGLE_TRANSLATE_API_KEY')); ?>">
+  <script src="<?php echo e(asset('js/translate.js')); ?>" defer></script>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10831309509"></script>
 <script>
@@ -95,7 +95,7 @@
   gtag("js", new Date());
   gtag("config", "AW-10831309509");
 </script>
-@if(session('vendor_registered'))
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('vendor_registered')): ?>
 <script>
   gtag('event', 'conversion', {
       'send_to': 'AW-10831309509/ObMxCO-MvL0cEMXV4qwo',
@@ -103,43 +103,43 @@
       'currency': 'ARS'
   });
 </script>
-@endif
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 </head>
 <body>
 <nav class="nav">
   <div class="nav-inner">
-    <a href="{{ route('home') }}" class="nav-logo">
+    <a href="<?php echo e(route('home')); ?>" class="nav-logo">
       <div class="nav-logo-box"><span>R</span></div>
       <span class="nav-logo-name" translate="no"><span class="notranslate">RialBids</span></span>
     </a>
     <div class="nav-divider"></div>
     <div class="nav-cats">
-      <a href="{{ route('home') }}" class="nav-cat">Todos</a>
-      <a href="{{ route('home', ['categoria'=>'joyas']) }}" class="nav-cat">Joyería</a>
-      <a href="{{ route('home', ['categoria'=>'arte']) }}" class="nav-cat">Arte</a>
-      <a href="{{ route('home', ['categoria'=>'relojes']) }}" class="nav-cat">Relojes</a>
-      <a href="{{ route('home', ['categoria'=>'muebles']) }}" class="nav-cat">Antigüedades</a>
-      <a href="{{ route('home', ['categoria'=>'coleccionismo']) }}" class="nav-cat">Coleccionismo</a>
+      <a href="<?php echo e(route('home')); ?>" class="nav-cat">Todos</a>
+      <a href="<?php echo e(route('home', ['categoria'=>'joyas'])); ?>" class="nav-cat">Joyería</a>
+      <a href="<?php echo e(route('home', ['categoria'=>'arte'])); ?>" class="nav-cat">Arte</a>
+      <a href="<?php echo e(route('home', ['categoria'=>'relojes'])); ?>" class="nav-cat">Relojes</a>
+      <a href="<?php echo e(route('home', ['categoria'=>'muebles'])); ?>" class="nav-cat">Antigüedades</a>
+      <a href="<?php echo e(route('home', ['categoria'=>'coleccionismo'])); ?>" class="nav-cat">Coleccionismo</a>
     </div>
     <div class="nav-search">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <input type="text" placeholder="Buscar subastas..." onkeydown="if(event.key==='Enter'&&this.value.trim()){window.location='/?q='+encodeURIComponent(this.value)}">
     </div>
     <div class="nav-actions nav-actions-desktop">
-      @guest
-        @auth
-        <a href="{{ route('vendor.index') }}" class="btn-ghost">Vender</a>
-        @else
+      <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->guest()): ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
+        <a href="<?php echo e(route('vendor.index')); ?>" class="btn-ghost">Vender</a>
+        <?php else: ?>
         <a href="/seller-request" class="btn-ghost">Vender</a>
-        @endauth
-        <a href="{{ route('login') }}" class="btn-ghost">Acceder</a>
-        <a href="{{ route('register') }}" class="btn-blue">Registrarse</a>
-      @else
-        @if(auth()->user()->isAdmin())
-          <a href="{{ route('admin.index') }}" class="btn-ghost">⚙️ Admin</a>
-        @elseif(auth()->user()->isSeller())
-          <a href="{{ route('vendor.index') }}" class="btn-ghost">📦 Mis lotes</a>
-        @endif
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+        <a href="<?php echo e(route('login')); ?>" class="btn-ghost">Acceder</a>
+        <a href="<?php echo e(route('register')); ?>" class="btn-blue">Registrarse</a>
+      <?php else: ?>
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->isAdmin()): ?>
+          <a href="<?php echo e(route('admin.index')); ?>" class="btn-ghost">⚙️ Admin</a>
+        <?php elseif(auth()->user()->isSeller()): ?>
+          <a href="<?php echo e(route('vendor.index')); ?>" class="btn-ghost">📦 Mis lotes</a>
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
         <div style="position:relative;" x-data="{ open: false }">
           <button @click="open = !open"
                   style="width:36px;height:36px;border-radius:50%;background:#1a56db;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;">
@@ -150,65 +150,67 @@
           <div x-show="open" @click.away="open = false"
                style="position:absolute;right:0;top:44px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.1);min-width:180px;z-index:100;padding:8px 0;">
             <div style="padding:10px 16px;border-bottom:1px solid #f3f4f6;">
-              <p style="font-size:13px;font-weight:600;color:#111;">{{ auth()->user()->name }}</p>
-              <p style="font-size:11px;color:#9ca3af;">{{ auth()->user()->email }}</p>
+              <p style="font-size:13px;font-weight:600;color:#111;"><?php echo e(auth()->user()->name); ?></p>
+              <p style="font-size:11px;color:#9ca3af;"><?php echo e(auth()->user()->email); ?></p>
             </div>
-            @if(auth()->user()->isSeller())
-            <a href="{{ route('vendor.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">📦 Panel vendedor</a>
-            <a href="{{ route('profile.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">🛒 Mis compras</a>
-            @else
-            <a href="{{ route('profile.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">👤 Mi perfil</a>
-            @endif
-            <form method="POST" action="{{ route('logout') }}">
-              @csrf
+            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->isSeller()): ?>
+            <a href="<?php echo e(route('vendor.index')); ?>" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">📦 Panel vendedor</a>
+            <a href="<?php echo e(route('profile.index')); ?>" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">🛒 Mis compras</a>
+            <?php else: ?>
+            <a href="<?php echo e(route('profile.index')); ?>" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">👤 Mi perfil</a>
+            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+            <form method="POST" action="<?php echo e(route('logout')); ?>">
+              <?php echo csrf_field(); ?>
               <button type="submit" style="width:100%;padding:10px 16px;font-size:13px;color:#ef4444;text-align:left;background:none;border:none;cursor:pointer;">→ Salir</button>
             </form>
           </div>
         </div>
-      @endguest
+      <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
     </div>
-  {{-- Mobile nav bar --}}
+  
   <div class="nav-mobile-actions" style="align-items:center;gap:8px;flex-shrink:0">
-    @guest
-      <a href="{{ route('login') }}" style="padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;color:#374151;text-decoration:none;border:1.5px solid #e5e7eb;">Acceso</a>
-      <a href="{{ route('register') }}" style="padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;background:#1a56db;">Registrarse</a>
-    @else
-      @if(auth()->user()->isAdmin())
-        <a href="{{ route('admin.index') }}" style="font-size:20px;text-decoration:none">⚙️</a>
-      @elseif(auth()->user()->isSeller())
-        <a href="{{ route('vendor.index') }}" style="font-size:20px;text-decoration:none">📦</a>
-      @endif
+    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->guest()): ?>
+      <a href="<?php echo e(route('login')); ?>" style="padding:6px 12px;border-radius:6px;font-size:12px;font-weight:500;color:#374151;text-decoration:none;border:1.5px solid #e5e7eb;">Acceso</a>
+      <a href="<?php echo e(route('register')); ?>" style="padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;color:#fff;text-decoration:none;background:#1a56db;">Registrarse</a>
+    <?php else: ?>
+      <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->user()->isAdmin()): ?>
+        <a href="<?php echo e(route('admin.index')); ?>" style="font-size:20px;text-decoration:none">⚙️</a>
+      <?php elseif(auth()->user()->isSeller()): ?>
+        <a href="<?php echo e(route('vendor.index')); ?>" style="font-size:20px;text-decoration:none">📦</a>
+      <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
       <div style="position:relative;" x-data="{ mopen: false }">
         <button @click="mopen = !mopen" style="width:32px;height:32px;border-radius:50%;background:#1a56db;display:flex;align-items:center;justify-content:center;border:none;cursor:pointer;">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </button>
         <div x-show="mopen" @click.away="mopen = false"
              style="position:absolute;right:0;top:40px;background:#fff;border:1px solid #e5e7eb;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,0.12);min-width:160px;z-index:200;padding:8px 0;">
-          <a href="{{ route('profile.index') }}" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">👤 Mi perfil</a>
-          <form method="POST" action="{{ route('logout') }}">
-            @csrf
+          <a href="<?php echo e(route('profile.index')); ?>" style="display:block;padding:10px 16px;font-size:13px;color:#374151;text-decoration:none;">👤 Mi perfil</a>
+          <form method="POST" action="<?php echo e(route('logout')); ?>">
+            <?php echo csrf_field(); ?>
             <button type="submit" style="width:100%;padding:10px 16px;font-size:13px;color:#ef4444;text-align:left;background:none;border:none;cursor:pointer;">→ Salir</button>
           </form>
         </div>
       </div>
-    @endif
+    <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
   </div>
 </div>
 </nav>
 
-@if(session('success'))
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('success')): ?>
   </div>
 <div style="position:fixed;top:70px;right:20px;z-index:200;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.1);background:#f0fdf4;border:1px solid #86efac;color:#166634;">
-  ✓ {{ session('success') }}
-</div>
-@endif
-@if(session('error'))
-<div style="position:fixed;top:70px;right:20px;z-index:200;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.1);background:#fef2f2;border:1px solid #fca5a5;color:#991b1b;">
-  {{ session('error') }}
-</div>
-@endif
+  ✓ <?php echo e(session('success')); ?>
 
-<main>@yield('content')</main>
+</div>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+<?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(session('error')): ?>
+<div style="position:fixed;top:70px;right:20px;z-index:200;padding:12px 18px;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.1);background:#fef2f2;border:1px solid #fca5a5;color:#991b1b;">
+  <?php echo e(session('error')); ?>
+
+</div>
+<?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
+
+<main><?php echo $__env->yieldContent('content'); ?></main>
 
 <footer class="footer">
   <div class="footer-top">
@@ -221,7 +223,7 @@
     </div>
     <div>
       <div class="footer-col-title"><span>Comprar</span></div>
-      <a href="{{ route('pages.como-comprar') }}" class="footer-link">Cómo comprar</a>
+      <a href="<?php echo e(route('pages.como-comprar')); ?>" class="footer-link">Cómo comprar</a>
       <a href="/proteccion-al-comprador" class="footer-link">Protección al comprador</a>
       <a href="/faq" class="footer-link">Preguntas frecuentes</a>
       <a href="/sobre-nosotros" class="footer-link">Sobre nosotros</a>
@@ -234,14 +236,14 @@
     </div>
     <div>
       <div class="footer-col-title"><span>Legal</span></div>
-      <a href="{{ route('pages.terminos') }}" class="footer-link">Términos y condiciones</a>
+      <a href="<?php echo e(route('pages.terminos')); ?>" class="footer-link">Términos y condiciones</a>
       <a href="/pagos-disputas" class="footer-link">Pagos y disputas</a>
-      <a href="{{ route('pages.privacidad') }}" class="footer-link">Política de privacidad</a>
+      <a href="<?php echo e(route('pages.privacidad')); ?>" class="footer-link">Política de privacidad</a>
       <a href="/privacidad" class="footer-link">Cookies</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-copy">© {{ date('Y') }} RialBids. Todos los derechos reservados.</span>
+    <span class="footer-copy">© <?php echo e(date('Y')); ?> RialBids. Todos los derechos reservados.</span>
   </div>
 </footer>
 <div style="background:#f9fafb;padding:18px 24px;border-top:1px solid #e5e7eb;display:flex;justify-content:center;gap:36px;flex-wrap:wrap;">
@@ -258,7 +260,7 @@
     <span style="font-size:11px;color:#9ca3af;">Protección al comprador</span>
   </div>
 </div>
-@stack('scripts')
+<?php echo $__env->yieldPushContent('scripts'); ?>
 <div id="cookie-banner" style="position:fixed;bottom:0;left:0;right:0;background:#111827;color:#fff;padding:16px 24px;z-index:9999;display:none;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
 <p style="font-size:13px;margin:0;color:rgba(255,255,255,0.85);">Usamos cookies para mejorar tu experiencia. Al continuar aceptas nuestra <a href="/privacidad" style="color:#60a5fa;">política de privacidad</a>.</p>
 <div style="display:flex;gap:8px;">
@@ -273,7 +275,7 @@ window.addEventListener("load",function(){var c=localStorage.getItem("ck");if(c=
 </script>
 <script>
 document.addEventListener('DOMContentLoaded',function(){
-  var lang='{{ $detected_lang ?? "es" }}';
+  var lang='<?php echo e($detected_lang ?? "es"); ?>';
   if(lang!=='es'){
     var tries=0;
     var interval=setInterval(function(){
@@ -329,3 +331,4 @@ window.addEventListener("load",function(){
 <!-- FIN POPUP -->
 </body>
 </html>
+<?php /**PATH /home/u396549633/domains/rialbids.com/public_html/resources/views/layouts/app.blade.php ENDPATH**/ ?>

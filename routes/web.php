@@ -11,6 +11,8 @@ use App\Http\Controllers\DisputeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [AuctionController::class, 'home'])->name('home');
+Route::get('/home-test', [AuctionController::class, 'homeTest'])->name('home.test');
+
 Route::get('/auctions', [AuctionController::class, 'home'])->name('auctions.index');
 Route::get('/auctions/{id}', [AuctionController::class, 'show'])->name('auctions.show');
 Route::post('/auctions/{id}/bid', [AuctionController::class, 'bid'])->middleware('auth')->name('auctions.bid');
